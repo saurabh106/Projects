@@ -1,0 +1,20 @@
+<!-- For Success flash -->
+<% if(success && success.length){ %>
+<div class="alert alert-success alert-dismissible fade show col-6 offset-3" role="alert"> <!-- To display message by using bootstrap-->
+        <%= success %>
+         <!-- This is for X button -->
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> 
+       
+        </div>
+<%  } %>
+
+
+<!-- For failure / error flash -->
+<% if(error && error.length){ %>
+<div class="alert alert-danger alert-dismissible fade show col-6 offset-3" role="alert"> <!-- To display message by using bootstrap-->
+        <%= error %>
+         <!-- This is for X button -->
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> 
+       
+        </div>
+<%  } %>

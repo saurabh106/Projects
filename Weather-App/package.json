@@ -1,0 +1,12 @@
+{
+  "name": "weather-app",
+  "version": "1.0.0",
+  "description": "A responsive and user-friendly Weather App that allows users to check the current weather conditions for any location worldwide providing dynamic background style, Voice-powered weather forecasting. This       \r   project will involve integrating HTML for structure, CSS for styling, and JavaScript for dynamic content and API interactions.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

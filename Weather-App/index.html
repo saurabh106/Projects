@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="img/weather.svg" type="image/x-icon">
+    <title>Weather App</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+
+</head>
+
+<body class="a">
+    <video autoplay muted loop id="myVideo" class="vid" loading="lazy">
+        <source type="video/mp4" class="src" loading="lazy">
+    </video>
+
+    <div class="click">
+        <div class="voice1 btn1" id="volumex">
+            <img src="img/volume-xmark-solid.svg" class="xmark">
+            <img src="img/volume-high-solid.svg" class="volo">
+        </div>
+        <div class="voice2 btn1" id="videox">
+            <img src="img/video-slash-solid.svg" class="slash">
+            <img src="img/video-solid.svg" class="vide">
+        </div>
+        <button id="fetch-data-btn" class="btn btn-primary" data-toggle="modal" data-target="#dataModal">Show Weather
+            Data</button>
+    </div>
+
+    <!-- Bootstrap Modal Structure -->
+    <div class="modal fade" id="dataModal" tabindex="-1" aria-labelledby="dataModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dataModalLabel">Weather Data</h5>
+                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span> -->
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>City</th>
+                                <th>Temperature</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-table">
+                            <!-- Data will be inserted here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="wrapper text-light text-bold">
+        <h1>Weather App</h1>
+        <div class="tab-container">
+            <div class="your-weather tab text-light">Your Weather</div>
+            <div class="search-weather tab">Search Weather</div>
+        </div>
+
+        <div class="weather-container">
+            <div class="grant-location">
+                <img src="./img/location.webp" alt="location" width="80" height="80" loading="lazy">
+                <p>Grant Location Access</p>
+                <p>Allow Access To Get Weather Information</p>
+                <button class="btn loc" id="grant-access">Grant Access</button>
+            </div>
+            <div class="error">
+                <img src="./img/error.png" width="80" height="80" loading="lazy">
+                <p>ERROR 404</p>
+                <p>Connection Error</p>
+            </div>
+            <div class="loading">
+                <img src="./img/loading-gif-transparent-background-free-download-9.gif" alt="loading" height="120"
+                    width="120">
+                <p>Loading</p>
+            </div>
+            <form id="search-tab">
+                <input placeholder="Search For City..." input-field id="city-input">
+                <button class="btn" type="submit" btn-search>
+                    <img src="img/magnifying-glass-solid.svg" alt="search" width="20" height="20" loading="lazy">
+                </button>
+            </form>
+            <div class="user-info">
+                <div class="name">
+                    <p city-name></p>
+                    <img country-icon>
+                </div>
+                <p weather-desc id="weather-desc"></p>
+                <img weather-icon id="weather-icon">
+                <p temp id="temp"></p>
+                <div class="parameter-container">
+                    <div class="parameter">
+                        <img src="img/wind.png" alt="wind" height="50" width="50"
+                            title="If you need more information, click on it">
+                        <p>WindSpeed</p>
+                        <p windspeed></p>
+                    </div>
+                    <div class="parameter">
+                        <img src="img/humidity.jpg" alt="humidity" height="50" width="50"
+                            title="If you need more information, click on it">
+                        <p>Humidity</p>
+                        <p humidity></p>
+                    </div>
+                    <div class="parameter">
+                        <img src="img/cloud.png" alt="cloud" height="50" width="50"
+                            title="If you need more information, click on it">
+                        <p>Cloud</p>
+                        <p cloud></p>
+                    </div>
+                </div>
+                <div class="clothes" title="What do you want to wear according to your weather">
+                    <p id="clothing-recommendation">Recommended clothing will appear here.</p>
+                </div>
+                <div class="clothing-options">
+                    <div class="clear clothing" style="display: none;">
+                        <img class="img1" src="Clothes/clear1.png" alt="Clear Day Clothing 1">
+                        <img class="img1" src="Clothes/clear2.png" alt="Clear Day Clothing 2">
+                    </div>
+                    <div class="thunder clothing" style="display: none;">
+                        <img class="img1" src="Clothes/thunder1.png" alt="Thunderstorm Clothing 1">
+                        <img class="img1" src="Clothes/thunder2.png" alt="Thunderstorm Clothing 2">
+                    </div>
+                    <div class="rain clothing" style="display: none;">
+                        <img class="img1" src="Clothes/rain1.png" alt="Rainy Day Clothing 1">
+                        <img class="img1" src="Clothes/rain2.png" alt="Rainy Day Clothing 2">
+                    </div>
+                    <div class="winter clothing" style="display: none;">
+                        <img class="img1" src="Clothes/winter1.png" alt="Winter Clothing 1">
+                        <img class="img1" src="Clothes/winter2.png" alt="Winter Clothing 2">
+                    </div>
+                    <div class="fog clothing" style="display: none;">
+                        <img class="img1" src="Clothes/fog1.png" alt="Foggy Day Clothing 1">
+                        <img class="img1" src="Clothes/fog2.png" alt="Foggy Day Clothing 2">
+                    </div>
+                    <div class="clouds clothing" style="display: none;">
+                        <img class="img1" src="Clothes/cloud1.png" alt="Cloudy Day Clothing 1">
+                        <img class="img1" src="Clothes/cloud2.png" alt="Cloudy Day Clothing 2">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="script.js"></script>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
