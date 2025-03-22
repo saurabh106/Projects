@@ -1,30 +1,91 @@
-import React, { lazy, Suspense, useRef } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ThemeToggle } from './components/ThemeToggle';
-import { Briefcase, Code, User, Mail, Menu, X, Github, Linkedin, ExternalLink, FileText } from 'lucide-react';
-// import {motion} from 'framer-motion'
+import { Briefcase, Code, User, Mail, Menu, X, Github, Linkedin, ExternalLink, FileText, GraduationCap, BriefcaseIcon } from 'lucide-react';
 import axios from 'axios';
+import React, { useEffect } from 'react';
+import { Toaster, toast } from 'react-hot-toast';
+
+const globalStyles = `
+  html {
+    scroll-behavior: smooth;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #1f2937;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #4c1d95;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6d28d9;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #4c1d95 #1f2937;
+  }
+
+  /* Add smooth scrolling to all elements */
+  * {
+    scroll-behavior: smooth;
+    scroll-margin-top: 100px;
+  }
+
+  /* Add smooth transition for all scrollable elements */
+  .scrollable {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    transition: all 0.3s ease;
+  }
+`;
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const location = useLocation();
+  const [isWorkDropdownOpen, setIsWorkDropdownOpen] = React.useState(false);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      // Scroll with a more customizable smoothness
-      element.scrollIntoView({
-        behavior: 'smooth',  // Smooth scrolling
-        block: 'start',      // Aligns to the top of the viewport
-        inline: 'nearest'    // Ensures horizontal scrolling is minimal
+      const offset = 80; // Adjust this value based on your header height
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
       });
-  
+
       // Close any open menu or actions after scrolling
       setIsOpen(false);
+      setIsWorkDropdownOpen(false);
     }
   };
   
+
+  const workItems = [
+    { 
+      label: 'Experience', 
+      id: 'experience',
+      link: 'https://drive.google.com/file/d/your-experience-file-id/view?usp=sharing',
+      icon: BriefcaseIcon
+    },
+    { 
+      label: 'Education', 
+      id: 'education',
+      link: 'https://docs.google.com/document/d/1U3gdAYBHtB-lRYts9TCBdADRxoCUhXP_x9_ZLLOinzE/edit?tab=t.0',
+      icon: GraduationCap
+    }
+  ];
 
   const navItems = [
     { icon: User, label: 'About', id: 'about' },
@@ -35,7 +96,7 @@ const Navigation = () => {
 
   const handleResumeClick = () => {
     // Replace with your actual Google Drive shared link
-    const driveLink = 'https://drive.google.com/file/d/your-file-id/view?usp=sharing';
+    const driveLink = 'https://docs.google.com/document/d/1EvcmYm70W-m412ZM1Scl6feryzX-Pi3PJw4kKMVx8bY/edit?tab=t.0';
     window.open(driveLink, '_blank');
   };
   
@@ -65,6 +126,54 @@ const Navigation = () => {
                 <span>{label}</span>
               </motion.button>
             ))}
+
+            {/* Work Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setIsWorkDropdownOpen(true)}
+              onMouseLeave={() => setIsWorkDropdownOpen(false)}
+            >
+              <motion.button
+                className="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                whileHover={{ scale: 1.05 }}
+              >
+                <Briefcase className="w-4 h-4" />
+                <span>Work</span>
+              </motion.button>
+              
+              <AnimatePresence>
+                {isWorkDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute top-full left-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-xl py-2 border border-gray-100 dark:border-gray-700"
+                  >
+                    {workItems.map((item, index) => (
+                      <React.Fragment key={item.id}>
+                        <motion.a
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors duration-150"
+                          whileHover={{ x: 5 }}
+                        >
+                          <item.icon className="w-4 h-4 mr-3 text-purple-500 dark:text-purple-400" />
+                          <div className="flex flex-col">
+                            <span className="font-medium">{item.label}</span>
+                            <span className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">View details →</span>
+                          </div>
+                        </motion.a>
+                        {index < workItems.length - 1 && (
+                          <div className="h-px bg-gray-100 dark:bg-gray-700 my-1" />
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             <motion.button
               onClick={handleResumeClick}
               className="flex items-center space-x-2 px-4 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors"
@@ -73,7 +182,7 @@ const Navigation = () => {
               <FileText className="w-4 h-4" />
               <span>Resume</span>
             </motion.button>
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
           </div>
 
           <button
@@ -104,6 +213,51 @@ const Navigation = () => {
                   <span>{label}</span>
                 </motion.button>
               ))}
+
+              {/* Mobile Work Dropdown */}
+              <div className="py-2">
+                <motion.button
+                  onClick={() => setIsWorkDropdownOpen(!isWorkDropdownOpen)}
+                  className="flex items-center space-x-2 py-2 w-full text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <Briefcase className="w-4 h-4" />
+                  <span>Work</span>
+                </motion.button>
+                
+                <AnimatePresence>
+                  {isWorkDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="pl-4 mt-2 space-y-1"
+                    >
+                      {workItems.map((item, index) => (
+                        <React.Fragment key={item.id}>
+                          <motion.a
+                            href={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center py-2 text-gray-700 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-150"
+                            whileHover={{ x: 5 }}
+                          >
+                            <item.icon className="w-4 h-4 mr-3 text-purple-500 dark:text-purple-400" />
+                            <div className="flex flex-col">
+                              <span className="font-medium">{item.label}</span>
+                              <span className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">View details →</span>
+                            </div>
+                          </motion.a>
+                          {index < workItems.length - 1 && (
+                            <div className="h-px bg-gray-100 dark:bg-gray-700 my-1" />
+                          )}
+                        </React.Fragment>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
               <motion.button
                 onClick={handleResumeClick}
                 className="flex items-center space-x-2 py-2 w-full text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300"
@@ -112,9 +266,9 @@ const Navigation = () => {
                 <FileText className="w-4 h-4" />
                 <span>Resume</span>
               </motion.button>
-              <div className="py-2">
+              {/* <div className="py-2">
                 <ThemeToggle />
-              </div>
+              </div> */}
             </motion.div>
           )}
         </AnimatePresence>
@@ -125,19 +279,26 @@ const Navigation = () => {
 
 const HeroSection = () => {
   const headingText = "Web/App Developer";
-  const subheadingText = "Bringing ideas to life through code and creativity";
+  const subheadingText = "The work to reaching delightful experiences.";
 
   return (
     <section 
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800"
-      // style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1735596365888-ad6d151533f2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")', backgroundSize: 'cover', backgroundPosition: 'center' }}
+      className="min-h-screen flex items-center justify-center relative"
+      style={{
+        backgroundImage: 'url("https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
     >
-      <div className="container mx-auto px-6 py-24 text-center">
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/80 to-gray-900/80 dark:from-gray-900/90 dark:to-gray-800/90" />
+      
+      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-24 text-center relative z-10">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6"
+          className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6"
         >
           {headingText.split("").map((letter, index) => (
             <motion.span
@@ -148,7 +309,7 @@ const HeroSection = () => {
                 delay: index * 0.1,
                 duration: 0.5,
               }}
-              className={letter === ' ' ? 'inline-block px-2' : 'inline-block'}
+              className={letter === ' ' ? 'inline-block px-1 sm:px-2' : 'inline-block'}
             >
               {letter}
             </motion.span>
@@ -159,7 +320,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-xl text-gray-600 dark:text-gray-300 mb-12"
+          className="text-base sm:text-lg md:text-xl text-gray-200 mb-8 sm:mb-12 max-w-2xl mx-auto"
         >
           {subheadingText.split("").map((letter, index) => (
             <motion.span
@@ -167,10 +328,10 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                delay: (index + headingText.length) * 0.1,  // Add the length of the heading to the delay
+                delay: (index + headingText.length) * 0.1,
                 duration: 0.5,
               }}
-              className={letter === ' ' ? 'inline-block px-1' : 'inline-block'}
+              className={letter === ' ' ? 'inline-block px-0.5 sm:px-1' : 'inline-block'}
             >
               {letter}
             </motion.span>
@@ -184,7 +345,7 @@ const HeroSection = () => {
         >
           <a
             href="#contact"
-            className="bg-purple-600 text-white px-8 py-3 rounded-full text-lg font-medium hover:bg-purple-700 transition-colors"
+            className="inline-block bg-purple-600 text-white px-6 sm:px-8 py-2 sm:py-3 text-base sm:text-lg font-medium rounded-full hover:bg-purple-700 transition-colors shadow-lg hover:shadow-purple-500/25"
           >
             Let's work together
           </a>
@@ -263,26 +424,49 @@ const AboutSection = () => {
 };
 
 const ProjectsSection = () => {
+  // const [images, setImages] = useState([]);
+
+  // useEffect(() => {
+  //   // Fetch images from the backend API
+  //   const fetchImages = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:5000/images'); // Backend endpoint
+  //       setImages(response.data); // Set the list of image URLs in state
+  //     } catch (error) {
+  //       console.error('Error fetching images:', error);
+  //     }
+  //   };
+
+  //   fetchImages();
+  // }, []); // Empty dependency array means it will run once on component mount
+
   const projects = [
     {
-      title: "E-commerce Platform",
-      description: "A full-stack e-commerce solution with real-time inventory management.",
-      image: "https://images.unsplash.com/photo-1557821552-17105176677c",
-      tags: ["React", "Node.js", "MongoDB", "Redux"],
+      title: "Weather web app",
+      description: "Weather web app using free Api that show real time weather data",
+      image: "https://res.cloudinary.com/dvokkd6iy/image/upload/v1740588478/Search_dkg1ac.png",
+      tags: ["Html", "Css", "Js", "Xampp"],
       link: "#"
     },
     {
-      title: "Social Media Dashboard",
-      description: "Analytics dashboard for social media management and monitoring.",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
-      tags: ["Vue.js", "Express", "PostgreSQL", "Chart.js"],
-      link: "#"
+      title: "Wanderlust (Airbnb clone)",
+      description: "Wanderlust is Airbnb clone in that yo can create listings, Give rating etc.",
+      image: "https://res.cloudinary.com/dvokkd6iy/image/upload/v1740587889/A0103884-2ECA-43E2-9232-995658A24E7F_k9gsf5.png",
+      tags: ["Node.js", "Express", "MongoDB", "Ejs"],
+      link: "https://airbnb-clone-ynzj.onrender.com/listings"
     },
     {
-      title: "AI Chat Application",
-      description: "Real-time chat application with AI-powered responses.",
-      image: "https://images.unsplash.com/photo-1577563908411-5077b6dc7624",
-      tags: ["React", "WebSocket", "OpenAI", "TailwindCSS"],
+      title: "Chat-App",
+      description: "Real-time chat application using Socket.io in that you can Update your profile having settings also you can see the online/offline status of Person",
+      image: "https://res.cloudinary.com/dvokkd6iy/image/upload/v1740587050/1_kbfizp.png",
+      tags: ["MERN", "Socket.io", "React.js", "TailwindCSS"],
+      link: "https://chat-app-xs8y.onrender.com"
+    },
+    {
+      title: "Code-Reviewer",
+      description: "This is the code reviewer created using Gemini Api as per given instruction they give us an output",
+      image: "https://res.cloudinary.com/dvokkd6iy/image/upload/v1740588499/1_swceo7.png",
+      tags: ["MERN", "Gemini Api", "OpenAI", "TailwindCSS"],
       link: "#"
     }
   ];
@@ -344,7 +528,7 @@ const ProjectsSection = () => {
       </div>
     </section>
   );
-};
+}; 
 
 const SkillsSection = () => {
   const skills = [
@@ -358,7 +542,7 @@ const SkillsSection = () => {
     },
     {
       category: "Tools",
-      items: ["Git", "Docker", "Firebase", "Figma","Postman"]
+      items: ["Git", "Docker", "Firebase","Postman"]
     }
   ];
 
@@ -418,23 +602,61 @@ const ContactSection = () => {
     e.preventDefault();
 
     try {
-      // Send the form data to your backend
-      const response = await axios.post('http://localhost:8080/submit-form', formData);
+      const loadingToast = toast.loading('Sending message...');
 
-      console.log('Form submitted:', formData);
+      // Use environment variable for API URL
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/submit-form`, formData);
       console.log('Response:', response.data);
 
-      // Optionally, you can show a success message or clear the form
-      alert('Form submitted successfully!');
+      toast.dismiss(loadingToast);
+      toast.success('Message sent successfully!', {
+        duration: 5000,
+        icon: '🎉',
+      });
+
+      setFormData({
+        name: '',
+        email: '',
+        message: ''
+      });
+
     } catch (error) {
+      toast.error('Failed to send message. Please try again.', {
+        duration: 5000,
+      });
       console.error('Error submitting form:', error);
-      alert('Error submitting form.');
     }
   };
 
 
   return (
     <section className="py-20 bg-gray-50 dark:bg-gray-800">
+      <Toaster 
+        position="bottom-right"
+        reverseOrder={false}
+        gutter={8}
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#333',
+            color: '#fff',
+            padding: '16px',
+            borderRadius: '8px',
+          },
+          success: {
+            style: {
+              background: '#065f46',
+              color: '#fff'
+            }
+          },
+          error: {
+            style: {
+              background: '#991b1b',
+              color: '#fff'
+            }
+          }
+        }}
+      />
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -482,15 +704,6 @@ const ContactSection = () => {
                   >
                     <Linkedin className="w-6 h-6" />
                   </motion.a>
-                  {/* <motion.a
-                    href="https://twitter.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.1 }}
-                    className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-                  >
-                    <Twitter className="w-6 h-6" />
-                  </motion.a> */}
                 </div>
               </div>
             </motion.div>
@@ -565,6 +778,20 @@ const ContactSection = () => {
 };
 
 function App() {
+  useEffect(() => {
+    // Set dark mode by default
+    document.documentElement.classList.add('dark');
+    
+    // Add scrollbar styles
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = globalStyles;
+    document.head.appendChild(styleSheet);
+
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
+
   return (
     <Router>
       <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white">

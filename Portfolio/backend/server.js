@@ -2,28 +2,49 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const session = require('express-session');
-
+const dotenv = require('dotenv')
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');  // <-- Add this line
+const cloudinary = require('cloudinary').v2;
 
+
+
+dotenv.config()
 
 // Create an instance of Express
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' 
+    ? process.env.FRONTEND_URL // Your frontend URL in production
+    : 'http://localhost:5173', // Vite's default dev port
+  credentials: true
+}));
 app.use(bodyParser.json()); // Parse JSON data
 
 app.use(session({
-    secret: 'your-secret-key',
+    secret: process.env.SESSION_SECRET || 'your-secret-key',
     resave: false,
     saveUninitialized: true,
-  }));
-  app.use(flash()); 
+    cookie: {
+      secure: process.env.NODE_ENV === 'production'
+    }
+}));
+app.use(flash()); 
 
+
+//Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,  // Replace with your Cloudinary Cloud Name
+  api_key: process.env.API_KEY,       // Replace with your API Key
+  api_secret: process.env.API_SECRET, // Replace with your API Secret
+});
+
+const PORT = process.env.PORT || 8080
 
 // Connect to MongoDB
-mongoose.connect('mongodb://0.0.0.0/form-portfolio',)
+mongoose.connect(process.env.MONGODB_URL)
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.log('MongoDB connection error:', err));
 
@@ -58,7 +79,29 @@ app.post('/submit-form', async (req, res) => {
   }
 });
 
+app.get('/images', async (req, res) => {
+  try {
+    // Fetch all image resources from Cloudinary (You can filter by folder or resource_type)
+    const result = await cloudinary.api.resources({
+      type: 'upload', // Fetch images uploaded by you
+      prefix: 'portfolio_images', // Optional: Filter by folder name (if you use folders in Cloudinary)
+      resource_type: 'image', // Only fetch images (not videos)
+      max_results: 20, // Limit number of results returned (for pagination)
+    });
+
+    // Map through the response and extract image URLs
+    const imageUrls = result.resources.map((resource) => resource.secure_url); // Get secure URL
+
+    // Return the image URLs
+    res.status(200).json(imageUrls);
+  } catch (error) {
+    console.error('Error fetching images:', error);
+    res.status(500).json({ message: 'Error fetching images from Cloudinary' });
+  }
+});
+
+
 // Start server
-app.listen(8080, () => {
-  console.log('Server running on port 8080');
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
 });
