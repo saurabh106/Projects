@@ -1,13 +1,14 @@
 {
-  "name": "portfolio",
+  "name": "portfolio-root",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Portfolio project with frontend and backend",
   "scripts": {
-   "build":"npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
-   "start":"npm run start"
+    "install-all": "cd project && npm install && cd ../backend && npm install",
+    "frontend": "cd project && npm run dev",
+    "backend": "cd backend && npm run dev",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\" --kill-others --names \"FRONTEND,BACKEND\" -c \"green,blue\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
 }
