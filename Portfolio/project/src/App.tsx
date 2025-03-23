@@ -607,6 +607,8 @@ const ContactSection = () => {
       // Use environment variable for API URL
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/submit-form`, formData);
       console.log('Response:', response.data);
+      console.log(import.meta.env.VITE_API_URL); // This will print the value to the console. Ensure it’s correct.
+
 
       toast.dismiss(loadingToast);
       toast.success('Message sent successfully!', {
@@ -627,6 +629,7 @@ const ContactSection = () => {
       console.error('Error submitting form:', error);
     }
   };
+
 
 
   return (

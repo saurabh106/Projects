@@ -14,23 +14,35 @@ dotenv.config()
 // Create an instance of Express
 const app = express();
 
-// Middleware
+// Update the CORS middleware configuration to handle multiple origins
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? process.env.FRONTEND_URL // Your frontend URL in production
-    : 'http://localhost:5173', // Vite's default dev port
-  credentials: true
+  origin: (origin, callback) => {
+    // Allow both ports in development
+    if (process.env.NODE_ENV === 'production') {
+      callback(null, true);  // Allow production frontend URL (from .env)
+    } else {
+      // Allow both development frontend URLs
+      if (origin === 'http://localhost:5173' || origin === 'http://localhost:5174' || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    }
+  },
+  credentials: true  // Ensure credentials (cookies, etc.) are allowed
 }));
 app.use(bodyParser.json()); // Parse JSON data
 
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'your-secret-key',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      secure: process.env.NODE_ENV === 'production'
-    }
+  secret: process.env.SESSION_SECRET || 'your-secret-key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict', // Prevents cross-site request forgery (CSRF) attacks
+  },
 }));
+
 app.use(flash()); 
 
 
@@ -41,7 +53,8 @@ cloudinary.config({
   api_secret: process.env.API_SECRET, // Replace with your API Secret
 });
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 8081; // or any other port not in use
+
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URL)
@@ -71,13 +84,16 @@ app.post('/submit-form', async (req, res) => {
 
     await newSubmission.save();
     req.flash('success', 'Form submitted successfully!');
-
     res.status(200).json({ message: 'Form submission successful!' });
   } catch (error) {
     console.error('Error saving form data:', error);
-    res.status(500).json({ message: 'Error saving form data' });
+    res.status(500).json({
+      message: 'Error saving form data',
+      error: error.message, // Include the error message for better debugging
+    });
   }
 });
+
 
 app.get('/images', async (req, res) => {
   try {
