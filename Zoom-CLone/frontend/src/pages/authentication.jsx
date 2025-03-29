@@ -42,7 +42,7 @@ export default function Authentication() {
     let handleAuth = async () => {
         try {
             if (formState === 0) {
-
+// eslint-disable-next-line no-unused-vars
                 let result = await handleLogin(username, password)
 
 

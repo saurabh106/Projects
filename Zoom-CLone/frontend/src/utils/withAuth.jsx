@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 
+// eslint-disable-next-line no-unused-vars
 const withAuth = (WrappedComponent) => {
   const AuthComponent = (props) =>{
     const router = useNavigate();
