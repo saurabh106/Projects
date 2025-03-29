@@ -1,3 +1,7 @@
+
+//Use this for any video call app to created a socket connection
+//Use this for any video call app to created a socket connection
+
 import React, { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import { Badge, IconButton, TextField } from "@mui/material";

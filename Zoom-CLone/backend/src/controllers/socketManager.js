@@ -1,4 +1,5 @@
-import { time } from "console";
+//Use this for any video call app to created a socket connection
+//Use this for any video call app to created a socket connection
 import { Server } from "socket.io";
 
 let connections = {};

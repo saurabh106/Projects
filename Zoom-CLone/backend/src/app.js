@@ -7,6 +7,8 @@ import cors from 'cors'
 import {connectToSocket} from './controllers/socketManager.js'
 import userRoutes from "./routes/user.routes.js"
 
+//Use this for any video call app to created a socket connection
+//Use this for any video call app to created a socket connection
 const app = express()
 const server = createServer(app)
 const io = connectToSocket(server)
