@@ -68,7 +68,7 @@ const AppSidebar = () => {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <div className="mt-3 mt-8">
+            <div className="mx-3 mt-8">
               <Button className="w-full text-lg hover:cursor-pointer hover:bg-gray-400 ">
                 + Create New Video{" "}
               </Button>
