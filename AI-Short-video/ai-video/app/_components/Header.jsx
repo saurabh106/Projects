@@ -35,8 +35,8 @@ function Header() {
     }, 2000);
   };
   useEffect(() => {
-    if (user?.photoUrl) {
-      console.log("User photoUrl:", user.photoUrl);
+    if (user?.pictureURL) {
+      console.log("User pictureURL:", user.pictureURL);
     }
   }, [user]);
   return (
@@ -70,9 +70,9 @@ function Header() {
                 {Dloading ? "Loading..." : "Dashboard"}
               </Button>
             </Link>
-            {user?.photoURL && (
+            {user?.pictureURL && (
               <Image
-                src={user.photoURL}
+                src={user.pictureURL}
                 alt="User"
                 width={40}
                 height={40}

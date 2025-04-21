@@ -18,15 +18,16 @@ const Provider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       // console.log(user);
-      setUser(user);
-
+    if(user){
       //After the convexclientProvider create the user then only they save in db
       const result = await CreateUser({
         name: user?.displayName,
         email: user?.email,
         pictureURL: user?.photoURL,
       });
-      // console.log(result); 
+      setUser(result)
+      // console.log(result);
+    } 
     });
     return () => unsubscribe();
   }, []);
