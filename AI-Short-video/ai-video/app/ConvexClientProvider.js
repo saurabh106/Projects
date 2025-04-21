@@ -1,5 +1,7 @@
-import React from "react";
-import { ConvexProvider, ConvexReactClient, useMutation } from "convex/react";
+"use client"
+
+ import React from "react";
+import { ConvexProvider, ConvexReactClient } from "convex/react";
 import Provider from "./provider";
 
 const ConvexClientProvider = ({ children }) => {

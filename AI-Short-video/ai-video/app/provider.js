@@ -8,14 +8,25 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/configs/firebaseConfig";
 import { AuthContext } from "./_context/AuthContext";
+import { api } from "@/convex/_generated/api";
+import { useMutation } from "convex/react";
 
 const Provider = ({ children }) => {
   const [user, setUser] = useState();
+  const CreateUser = useMutation(api.users.CreateNewUser);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log(user);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      // console.log(user);
       setUser(user);
+
+      //After the convexclientProvider create the user then only they save in db
+      const result = await CreateUser({
+        name: user?.displayName,
+        email: user?.email,
+        pictureURL: user?.photoURL,
+      });
+      // console.log(result); 
     });
     return () => unsubscribe();
   }, []);
