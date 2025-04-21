@@ -69,9 +69,11 @@ const AppSidebar = () => {
         <SidebarGroup>
           <SidebarGroupContent>
             <div className="mx-3 mt-8">
+            <Link href={'/create-new-video'}>
               <Button className="w-full text-lg hover:cursor-pointer hover:bg-gray-400 ">
                 + Create New Video{" "}
               </Button>
+              </Link>
             </div>
             <SidebarMenu>
               {MenuItems.map((menu, index) => (
