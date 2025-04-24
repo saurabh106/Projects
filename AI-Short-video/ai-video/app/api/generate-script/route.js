@@ -25,7 +25,13 @@ export async function POST(req) {
 
     const result = await generateScript(prompt);
 
-    const parsed = JSON.parse(result.text);
+    
+    const cleanText = result.text
+      .replace(/```json/g, "")
+      .replace(/```/g, "")
+      .trim();
+
+    const parsed = JSON.parse(cleanText);
 
     return NextResponse.json(parsed);
   } catch (error) {
