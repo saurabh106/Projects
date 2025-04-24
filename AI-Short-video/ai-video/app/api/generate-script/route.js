@@ -1,26 +1,38 @@
 import { generateScript } from "@/configs/AiModel";
 import { NextResponse } from "next/server";
 
-const SCRIPT_PROMPT = `write a two different script for 30 seconds video on Topic:{topic},
-• Do not add Scene description
-• Do not add anything in Braces , Just return the plain story in text
-• Give me response in JSON format and follow the schema
--{
-scripts:[
+const SCRIPT_PROMPT = `write two different scripts for a 30-second video on Topic: {topic}
+• Do not add scene descriptions
+• Do not add anything in braces — just return the plain story in text
+• Give me the response in JSON format and follow the schema:
 {
-content:"
-},
-],
-}  `
+  scripts: [
+    {
+      content: ""
+    }
+  ]
+}`;
 
 export async function POST(req) {
-  const {topic} = await req.json();
+  try {
+    const { topic } = await req.json();
 
-  const PROMPT = SCRIPT_PROMPT.replace('{topic}',topic)
+    if (!topic) {
+      return NextResponse.json({ error: "Topic is required" }, { status: 400 });
+    }
 
-  const result = await generateScript.sendMessage(PROMPT)
+    const prompt = SCRIPT_PROMPT.replace("{topic}", topic);
 
-  const resp = result?.response?.text();
+    const result = await generateScript(prompt);
 
-  return NextResponse.json(JSON.parse(resp))
+    const parsed = JSON.parse(result.text);
+
+    return NextResponse.json(parsed);
+  } catch (error) {
+    console.error("🔥 API Route Error:", error);
+    return NextResponse.json(
+      { error: error.message || "Internal Server Error" },
+      { status: 500 }
+    );
+  }
 }

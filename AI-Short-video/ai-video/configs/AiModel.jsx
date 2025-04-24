@@ -10,13 +10,13 @@ export async function generateScript() {
   const ai = new GoogleGenAI({
     apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY,
   });
-  const config = {
+  const generationConfig  = {
     thinkingConfig: {
       thinkingBudget: 0,
     },
     responseMimeType: 'application/json',
   };
-  const model = 'models/gemini-2.5-pro-exp-03-25';
+  const model = 'models/gemini-2.5-flash-preview-04-17';
   const contents = [
     {
       role: 'user',
@@ -38,7 +38,7 @@ content:"
       ],
     },
     {
-      role: 'model',
+      role: 'assistant',
       parts: [
         {
           text: `The user wants two different 30-second video scripts for a kids' story.
@@ -83,7 +83,7 @@ Both drafts seem suitable. They are simple, positive, fit the time constraint, a
       ],
     },
     {
-      role: 'user',
+      // role: 'user',
       // parts: [
       //   {
       //     text: `INSERT_INPUT_HERE`,
@@ -92,13 +92,19 @@ Both drafts seem suitable. They are simple, positive, fit the time constraint, a
     },
   ];
 
-  const response = await ai.models.generateContentStream({
-    model,
-    config,
-    contents,
-  });
-  for await (const chunk of response) {
-    console.log(chunk.text);
-  }
-}
 
+ // Format the prompt into the new Gemini content structure
+  const response = await ai.models.generateContent({
+    model,
+    generationConfig,
+    contents
+  });
+
+  const text = response?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+  if (!text) {
+    throw new Error("Gemini did not return a valid text response.");
+  }
+
+  return { text };
+}
