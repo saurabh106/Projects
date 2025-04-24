@@ -24,7 +24,7 @@ const suggestions = [
 ];
 
 const Topic = ({ onHandleInputChange }) => {
-  const [selectTopic, setSelectedTopic] = useState();
+  const [selectTopic, setSelectedTopic] = useState({});
   const [loading, setLoading] = useState(false);
 
   const loadingButton = () => {
@@ -39,27 +39,13 @@ const Topic = ({ onHandleInputChange }) => {
     GenerateScript(); // Call the second function (e.g., script generation)
   };
 
-  async function GenerateScript() {
-    try {
-      // Send the request with the proper headers and JSON body
-      const response = await axios.post(
-        "http://localhost:3000/api/generate-script",
-        {
-          topic: selectTopic, // Ensure we're sending the selected topic here
-        },
-        {
-          headers: {
-            "Content-Type": "application/json", // Ensure the content type is JSON
-          },
-        }
-      );
+  const  GenerateScript =async () => {
 
-      // Log the response to see what comes back
-      const result = response.data;
-      console.log("Generated Script:", result.script);
-    } catch (error) {
-      console.error("Error occurred while making the request:", error);
-    }
+    const result = await axios.post('/api/generate-script',{
+      topic:selectTopic
+    });
+    console.log(result.data)
+      
   }
 
   return (
