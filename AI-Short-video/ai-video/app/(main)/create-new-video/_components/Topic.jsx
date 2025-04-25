@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { SparklesIcon } from "lucide-react";
+import { Loader2Icon, SparklesIcon, Loader } from "lucide-react";
 import axios from "axios";
 
 const suggestions = [
@@ -25,28 +25,25 @@ const suggestions = [
 
 const Topic = ({ onHandleInputChange }) => {
   const [selectTopic, setSelectedTopic] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(); // 'idle' | 'loading' | 'done'
+  const [scripts, setScripts] = useState();
+  const [selectedScriptIndex,setSelectedScriptIndex] = useState()
 
-  const loadingButton = () => {
+  const GenerateScript = async () => {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 5000);
+    setSelectedScriptIndex(null)  
+    try {
+      const result = await axios.post("/api/generate-script", {
+        topic: selectTopic,
+      });
+      console.log(result.data);
+      setScripts(result?.data?.script);
+
+    } catch (error) {
+      console.log(error.message);
+    }
+    setLoading(false);
   };
-
-  const handleButtonClick = () => {
-    loadingButton(); // Call the first function (e.g., set loading state)
-    GenerateScript(); // Call the second function (e.g., script generation)
-  };
-
-  const  GenerateScript =async () => {
-
-    const result = await axios.post('/api/generate-script',{
-      topic:selectTopic
-    });
-    console.log(result.data)
-      
-  }
 
   return (
     <div>
@@ -55,6 +52,7 @@ const Topic = ({ onHandleInputChange }) => {
         placeholder="Enter project title"
         onChange={(e) => onHandleInputChange("title", e.target.value)}
       />
+
       <div className="mt-5">
         <h2>Video Topic</h2>
         <p className="text-sm text-gray-600">Select topic for your video</p>
@@ -64,17 +62,18 @@ const Topic = ({ onHandleInputChange }) => {
             <TabsTrigger value="suggestion">Suggestion</TabsTrigger>
             <TabsTrigger value="your_topic">Your Topic</TabsTrigger>
           </TabsList>
+
           <TabsContent value="suggestion">
             <div>
               {suggestions.map((suggestion, index) => (
                 <Button
                   variant="outline"
                   key={index}
-                  className={`m-1 ${suggestion == selectTopic && "bg-secondary"}`}
+                  className={`m-1 ${suggestion === selectTopic ? "bg-secondary" : ""}`}
                   onClick={() => {
                     setSelectedTopic(suggestion);
-                    onHandleInputChange("topic", suggestion); // Update formData directly
-                    console.log("Selected Topic:", suggestion); // Log selected topic
+                    onHandleInputChange("topic", suggestion);
+                    console.log("Selected Topic:", suggestion);
                   }}
                 >
                   {suggestion}
@@ -82,6 +81,7 @@ const Topic = ({ onHandleInputChange }) => {
               ))}
             </div>
           </TabsContent>
+
           <TabsContent value="your_topic">
             <div>
               <h2>Enter your own Topic</h2>
@@ -94,23 +94,35 @@ const Topic = ({ onHandleInputChange }) => {
             </div>
           </TabsContent>
         </Tabs>
+
+        {scripts?.length > 0 && 
+        <div className="mt-3">
+        <h2>Select the script</h2>
+          <div className="grid grid-cols-2 gap-5 mt-1">
+            {scripts?.map((item, index) => (
+              <div key={index} className={`p-3 border rounded-lg cuersor-pointer
+              ${selectedScriptIndex == index && 'border-white bg-secondary'}` }
+              onClick={() => setSelectedScriptIndex(index)} >
+                <h2 className="line-clamp-4 text-sm text-gray-300">{item.content}</h2>
+              </div>
+            ))}
+          </div>
+        
       </div>
-      <Button
-        className="mt-3"
-        size="sm"
-        onClick={handleButtonClick}
-        disabled={loading}
-      >
-        {loading ? (
-          <>
-            <span className="animate-spin mr-2">⏳</span> Loading...
-          </>
-        ) : (
-          <>
-            <SparklesIcon className="mr-2" /> Generate Script
-          </>
-        )}
-      </Button>
+        }
+        </div>
+
+      <div className="mt-3">
+        <Button
+          className="mt-3"
+          size="sm"
+          onClick={GenerateScript}
+          disabled={loading}
+        >
+          {loading ? <Loader className="animate-spin" /> : <SparklesIcon />}
+          Generate Script
+        </Button>
+      </div>
     </div>
   );
 };
