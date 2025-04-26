@@ -2,6 +2,7 @@
 
 import React, { useState ,useEffect} from "react";
 import Topic from "./_components/Topic";
+import VideoStyle from "./_components/VideoStyle";
 
 const CreateNewVideo = () => {
   const [formData, setFormData] = useState({});
@@ -28,7 +29,7 @@ const CreateNewVideo = () => {
           <Topic onHandleInputChange={onHandleInputChange} />
 
           {/* Vidoe Image Style */}
-
+<VideoStyle  onHandleInputChange={onHandleInputChange} />
           {/* Voice */}
 
           {/* Captions */}

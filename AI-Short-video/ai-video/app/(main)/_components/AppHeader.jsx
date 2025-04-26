@@ -12,7 +12,17 @@ const AppHeader = () => {
     
     <div className='p-3 flex justify-between items-center'>
             <SidebarTrigger/>
-            <Image src={user?.pictureURL} alt='user' width={40} height={40} className='rounded-full'/>
+            {user && user.pictureURL ? (
+  <Image
+    src={user.pictureURL}
+    alt='user'
+    width={40}
+    height={40}
+    className='rounded-full'
+  />
+) : null}
+
+
     </div>
   )
 }

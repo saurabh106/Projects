@@ -5,8 +5,9 @@ import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2Icon, SparklesIcon, Loader } from "lucide-react";
+import { SparklesIcon, Loader } from "lucide-react";
 import axios from "axios";
+import toast from "react-hot-toast"; // ✅ Import toast
 
 const suggestions = [
   "Historic Story",
@@ -25,23 +26,30 @@ const suggestions = [
 
 const Topic = ({ onHandleInputChange }) => {
   const [selectTopic, setSelectedTopic] = useState({});
-  const [loading, setLoading] = useState(); // 'idle' | 'loading' | 'done'
+  const [loading, setLoading] = useState(false);
   const [scripts, setScripts] = useState();
-  const [selectedScriptIndex,setSelectedScriptIndex] = useState()
+  const [selectedScriptIndex, setSelectedScriptIndex] = useState();
 
   const GenerateScript = async () => {
     setLoading(true);
-    setSelectedScriptIndex(null)  
+    setSelectedScriptIndex(null);
+
+    toast.loading("Generating script...");
+
     try {
       const result = await axios.post("/api/generate-script", {
         topic: selectTopic,
       });
-      console.log(result.data);
-      setScripts(result?.data?.script);
 
+      setScripts(result?.data?.script);
+      toast.dismiss(); // remove loading
+      toast.success("Script generated successfully!");
     } catch (error) {
-      console.log(error.message);
+      toast.dismiss();
+      toast.error("Failed to generate script. Please try again.");
+      console.error(error.message);
     }
+
     setLoading(false);
   };
 
@@ -73,7 +81,7 @@ const Topic = ({ onHandleInputChange }) => {
                   onClick={() => {
                     setSelectedTopic(suggestion);
                     onHandleInputChange("topic", suggestion);
-                    console.log("Selected Topic:", suggestion);
+                    toast.success(`Selected Topic: ${suggestion}`);
                   }}
                 >
                   {suggestion}
@@ -95,25 +103,29 @@ const Topic = ({ onHandleInputChange }) => {
           </TabsContent>
         </Tabs>
 
-        {scripts?.length > 0 && 
-        <div className="mt-3">
-        <h2>Select the script</h2>
-          <div className="grid grid-cols-2 gap-5 mt-1">
-            {scripts?.map((item, index) => (
-              <div key={index} className={`p-3 border rounded-lg cuersor-pointer
-              ${selectedScriptIndex == index && 'border-white bg-secondary'}` }
-              onClick={() => setSelectedScriptIndex(index)} >
-                <h2 className="line-clamp-4 text-sm text-gray-300">{item.content}</h2>
-              </div>
-            ))}
+        {scripts?.length > 0 && (
+          <div className="mt-3">
+            <h2>Select the script</h2>
+            <div className="grid grid-cols-2 gap-5 mt-1">
+              {scripts.map((item, index) => (
+                <div
+                  key={index}
+                  className={`p-3 border rounded-lg cursor-pointer
+                    ${selectedScriptIndex === index ? "border-white bg-secondary" : ""}`}
+                  onClick={() => setSelectedScriptIndex(index)}
+                >
+                  <h2 className="line-clamp-4 text-sm text-gray-300">
+                    {item.content}
+                  </h2>
+                </div>
+              ))}
+            </div>
           </div>
-        
+        )}
       </div>
-        }
-        </div>
 
       <div className="mt-3">
-        <Button
+        {!scripts &&<Button
           className="mt-3"
           size="sm"
           onClick={GenerateScript}
@@ -121,7 +133,7 @@ const Topic = ({ onHandleInputChange }) => {
         >
           {loading ? <Loader className="animate-spin" /> : <SparklesIcon />}
           Generate Script
-        </Button>
+        </Button>}
       </div>
     </div>
   );

@@ -30,9 +30,6 @@ The final output must be a JSON object following the specified schema.
 
 Confidence Score: 5/5
 
-**Mental Sandbox:**
-*   **Script 1 Draft 1 (Kitten):** Mittens the kitten loved chasing butterflies. One sunny afternoon, she chased one far, far away into the woods. Uh oh! Mittens was lost. She meowed sadly. Suddenly, she heard a familiar jingle. It was Timmy on his bike, ringing his bell! Timmy scooped her up. "There you are, Mittens!" Back home, Mittens snuggled close, happy to be safe and sound after her big adventure. (Approx. 70 words - good length).
-*   **Script 2 Draft 1 (Star):** Twinkle was a little star, shy and small. He watched the big, bright stars shimmer across the night sky. "I wish I could shine like them," he sighed. The Moon smiled kindly. "Just be yourself, little one. Your light is special too." Twinkle took a deep breath and shone as bright as he could. Wow! His light danced and sparkled! He wasn't the biggest star, but he was the twinkliest! (Approx. 75 words - good length).
 
 Both drafts seem suitable. They are simple, positive, fit the time constraint, and adhere to all negative constraints. I will now format them according to the JSON schema.
 
