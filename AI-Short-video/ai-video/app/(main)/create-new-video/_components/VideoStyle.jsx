@@ -3,11 +3,11 @@ import Image from "next/image";
 
 const options = [
   { name: "Realistic", image: "/realistic.jpg" },
-  { name: "cartoon", image: "/cartoon.jpg" },
-  { name: "cinematic", image: "/cinematic.jpg" },
-  { name: "gta", image: "/gta.jpg" },
-  { name: "watercolor", image: "/watercolor.jpg" },
-  { name: "cyberpunk", image: "/cyberpunk.jpg" },
+  { name: "Cartoon", image: "/cartoon.jpg" },
+  { name: "Cinematic", image: "/cinematic.jpg" },
+  { name: "Gta", image: "/gta.jpg" },
+  { name: "Watercolor", image: "/watercolor.jpg" },
+  { name: "Cyberpunk", image: "/cyberpunk.jpg" },
 ];
 
 const VideoStyle = ({ onHandleInputChange }) => {
