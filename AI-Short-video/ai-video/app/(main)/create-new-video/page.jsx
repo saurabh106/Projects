@@ -4,6 +4,7 @@ import React, { useState ,useEffect} from "react";
 import Topic from "./_components/Topic";
 import VideoStyle from "./_components/VideoStyle";
 import Voice from "./_components/Voice";
+import Captions from "./_components/Captions";
 
 const CreateNewVideo = () => {
   const [formData, setFormData] = useState({});
@@ -34,6 +35,7 @@ const CreateNewVideo = () => {
           {/* Voice */}
 <Voice onHandleInputChange={onHandleInputChange}/> 
           {/* Captions */}
+          <Captions onHandleInputChange={onHandleInputChange}/>
         </div>
         <div></div>
       </div>
