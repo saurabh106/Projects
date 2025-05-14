@@ -14,6 +14,7 @@
     "@clerk/clerk-expo": "^2.11.3",
     "@expo-google-fonts/inter": "^0.3.0",
     "@expo-google-fonts/merriweather": "^0.3.0",
+    "@expo/metro-config": "^0.20.14",
     "@expo/vector-icons": "^14.1.0",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/elements": "^2.3.8",
@@ -35,6 +36,8 @@
     "expo-system-ui": "~5.0.7",
     "expo-web-browser": "~14.1.6",
     "lucide-react-native": "^0.507.0",
+    "metro": "^0.82.3",
+    "metro-config": "^0.82.3",
     "react": "18.2.0",
     "react-dom": "19.0.0",
     "react-native": "0.73.0",
@@ -42,9 +45,9 @@
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.10.0",
+    "react-native-svg": "15.11.2",
     "react-native-web": "~0.20.0",
-    "react-native-webview": "13.13.5",
-    "react-native-svg": "15.11.2"
+    "react-native-webview": "13.13.5"
   },
   "devDependencies": {
     "@babel/core": "^7.27.1",
