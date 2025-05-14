@@ -16,12 +16,14 @@ type StoryParams = {
 export default function StoryScreen() {
   const colorScheme = useColorScheme();
   const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { id } = useLocalSearchParams<StoryParams>(); // Get the dynamic ID from URL
   const { user } = useAuth();
   
   const [activeNodeId, setActiveNodeId] = useState('start');
   const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showOptions, setShowOptions] = useState(false);
   const [showTreeView, setShowTreeView] = useState(false);
   
