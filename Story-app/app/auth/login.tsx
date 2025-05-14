@@ -2,8 +2,8 @@ import Colors from "@/constants/Colors";
 import { useAuth } from "@/providers/AuthProvider";
 import { useRouter } from "expo-router";
 import { Eye, EyeOff, X } from "lucide-react-native";
-import { useState } from "react";
-import {
+import React, { useState } from "react";
+ import {
   StyleSheet,
   Text,
   TextInput,

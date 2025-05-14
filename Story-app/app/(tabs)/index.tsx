@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, useColorScheme, Image } from 'react-native';
+// eslint-disable-next-line import/no-duplicates
 import { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -8,6 +9,8 @@ import Colors from '@/constants/Colors';
 import { FEATURED_STORIES, TRENDING_STORIES, NEW_STORIES } from '@/data/stories';
 import StoryCard from '@/components/home/StoryCard';
 import CategoryFilter from '@/components/home/CategoryFilter';
+// eslint-disable-next-line import/no-duplicates
+import React from 'react';
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();

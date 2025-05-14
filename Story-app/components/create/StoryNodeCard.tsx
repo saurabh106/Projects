@@ -1,6 +1,8 @@
 import Colors from '@/constants/Colors';
 import { ChevronRight } from 'lucide-react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+ 
+import React from 'react';
 
 interface StoryNodeCardProps {
   title: string;

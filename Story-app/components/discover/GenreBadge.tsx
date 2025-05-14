@@ -1,5 +1,7 @@
 import { TouchableOpacity, Text, StyleSheet, useColorScheme } from 'react-native';
 import Colors from '@/constants/Colors';
+ 
+import React from 'react';
 
 interface GenreBadgeProps {
   genre: string;

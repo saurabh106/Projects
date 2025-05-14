@@ -6,7 +6,10 @@ import { useRouter } from 'expo-router';
 import { BookMarked, BookOpen, LogOut, PenLine, Settings } from 'lucide-react-native';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+// eslint-disable-next-line import/no-duplicates
+import React from 'react';
 
+// eslint-disable-next-line import/no-duplicates
 import { useState } from 'react';
 
 export default function ProfileScreen() {

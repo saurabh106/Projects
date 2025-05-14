@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { ChevronRight } from 'lucide-react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import Colors from '@/constants/Colors';
 import { StoryNode } from '@/data/stories';
+import React from 'react';
 
 interface StoryTreeViewProps {
   nodes: StoryNode[];

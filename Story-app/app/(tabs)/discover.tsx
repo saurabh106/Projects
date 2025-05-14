@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-duplicates
 import { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, FlatList, TouchableOpacity, useColorScheme } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,6 +8,9 @@ import Colors from '@/constants/Colors';
 import { ALL_STORIES } from '@/data/stories';
 import StoryCard from '@/components/home/StoryCard';
 import GenreBadge from '@/components/discover/GenreBadge';
+// eslint-disable-next-line import/no-duplicates
+import React from 'react';
+;
 
 export default function DiscoverScreen() {
   const colorScheme = useColorScheme();

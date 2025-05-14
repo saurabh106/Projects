@@ -2,6 +2,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, useColorScheme } from 
 import { BookmarkIcon } from 'lucide-react-native';
 import Colors from '@/constants/Colors';
 import { Story } from '@/data/stories';
+import React from 'react';
 
 interface StoryThumbnailProps {
   story: Story;

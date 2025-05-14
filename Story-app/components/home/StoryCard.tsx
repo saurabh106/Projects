@@ -2,6 +2,8 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, useColorScheme } from 
 import { Heart, MessageSquare, Clock } from 'lucide-react-native';
 import Colors from '@/constants/Colors';
 import { Story } from '@/data/stories';
+ 
+import React from 'react';
 
 interface StoryCardProps {
   story: Story;

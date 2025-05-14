@@ -1,5 +1,7 @@
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, useColorScheme } from 'react-native';
 import Colors from '@/constants/Colors';
+ 
+import React from 'react';
 
 interface CategoryFilterProps {
   categories: string[];

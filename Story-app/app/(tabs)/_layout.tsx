@@ -1,4 +1,5 @@
 import { Tabs } from 'expo-router';
+import React from 'react';
 import { useColorScheme } from 'react-native';
 import { BookOpen, Compass, PenLine, User } from 'lucide-react-native';
 import Colors from '@/constants/Colors';

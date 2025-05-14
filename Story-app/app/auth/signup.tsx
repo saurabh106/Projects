@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-duplicates
 import { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, useColorScheme, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -5,6 +6,8 @@ import { useRouter } from 'expo-router';
 import { X, Eye, EyeOff, CheckCircle } from 'lucide-react-native';
 import Colors from '@/constants/Colors';
 import { useAuth } from '@/providers/AuthProvider';
+// eslint-disable-next-line import/no-duplicates
+import React from 'react';
 
 export default function SignupScreen() {
   const colorScheme = useColorScheme();

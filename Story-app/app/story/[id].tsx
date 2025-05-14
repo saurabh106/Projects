@@ -9,6 +9,7 @@ import React, { useState, useRef } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+
 type StoryParams = {
   id: string; // Explicitly type the parameter as a string
 };

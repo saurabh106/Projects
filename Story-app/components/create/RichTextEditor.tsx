@@ -16,6 +16,8 @@ import {
   Quote,
 } from 'lucide-react-native';
 import Colors from '@/constants/Colors';
+ 
+import React from 'react';
 
 interface RichTextEditorProps {
   value: string;

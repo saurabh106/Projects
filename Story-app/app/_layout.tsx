@@ -18,6 +18,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native';
 import { ClerkProvider } from '@clerk/clerk-expo'
 
+
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {

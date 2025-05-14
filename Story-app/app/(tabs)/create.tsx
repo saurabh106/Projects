@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-duplicates
+import React from 'react';
+// eslint-disable-next-line import/no-duplicates
 import { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, useColorScheme, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
