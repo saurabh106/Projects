@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Topic from "./_components/Topic";
 import VideoStyle from "./_components/VideoStyle";
 import Voice from "./_components/Voice";
@@ -8,9 +8,16 @@ import Captions from "./_components/Captions";
 import { Button } from "@/components/ui/button";
 import { WandSparkles } from "lucide-react";
 import Preview from "./_components/Preview";
+import axios from "axios";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+
+import { useAuthContext } from "@/app/provider";
 
 const CreateNewVideo = () => {
   const [formData, setFormData] = useState({});
+  const CreateIntialVideoRecord = useMutation(api.videoData.CreateVideoData);
+  const { user } = useAuthContext();
 
   const onHandleInputChange = (fieldName, fieldValue) => {
     setFormData((prev) => ({
@@ -19,11 +26,42 @@ const CreateNewVideo = () => {
     }));
   };
 
+  const GenerateVideo = async () => {
+    if (
+      !formData?.topic ||
+      !formData?.script ||
+      !formData.videoStyle ||
+      !formData?.caption ||
+      !formData?.voice
+    ) {
+      console.log("Error", "Enter All Fields");
+      return;
+    }
+
+    //Save Video Data First
+    const resp = await CreateIntialVideoRecord({
+      title: formData.title,
+      topic: formData.topic,
+      script: formData.script,
+      videoStyle: formData.videoStyle,
+      caption: formData.caption,
+      voice: formData.voice,
+      uid: user?._id,
+      createdBy: user?.email,
+    });
+    console.log(resp);
+
+    // const result = await axios.post("api/generate-video-data", {
+    // ...formData,
+    // });
+    // console.log(result);
+  };
+
   // Log the updated formData after the state has been updated
   useEffect(() => {
     // This effect runs every time formData is updated
-    console.log('Updated formData:', formData); 
-  }, [formData]); 
+    console.log("Updated formData:", formData);
+  }, [formData]);
 
   return (
     <div>
@@ -34,18 +72,19 @@ const CreateNewVideo = () => {
           <Topic onHandleInputChange={onHandleInputChange} />
 
           {/* Vidoe Image Style */}
-<VideoStyle  onHandleInputChange={onHandleInputChange} />
+          <VideoStyle onHandleInputChange={onHandleInputChange} />
           {/* Voice */}
-<Voice onHandleInputChange={onHandleInputChange}/> 
+          <Voice onHandleInputChange={onHandleInputChange} />
           {/* Captions */}
-          <Captions onHandleInputChange={onHandleInputChange}/>
+          <Captions onHandleInputChange={onHandleInputChange} />
 
-
-<Button className='w-full mt-5'><WandSparkles/>Generate Video</Button>
-
+          <Button className="w-full mt-5" onClick={GenerateVideo}>
+            <WandSparkles />
+            Generate Video
+          </Button>
         </div>
         <div>
-          <Preview formData={formData}/> 
+          <Preview formData={formData} />
         </div>
       </div>
     </div>

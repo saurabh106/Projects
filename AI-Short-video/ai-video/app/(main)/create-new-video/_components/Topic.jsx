@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { SparklesIcon, Loader } from "lucide-react";
 import axios from "axios";
-import toast from "react-hot-toast"; // ✅ Import toast
+import toast from "react-hot-toast";
 
 const suggestions = [
   "Historic Story",
@@ -25,14 +25,20 @@ const suggestions = [
 ];
 
 const Topic = ({ onHandleInputChange }) => {
-  const [selectTopic, setSelectedTopic] = useState({});
+  const [selectTopic, setSelectedTopic] = useState("");
   const [loading, setLoading] = useState(false);
-  const [scripts, setScripts] = useState();
-  const [selectedScriptIndex, setSelectedScriptIndex] = useState();
+  const [scripts, setScripts] = useState([]);
+  const [selectedScriptIndex, setSelectedScriptIndex] = useState(null);
 
   const GenerateScript = async () => {
+    if (!selectTopic) {
+      toast.error("Please select or enter a topic first.");
+      return;
+    }
+
     setLoading(true);
-    setSelectedScriptIndex(null);
+    setSelectedScriptIndex(null); // reset previous selection
+    setScripts([]);
 
     toast.loading("Generating script...");
 
@@ -41,8 +47,11 @@ const Topic = ({ onHandleInputChange }) => {
         topic: selectTopic,
       });
 
-      setScripts(result?.data?.script);
-      toast.dismiss(); // remove loading
+      const generatedScripts = result?.data?.script || [];
+
+      setScripts(generatedScripts);
+
+      toast.dismiss();
       toast.success("Script generated successfully!");
     } catch (error) {
       toast.dismiss();
@@ -77,7 +86,9 @@ const Topic = ({ onHandleInputChange }) => {
                 <Button
                   variant="outline"
                   key={index}
-                  className={`m-1 ${suggestion === selectTopic ? "bg-secondary" : ""}`}
+                  className={`m-1 ${
+                    suggestion === selectTopic ? "bg-secondary" : ""
+                  }`}
                   onClick={() => {
                     setSelectedTopic(suggestion);
                     onHandleInputChange("topic", suggestion);
@@ -94,29 +105,36 @@ const Topic = ({ onHandleInputChange }) => {
             <div>
               <h2>Enter your own Topic</h2>
               <Textarea
-                placeholder="Enter your topic "
-                onChange={(event) =>
-                  onHandleInputChange("topic", event.target.value)
-                }
+                placeholder="Enter your topic"
+                onChange={(event) => {
+                  setSelectedTopic(event.target.value);
+                  onHandleInputChange("topic", event.target.value);
+                }}
               />
             </div>
           </TabsContent>
         </Tabs>
 
-        {scripts?.length > 0 && (
-          <div className="mt-3">
-            <h2>Select the script</h2>
-            <div className="grid grid-cols-2 gap-5 mt-1">
+        {scripts.length > 0 && (
+          <div className="mt-4">
+            <h2>Select a Script</h2>
+            <div className="grid grid-cols-2 gap-4 mt-2">
               {scripts.map((item, index) => (
                 <div
                   key={index}
-                  className={`p-3 border rounded-lg cursor-pointer
-                    ${selectedScriptIndex === index ? "border-white bg-secondary" : ""}`}
-                  onClick={() => setSelectedScriptIndex(index)}
+                  className={`p-3 border rounded-lg cursor-pointer ${
+                    selectedScriptIndex === index
+                      ? "border-white bg-secondary"
+                      : ""
+                  }`}
+                  onClick={() => {
+                    setSelectedScriptIndex(index);
+                    onHandleInputChange("script", item.content); 
+                  }}
                 >
-                  <h2 className="line-clamp-4 text-sm text-gray-300">
+                  <p className="line-clamp-5 text-sm text-gray-300">
                     {item.content}
-                  </h2>
+                  </p>
                 </div>
               ))}
             </div>
@@ -124,16 +142,16 @@ const Topic = ({ onHandleInputChange }) => {
         )}
       </div>
 
-      <div className="mt-3">
-        {!scripts &&<Button
+      <div className="mt-4">
+        <Button
           className="mt-3"
           size="sm"
           onClick={GenerateScript}
-          disabled={loading}
+          disabled={loading || !selectTopic}
         >
           {loading ? <Loader className="animate-spin" /> : <SparklesIcon />}
           Generate Script
-        </Button>}
+        </Button>
       </div>
     </div>
   );
