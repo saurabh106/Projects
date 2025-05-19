@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const options = [
     {
@@ -29,29 +29,34 @@ const options = [
         name: 'Vaporwave',
         style: 'text-pink-300 text-3xl italic uppercase bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 bg-clip-text text-transparent'
     },
-    {
-        name: 'Matrix',
-        style: 'text-green-500 text-2xl font-mono uppercase animate-flicker'
-    },
+    // {
+    //     name: 'Matrix',
+    //     style: 'text-green-500 text-2xl font-mono uppercase animate-flicker'
+    // },
     {
         name: 'Retro',
         style: 'text-blue-600 text-3xl font-extrabold uppercase tracking-tight underline decoration-wavy decoration-pink-500'
     },
-    {
-        name: 'Minimal',
-        style: 'text-gray-800 text-xl font-light uppercase'
-    }
+    // {
+    //     name: 'Minimal',
+    //     style: 'text-gray-800 text-xl font-light uppercase'
+    // }
 ];
 
 function Captions({onHandleInputChange}) {
+    const [selectedCaptionStyle,setSelectedCaptionStyle] = useState()
   return (
-    <div><h2>
+    <div className='mt-5'><h2>
     Caption Style
         </h2>
         <p className='text-sm text-gray-400'>Select Caption Style</p>
-        <div>
+        <div className='flex flex-wrap gap-4 mt-2'>
             {options.map((option,index)=>(
-                <div key={index}>
+                <div key={index} onClick={()=>{
+                    setSelectedCaptionStyle(option.name)
+                    onHandleInputChange(option)
+                }} className={`p-2 hover:border bg-slate-900 rounded-lg border-gray-300
+                 cursor-pointer ${selectedCaptionStyle == option.name && 'border'}`}>
                 <h2 className={option.style}>{option.name}</h2>
                 </div>
             ))}

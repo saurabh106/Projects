@@ -1,258 +1,196 @@
-// eslint-disable-next-line import/no-duplicates
-import { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, useColorScheme, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import * as React from 'react';
+import { Text, TextInput, TouchableOpacity, View, ScrollView, StyleSheet } from 'react-native';
+import { useSignUp } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
-import { X, Eye, EyeOff, CheckCircle } from 'lucide-react-native';
+import { Eye, EyeOff, CheckCircle } from 'lucide-react-native';
 import Colors from '@/constants/Colors';
-import { useAuth } from '@/providers/AuthProvider';
-// eslint-disable-next-line import/no-duplicates
-import React from 'react';
 
 export default function SignupScreen() {
-  const colorScheme = useColorScheme();
+  const { isLoaded, signUp, setActive } = useSignUp();
   const router = useRouter();
-  const { signup } = useAuth();
-  
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  
-  const handleSignup = () => {
+
+  const [emailAddress, setEmailAddress] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [name, setName] = React.useState('');
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+  const [pendingVerification, setPendingVerification] = React.useState(false);
+  const [code, setCode] = React.useState('');
+
+  const passwordStrength = password.length >= 8 ? 'strong' : password.length >= 6 ? 'medium' : 'weak';
+
+  const handleSignup = async () => {
+    if (!isLoaded) return;
+
     if (!name.trim()) {
       setError('Please enter your name');
       return;
     }
-    
-    if (!email.trim()) {
+
+    if (!emailAddress.trim()) {
       setError('Please enter your email address');
       return;
     }
-    
+
     if (!password || password.length < 6) {
       setError('Password must be at least 6 characters');
       return;
     }
-    
+
     setError(null);
-    signup(email, password, name);
-    router.back();
+
+    try {
+      await signUp.create({ emailAddress, password });
+      await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+      setPendingVerification(true);
+    } catch (err) {
+      console.error('Signup error:', err);
+      setError('An error occurred during sign-up');
+    }
   };
-  
-  const passwordStrength = password.length >= 8 ? 'strong' : password.length >= 6 ? 'medium' : 'weak';
-  
-  return (
-    <SafeAreaView style={[styles.container, { backgroundColor: Colors[colorScheme ?? 'light'].background }]}>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.closeButton} onPress={() => router.back()}>
-          <X size={24} color={Colors[colorScheme ?? 'light'].text} />
+
+  const handleVerification = async () => {
+    if (!isLoaded) return;
+
+    try {
+      const signUpAttempt = await signUp.attemptEmailAddressVerification({ code });
+      if (signUpAttempt.status === 'complete') {
+        await setActive({ session: signUpAttempt.createdSessionId });
+        router.replace('/');
+      } else {
+        setError('Verification failed. Please try again.');
+      }
+    } catch (err) {
+      console.error('Verification error:', err);
+      setError('An error occurred during verification');
+    }
+  };
+
+  if (pendingVerification) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Verify your email</Text>
+        <TextInput
+          style={styles.input}
+          value={code}
+          placeholder="Enter your verification code"
+          onChangeText={setCode}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleVerification}>
+          <Text style={styles.buttonText}>Verify</Text>
         </TouchableOpacity>
       </View>
-      
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        <Text style={[styles.title, { color: Colors[colorScheme ?? 'light'].text }]}>Create Account</Text>
-        <Text style={[styles.subtitle, { color: Colors[colorScheme ?? 'light'].textSecondary }]}>
-          Join StoryScape and start your journey
-        </Text>
-        
-        {error && (
-          <View style={[styles.errorContainer, { backgroundColor: Colors[colorScheme ?? 'light'].errorBackground }]}>
-            <Text style={[styles.errorText, { color: Colors[colorScheme ?? 'light'].error }]}>{error}</Text>
-          </View>
-        )}
-        
-        <View style={styles.form}>
-          <View style={styles.inputGroup}>
-            <Text style={[styles.label, { color: Colors[colorScheme ?? 'light'].text }]}>Name</Text>
-            <TextInput
-              style={[
-                styles.input, 
-                { 
-                  backgroundColor: Colors[colorScheme ?? 'light'].card,
-                  color: Colors[colorScheme ?? 'light'].text,
-                  borderColor: Colors[colorScheme ?? 'light'].border,
-                }
-              ]}
-              placeholder="Your full name"
-              placeholderTextColor={Colors[colorScheme ?? 'light'].textSecondary}
-              value={name}
-              onChangeText={setName}
-            />
-          </View>
-          
-          <View style={styles.inputGroup}>
-            <Text style={[styles.label, { color: Colors[colorScheme ?? 'light'].text }]}>Email</Text>
-            <TextInput
-              style={[
-                styles.input, 
-                { 
-                  backgroundColor: Colors[colorScheme ?? 'light'].card,
-                  color: Colors[colorScheme ?? 'light'].text,
-                  borderColor: Colors[colorScheme ?? 'light'].border,
-                }
-              ]}
-              placeholder="Your email address"
-              placeholderTextColor={Colors[colorScheme ?? 'light'].textSecondary}
-              value={email}
-              onChangeText={setEmail}
-              autoCapitalize="none"
-              keyboardType="email-address"
-            />
-          </View>
-          
-          <View style={styles.inputGroup}>
-            <Text style={[styles.label, { color: Colors[colorScheme ?? 'light'].text }]}>Password</Text>
-            <View style={styles.passwordContainer}>
-              <TextInput
-                style={[
-                  styles.passwordInput, 
-                  { 
-                    backgroundColor: Colors[colorScheme ?? 'light'].card,
-                    color: Colors[colorScheme ?? 'light'].text,
-                    borderColor: Colors[colorScheme ?? 'light'].border,
-                  }
-                ]}
-                placeholder="Create a password"
-                placeholderTextColor={Colors[colorScheme ?? 'light'].textSecondary}
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={!showPassword}
-              />
-              <TouchableOpacity 
-                style={styles.passwordToggle} 
-                onPress={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <EyeOff size={20} color={Colors[colorScheme ?? 'light'].textSecondary} />
-                ) : (
-                  <Eye size={20} color={Colors[colorScheme ?? 'light'].textSecondary} />
-                )}
-              </TouchableOpacity>
-            </View>
-            
-            {password && (
-              <View style={styles.passwordStrength}>
-                <View style={styles.strengthMeter}>
-                  <View 
-                    style={[
-                      styles.strengthIndicator,
-                      { 
-                        width: passwordStrength === 'weak' ? '33%' : 
-                               passwordStrength === 'medium' ? '66%' : '100%',
-                        backgroundColor: passwordStrength === 'weak' ? Colors.light.error : 
-                                          passwordStrength === 'medium' ? Colors.light.warning : 
-                                          Colors.light.success 
-                      }
-                    ]} 
-                  />
-                </View>
-                <Text style={[
-                  styles.strengthText,
-                  { 
-                    color: passwordStrength === 'weak' ? Colors.light.error : 
-                            passwordStrength === 'medium' ? Colors.light.warning : 
-                            Colors.light.success 
-                  }
-                ]}>
-                  {passwordStrength === 'weak' ? 'Weak' : 
-                   passwordStrength === 'medium' ? 'Medium' : 'Strong'}
-                </Text>
-              </View>
-            )}
-            
-            <View style={styles.passwordRequirements}>
-              <View style={styles.requirementRow}>
-                <CheckCircle 
-                  size={16} 
-                  color={password.length >= 6 ? Colors.light.success : Colors[colorScheme ?? 'light'].textSecondary} 
-                />
-                <Text 
-                  style={[
-                    styles.requirementText, 
-                    { 
-                      color: password.length >= 6 ? 
-                        Colors.light.success : 
-                        Colors[colorScheme ?? 'light'].textSecondary 
-                    }
-                  ]}
-                >
-                  At least 6 characters
-                </Text>
-              </View>
-              
-              <View style={styles.requirementRow}>
-                <CheckCircle 
-                  size={16} 
-                  color={/[A-Z]/.test(password) ? Colors.light.success : Colors[colorScheme ?? 'light'].textSecondary} 
-                />
-                <Text 
-                  style={[
-                    styles.requirementText, 
-                    { 
-                      color: /[A-Z]/.test(password) ? 
-                        Colors.light.success : 
-                        Colors[colorScheme ?? 'light'].textSecondary 
-                    }
-                  ]}
-                >
-                  Contains uppercase letter
-                </Text>
-              </View>
-              
-              <View style={styles.requirementRow}>
-                <CheckCircle 
-                  size={16} 
-                  color={/[0-9]/.test(password) ? Colors.light.success : Colors[colorScheme ?? 'light'].textSecondary} 
-                />
-                <Text 
-                  style={[
-                    styles.requirementText, 
-                    { 
-                      color: /[0-9]/.test(password) ? 
-                        Colors.light.success : 
-                        Colors[colorScheme ?? 'light'].textSecondary 
-                    }
-                  ]}
-                >
-                  Contains a number
-                </Text>
-              </View>
-            </View>
-          </View>
-          
-          <View style={styles.termsContainer}>
-            <Text style={[styles.termsText, { color: Colors[colorScheme ?? 'light'].textSecondary }]}>
-              By signing up, you agree to our{' '}
-              <Text style={[styles.termsLink, { color: Colors[colorScheme ?? 'light'].primary }]}>
-                Terms of Service
-              </Text>{' '}
-              and{' '}
-              <Text style={[styles.termsLink, { color: Colors[colorScheme ?? 'light'].primary }]}>
-                Privacy Policy
-              </Text>
-            </Text>
-          </View>
-          
-          <TouchableOpacity 
-            style={[styles.signupButton, { backgroundColor: Colors[colorScheme ?? 'light'].primary }]}
-            onPress={handleSignup}
+    );
+  }
+
+  return (
+    <ScrollView style={styles.container}>
+      <Text style={styles.title}>Create Account</Text>
+      <TextInput
+        style={styles.input}
+        value={name}
+        placeholder="Your full name"
+        onChangeText={setName}
+      />
+      <TextInput
+        style={styles.input}
+        value={emailAddress}
+        placeholder="Your email address"
+        onChangeText={setEmailAddress}
+        autoCapitalize="none"
+        keyboardType="email-address"
+      />
+      <View style={styles.passwordContainer}>
+        <TextInput
+          style={styles.input}
+          value={password}
+          placeholder="Create a password"
+          onChangeText={setPassword}
+          secureTextEntry={!showPassword}
+        />
+        <TouchableOpacity style={styles.passwordToggle} onPress={() => setShowPassword(!showPassword)}>
+          {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+        </TouchableOpacity>
+      </View>
+      {password && (
+        <View style={styles.passwordStrength}>
+          <View
+            style={[
+              styles.strengthIndicator,
+              {
+                width: passwordStrength === 'weak' ? '33%' : passwordStrength === 'medium' ? '66%' : '100%',
+                backgroundColor:
+                  passwordStrength === 'weak'
+                    ? Colors.light.error
+                    : passwordStrength === 'medium'
+                    ? Colors.light.warning
+                    : Colors.light.success,
+              },
+            ]}
+          />
+          <Text
+            style={[
+              styles.strengthText,
+              {
+                color:
+                  passwordStrength === 'weak'
+                    ? Colors.light.error
+                    : passwordStrength === 'medium'
+                    ? Colors.light.warning
+                    : Colors.light.success,
+              },
+            ]}
           >
-            <Text style={styles.signupButtonText}>Create Account</Text>
-          </TouchableOpacity>
-        </View>
-        
-        <View style={styles.loginContainer}>
-          <Text style={[styles.loginText, { color: Colors[colorScheme ?? 'light'].textSecondary }]}>
-            Already have an account?
+            {passwordStrength === 'weak' ? 'Weak' : passwordStrength === 'medium' ? 'Medium' : 'Strong'}
           </Text>
-          <TouchableOpacity onPress={() => router.replace('/auth/login')}>
-            <Text style={[styles.loginLink, { color: Colors[colorScheme ?? 'light'].primary }]}>Sign In</Text>
-          </TouchableOpacity>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      )}
+      <View style={styles.passwordRequirements}>
+        <View style={styles.requirementRow}>
+          <CheckCircle size={16} color={password.length >= 6 ? Colors.light.success : Colors.light.textSecondary} />
+          <Text
+            style={[
+              styles.requirementText,
+              { color: password.length >= 6 ? Colors.light.success : Colors.light.textSecondary },
+            ]}
+          >
+            At least 6 characters
+          </Text>
+        </View>
+        <View style={styles.requirementRow}>
+          <CheckCircle
+            size={16}
+            color={/[A-Z]/.test(password) ? Colors.light.success : Colors.light.textSecondary}
+          />
+          <Text
+            style={[
+              styles.requirementText,
+              { color: /[A-Z]/.test(password) ? Colors.light.success : Colors.light.textSecondary },
+            ]}
+          >
+            Contains uppercase letter
+          </Text>
+        </View>
+        <View style={styles.requirementRow}>
+          <CheckCircle
+            size={16}
+            color={/[0-9]/.test(password) ? Colors.light.success : Colors.light.textSecondary}
+          />
+          <Text
+            style={[
+              styles.requirementText,
+              { color: /[0-9]/.test(password) ? Colors.light.success : Colors.light.textSecondary },
+            ]}
+          >
+            Contains a number
+          </Text>
+        </View>
+      </View>
+      {error && <Text style={styles.errorText}>{error}</Text>}
+      <TouchableOpacity style={styles.button} onPress={handleSignup}>
+        <Text style={styles.buttonText}>Create Account</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 }
 
