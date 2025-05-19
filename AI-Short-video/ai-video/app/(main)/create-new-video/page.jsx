@@ -11,6 +11,7 @@ import Preview from "./_components/Preview";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useAuthContext } from "@/app/provider";
+import axios from 'axios'
 
 const CreateNewVideo = () => {
   const [formData, setFormData] = useState({});
@@ -53,10 +54,11 @@ const { user } = useAuthContext(); // Ensure this provides _id and email
       });
       console.log(resp)
   
-    // const result = await axios.post('/api/generate-video-data',{
-    //   ...formData
-    // })
-    // console.log(result)
+    const result = await axios.post('/api/generate-video-data',{
+      ...formData
+    })
+    console.log(result)
+    setLoading(false)
   };
   
   useEffect(() => {
