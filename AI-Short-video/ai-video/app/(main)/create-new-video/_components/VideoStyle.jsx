@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-const options = [
+export const options = [
   { name: "Realistic", image: "/realistic.jpg" },
   { name: "Cartoon", image: "/cartoon.jpg" },
   { name: "Cinematic", image: "/cinematic.jpg" },

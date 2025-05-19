@@ -54,7 +54,7 @@ function Captions({onHandleInputChange}) {
             {options.map((option,index)=>(
                 <div key={index} onClick={()=>{
                     setSelectedCaptionStyle(option.name)
-                    onHandleInputChange(option)
+                    onHandleInputChange('caption' ,option)
                 }} className={`p-2 hover:border bg-slate-900 rounded-lg border-gray-300
                  cursor-pointer ${selectedCaptionStyle == option.name && 'border'}`}>
                 <h2 className={option.style}>{option.name}</h2>
