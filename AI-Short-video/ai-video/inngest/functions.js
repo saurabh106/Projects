@@ -4,7 +4,7 @@ import { inngest } from "./client";
 import { createClient } from "@deepgram/sdk";
 require("dotenv").config();
 
-const ImagePromptScript = `Generate Image prompt of {style} style with all details for each scene 30 seconds video : script : {script}
+const ImagePromptScript = `Generate Image prompt of {styles} style with all details for each scene 30 seconds video : script : {script}
 - Just Give specifing image prompt depends on the story line 
 - do not give camera angle image prompt
 - Follow the following schema and return JSON data (Max 4-5 Images)
@@ -14,6 +14,7 @@ const ImagePromptScript = `Generate Image prompt of {style} style with all detai
       sceneContent: '<Script Content> 
       }
   ]`
+
 
 
 
@@ -65,7 +66,7 @@ export const GenerateVideoData = inngest.createFunction(
 
 
         const FINAL_PROMPT = ImagePromptScript
-        .replace(/{style}/g, videoStyle) 
+        .replace(/{style}/g, `The ${videoStyle} style`) // Insert the style directly
           .replace('{script}', script);
     
           // console.log("Final Prompt with Replacements:", FINAL_PROMPT);

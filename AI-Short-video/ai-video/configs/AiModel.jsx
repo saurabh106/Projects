@@ -66,7 +66,7 @@ Both drafts seem suitable. They are simple, positive, fit the time constraint, a
   return { text };
 }
 
-export async function generateImageScript  () {
+export async function generateImageScript(videoStyle, script) {
   const ai = new GoogleGenAI({
     apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY,
   });
@@ -76,16 +76,16 @@ export async function generateImageScript  () {
     responseMimeType: 'application/json',
   };
 
-  const prompt = `Generate image prompts of {style} style with all details for each scene of a 30-second video based on this script:
+  const prompt = `
+Generate image prompts in ${videoStyle} style for each scene of a 30-second video based on this script:
 
-"Rosa Parks refused to give up her seat on a bus in 1955. Her quiet act of defiance sparked the Montgomery Bus Boycott, a pivotal moment in the Civil Rights Movement. One person's bravery can inspire lasting change for everyone."
+"${script}"
 
 Instructions:
 - Just give specifying image prompts based on the storyline.
 - Do not include camera angles.
-- Follow the schema and return JSON data (Max 4-5 Images).
+- Return a JSON array (Max 4-5 items) in the following format:
 
-JSON Schema Example:
 [
   {
     "imagePrompt": "<detailed image prompt>",
@@ -94,9 +94,9 @@ JSON Schema Example:
 ]
 
 Constraints:
-- Use {style} as a placeholder in all image prompts.
 - Ensure each image prompt is richly descriptive and directly tied to one scene.
-- Follow historical and contextual accuracy.`
+- Follow the intended style: ${videoStyle}.
+`;
 
   const response = await ai.models.generateContent({
     model,
@@ -111,14 +111,15 @@ Constraints:
 
   const text = response?.candidates?.[0]?.content?.parts?.[0]?.text;
 
+  // console.log("📝 Raw Response from Gemini:", text);
+
   if (!text) {
     throw new Error("Gemini did not return a valid image script response.");
   }
 
-  // Clean up the response string by removing unwanted characters (e.g., markdown formatting)
   const cleanedText = text.replace(/```json|```/g, '').trim();
+  console.log("🧹 Cleaned Response from Gemini:", cleanedText);
 
-  // Try to parse the cleaned response as JSON
   try {
     const json = JSON.parse(cleanedText);
     if (!Array.isArray(json)) {
@@ -130,5 +131,4 @@ Constraints:
     console.error("Error parsing Gemini response as JSON:", err);
     throw new Error("Failed to parse Gemini JSON response.");
   }
-
-};
+}
