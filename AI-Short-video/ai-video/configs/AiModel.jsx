@@ -65,3 +65,70 @@ Both drafts seem suitable. They are simple, positive, fit the time constraint, a
 
   return { text };
 }
+
+export async function generateImageScript  () {
+  const ai = new GoogleGenAI({
+    apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY,
+  });
+
+  const model = 'models/gemini-2.5-flash-preview-04-17';
+  const generationConfig = {
+    responseMimeType: 'application/json',
+  };
+
+  const prompt = `Generate image prompts of {style} style with all details for each scene of a 30-second video based on this script:
+
+"Rosa Parks refused to give up her seat on a bus in 1955. Her quiet act of defiance sparked the Montgomery Bus Boycott, a pivotal moment in the Civil Rights Movement. One person's bravery can inspire lasting change for everyone."
+
+Instructions:
+- Just give specifying image prompts based on the storyline.
+- Do not include camera angles.
+- Follow the schema and return JSON data (Max 4-5 Images).
+
+JSON Schema Example:
+[
+  {
+    "imagePrompt": "<detailed image prompt>",
+    "sceneContent": "<script segment>"
+  }
+]
+
+Constraints:
+- Use {style} as a placeholder in all image prompts.
+- Ensure each image prompt is richly descriptive and directly tied to one scene.
+- Follow historical and contextual accuracy.`
+
+  const response = await ai.models.generateContent({
+    model,
+    generationConfig,
+    contents: [
+      {
+        role: 'user',
+        parts: [{ text: prompt }],
+      },
+    ],
+  });
+
+  const text = response?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+  if (!text) {
+    throw new Error("Gemini did not return a valid image script response.");
+  }
+
+  // Clean up the response string by removing unwanted characters (e.g., markdown formatting)
+  const cleanedText = text.replace(/```json|```/g, '').trim();
+
+  // Try to parse the cleaned response as JSON
+  try {
+    const json = JSON.parse(cleanedText);
+    if (!Array.isArray(json)) {
+      throw new Error("Returned data is not a valid array.");
+    }
+
+    return json;
+  } catch (err) {
+    console.error("Error parsing Gemini response as JSON:", err);
+    throw new Error("Failed to parse Gemini JSON response.");
+  }
+
+};

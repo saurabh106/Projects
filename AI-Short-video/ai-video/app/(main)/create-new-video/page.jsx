@@ -27,7 +27,7 @@ const { user } = useAuthContext(); // Ensure this provides _id and email
   };
 
   const GenerateVideo = async () => {
-    console.log("GenerateVideo function started.");
+    // console.log("🔄 GenerateVideo function started.");
   
     if (
       !formData?.title ||
@@ -37,12 +37,23 @@ const { user } = useAuthContext(); // Ensure this provides _id and email
       !formData?.caption ||
       !formData?.voice
     ) {
-      console.log("Error: Missing required fields in formData.");
+      console.error("❌ Error: Missing required fields in formData.");
       return;
     }
-   setLoading(true);
   
-      const resp = await CreateInitialVideoRecord( {
+    setLoading(true);
+    // console.log("✅ Required fields are present.");
+    
+    console.log("📄 formData values:");
+    console.log("Title:", formData.title);
+    console.log("Topic:", formData.topic);
+    console.log("Script:", formData.script);
+    console.log("Video Style:", formData.videoStyle);
+    console.log("Caption:", formData.caption);
+    console.log("Voice:", formData.voice);
+  
+    try {
+      const resp = await CreateInitialVideoRecord({
         title: formData.title,
         topic: formData.topic,
         script: formData.script,
@@ -52,14 +63,20 @@ const { user } = useAuthContext(); // Ensure this provides _id and email
         uid: user?._id, // Ensure this is the Convex user ID (from auth)
         createdBy: user?.email,
       });
-      console.log(resp)
+      // console.log("✅ Initial video record response:", resp);
   
-    const result = await axios.post('/api/generate-video-data',{
-      ...formData
-    })
-    console.log(result)
-    setLoading(false)
+      const result = await axios.post('/api/generate-video-data', {
+        ...formData
+      });
+      console.log("✅ /api/generate-video-data response:", result);
+    } catch (error) {
+      console.error("🚨 Error in GenerateVideo:", error);
+    } finally {
+      setLoading(false);
+      // console.log("✅ Loading set to false.");
+    }
   };
+  
   
   useEffect(() => {
     console.log("Updated formData:", formData);
