@@ -49,6 +49,7 @@ const VideoList = () => {
   return (
     <div>
       {videoList?.length === 0 ? (
+       
         <div className="flex flex-col items-center justify-center mt-28 gap-5 p-5 border border-dashed rounded-xl py-16">
           <Image src="/logo.svg" alt="logo" width={60} height={60} />
           <h2 className="text-gray-400 text-lg">
@@ -61,7 +62,8 @@ const VideoList = () => {
       ) : (
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 mt-10">
           {videoList.map((video, index) => (
-            <div key={index} className="relative">
+            <Link  key={index}  href={'/play-video/' + video?._id}>
+            <div className="relative">
               {video?.status == "completed" ? (
                 Array.isArray(video?.images) && video.images[0] ? (
                   <Image
@@ -86,8 +88,10 @@ const VideoList = () => {
                 </h2>
               </div>
             </div>
+            </Link>
           ))}
         </div>
+       
       )}
     </div>
   );
