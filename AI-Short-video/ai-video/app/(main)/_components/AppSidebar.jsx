@@ -41,11 +41,11 @@ const MenuItems = [
     icon: Search,
   },
 
-  {
-    title: "Billing",
-    url: "/billing",
-    icon: WalletCards,
-  },
+  // {
+  //   title: "Billing",
+  //   url: "/billing",
+  //   icon: WalletCards,
+  // },
 ];
 
 const AppSidebar = () => {
@@ -54,25 +54,26 @@ const AppSidebar = () => {
   return (
     <Sidebar>
       <SidebarHeader>
-        <div>
-          <div className="flex items-center gap-3 w-full justify-center mt-5">
-            <Image src={"/logo.svg"} alt="logo" width={40} height={40} />
-            {""}
-            <h2 className="font-bold text-2xl">Ai-Gen</h2>
-          </div>
-          <h2 className="text-lg text-gray-400 text-center mt-3">
-            Ai Short Video Generator
-          </h2>
-        </div>
+      <Link href={"/"} className="block">
+    <div>
+      <div className="flex items-center gap-3 w-full justify-center mt-5">
+        <Image src="/logo.svg" alt="logo" width={40} height={40} />
+        <h2 className="font-bold text-2xl">Ai-Gen</h2>
+      </div>
+      <h2 className="text-lg text-gray-400 text-center mt-3">
+        Ai Short Video Generator
+      </h2>
+    </div>
+  </Link>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
             <div className="mx-3 mt-8">
-            <Link href={'/create-new-video'}>
-              <Button className="w-full text-lg hover:cursor-pointer hover:bg-gray-400 ">
-                + Create New Video{" "}
-              </Button>
+              <Link href={"/create-new-video"}>
+                <Button className="w-full text-lg hover:cursor-pointer hover:bg-gray-400 ">
+                  + Create New Video{" "}
+                </Button>
               </Link>
             </div>
             <SidebarMenu>
@@ -98,14 +99,17 @@ const AppSidebar = () => {
         <SidebarGroup />
       </SidebarContent>
       <SidebarFooter>
-        <div className="p-5 border rounded-lg mb-6 bg-gray-800">
-          <div className="flex items-center justify-between">
+        <div
+          className="p-1 justify-center text-center border rounded-lg mb-6 bg-gray-800"
+        >
+          <div>Version 1.1.0</div>
+          {/* <div className="flex items-center justify-between">
             <Gem className="text-gray-400" />
             <h2 className="text-gray-400">{user?.credits} Credits Left</h2>
           </div>
           <Button className="w-full mt-3 text-lg hover:cursor-pointer hover:bg-gray-400">
             Buy More Credits
-          </Button>
+          </Button> */}
         </div>
       </SidebarFooter>
     </Sidebar>

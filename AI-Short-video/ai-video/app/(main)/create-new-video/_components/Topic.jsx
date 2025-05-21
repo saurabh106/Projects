@@ -34,10 +34,10 @@ const Topic = ({ onHandleInputChange }) => {
 
   const GenerateScript = async () => {
 
-    if(user?.credits <=0){
-      toast('Please add more credits!')
-      return;
-    }
+    // if(user?.credits <=0){
+    //   toast('Please add more credits!')
+    //   return;
+    // }
   
 
     if (!selectTopic) {

@@ -1,5 +1,3 @@
-// app/_components/Header.jsx
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -8,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import useGoogleSignIn from "./useGoogleSignIn.js";
 import { useAuthContext } from "../provider.js";
 import Link from "next/link.js";
-// import { useRouter } from "next/navigation";
+
 
 function Header() {
   const { user } = useAuthContext();
@@ -20,7 +18,7 @@ function Header() {
   const handleGoogleSignIn = async () => {
     setLoading(true);
     try {
-      await googleSignIn(); // Wait until sign-in completes
+      await googleSignIn();
     } catch (error) {
       console.error("Google Sign-In Error:", error);
     } finally {
@@ -32,18 +30,12 @@ function Header() {
     setDLoading(true);
     setTimeout(() => {
       setDLoading(false);
-      // Optional: Add navigation or logic here
+    
     }, 2000);
   };
 
-  // useEffect(() => {
-  //   router.prefetch("/dashboard");
-  //   router.prefetch("/create-new-video");
-  // }, []);
-
-
-
-  useEffect(() => {
+ 
+useEffect(() => {
     if (user?.pictureURL) {
       console.log("User pictureURL:", user.pictureURL);
     }

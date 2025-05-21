@@ -28,10 +28,10 @@ const { user } = useAuthContext(); // Ensure this provides _id and email
   };
 
   const GenerateVideo = async () => {
-    if(user?.credits <=0){
-      toast('Please add more credits!')
-      return;
-    }
+    // if(user?.credits <=0){
+    //   toast('Please add more credits!')
+    //   return;
+    // }
   
     if (
       !formData?.title ||
