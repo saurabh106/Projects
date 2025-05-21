@@ -1,3 +1,4 @@
+import { Cards } from "./_components/Cards";
 import Header from "./_components/Header";
 import Hero from "./_components/Hero";
 export default function Home() {
@@ -8,6 +9,8 @@ export default function Home() {
 
     {/* Hero */}
     <Hero/>
+
+    <Cards/>
     </div>
   );
 }
