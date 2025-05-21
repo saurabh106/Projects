@@ -66,9 +66,11 @@ const { user } = useAuthContext(); // Ensure this provides _id and email
       // console.log("✅ Initial video record response:", resp);
   
       const result = await axios.post('/api/generate-video-data', {
-        ...formData
+        ...formData,
+        recordId: resp
       });
-      console.log("✅ /api/generate-video-data response:", result);
+
+      // console.log("✅ /api/generate-video-data response:", result);
     } catch (error) {
       console.error("🚨 Error in GenerateVideo:", error);
     } finally {

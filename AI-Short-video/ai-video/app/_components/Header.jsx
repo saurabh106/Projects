@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import useGoogleSignIn from "./useGoogleSignIn.js";
 import { useAuthContext } from "../provider.js";
 import Link from "next/link.js";
+// import { useRouter } from "next/navigation";
 
 function Header() {
   const { user } = useAuthContext();
@@ -23,7 +24,7 @@ function Header() {
     } catch (error) {
       console.error("Google Sign-In Error:", error);
     } finally {
-      setLoading(false); // Stop loading whether success or fail
+      setLoading(false); 
     }
   };
 
@@ -34,6 +35,14 @@ function Header() {
       // Optional: Add navigation or logic here
     }, 2000);
   };
+
+  // useEffect(() => {
+  //   router.prefetch("/dashboard");
+  //   router.prefetch("/create-new-video");
+  // }, []);
+
+
+
   useEffect(() => {
     if (user?.pictureURL) {
       console.log("User pictureURL:", user.pictureURL);
