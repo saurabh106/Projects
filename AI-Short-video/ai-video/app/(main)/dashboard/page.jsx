@@ -1,8 +1,12 @@
 import React from 'react'
+import VideoList from './_components/VideoList'
 
 const HomeScreen = () => {
   return (
-    <div></div>
+    <div>
+      <h2 className='font-bold text-3xl'>My Videos</h2>
+      <VideoList/>
+    </div>
   )
 }
 

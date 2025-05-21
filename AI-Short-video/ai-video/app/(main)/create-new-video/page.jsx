@@ -60,14 +60,16 @@ const { user } = useAuthContext(); // Ensure this provides _id and email
         videoStyle: formData.videoStyle,
         caption: formData.caption,
         voice: formData.voice,
-        uid: user?._id, // Ensure this is the Convex user ID (from auth)
+        uid: user?._id,
         createdBy: user?.email,
+        credits:user?.credits
       });
       // console.log("✅ Initial video record response:", resp);
   
       const result = await axios.post('/api/generate-video-data', {
         ...formData,
-        recordId: resp
+        recordId: resp,
+   
       });
 
       // console.log("✅ /api/generate-video-data response:", result);
