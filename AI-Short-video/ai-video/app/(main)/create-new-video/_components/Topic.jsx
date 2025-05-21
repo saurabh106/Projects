@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { SparklesIcon, Loader } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useAuthContext } from "@/app/provider";
 
 const suggestions = [
   "Historic Story",
@@ -29,8 +30,16 @@ const Topic = ({ onHandleInputChange }) => {
   const [loading, setLoading] = useState(false);
   const [scripts, setScripts] = useState([]);
   const [selectedScriptIndex, setSelectedScriptIndex] = useState(null);
+  const { user } = useAuthContext();
 
   const GenerateScript = async () => {
+
+    if(user?.credits <=0){
+      toast('Please add more credits!')
+      return;
+    }
+  
+
     if (!selectTopic) {
       toast.error("Please select or enter a topic first.");
       return;

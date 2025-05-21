@@ -28,7 +28,7 @@ export const CreateVideoData = mutation({
     });
 
     await ctx.db.patch(args.uid , {
-      credits: args?.credits - 1,
+      credits: args?.credits ,
     });
 
     return result;
@@ -65,6 +65,16 @@ export const GetUserVideos = query({
     .collect();
 
     return result
-    
+
+  }
+})
+
+export const GetVideoById = query({
+  args:{
+    videoId:v.id('videoData')
+  },
+  handler:async(ctx,args)=>{
+    const result = await ctx.db.get(args.videoId)
+    return result
   }
 })

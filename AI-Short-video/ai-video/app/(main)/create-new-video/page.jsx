@@ -12,6 +12,7 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useAuthContext } from "@/app/provider";
 import axios from 'axios'
+import toast from "react-hot-toast";
 
 const CreateNewVideo = () => {
   const [formData, setFormData] = useState({});
@@ -27,7 +28,10 @@ const { user } = useAuthContext(); // Ensure this provides _id and email
   };
 
   const GenerateVideo = async () => {
-    // console.log("🔄 GenerateVideo function started.");
+    if(user?.credits <=0){
+      toast('Please add more credits!')
+      return;
+    }
   
     if (
       !formData?.title ||
@@ -38,19 +42,20 @@ const { user } = useAuthContext(); // Ensure this provides _id and email
       !formData?.voice
     ) {
       console.error("❌ Error: Missing required fields in formData.");
+      toast.error("Please select all the fields");
       return;
     }
   
     setLoading(true);
     // console.log("✅ Required fields are present.");
     
-    console.log("📄 formData values:");
-    console.log("Title:", formData.title);
-    console.log("Topic:", formData.topic);
-    console.log("Script:", formData.script);
-    console.log("Video Style:", formData.videoStyle);
-    console.log("Caption:", formData.caption);
-    console.log("Voice:", formData.voice);
+    // console.log("📄 formData values:");
+    // console.log("Title:", formData.title);
+    // console.log("Topic:", formData.topic);
+    // console.log("Script:", formData.script);
+    // console.log("Video Style:", formData.videoStyle);
+    // console.log("Caption:", formData.caption);
+    // console.log("Voice:", formData.voice);
   
     try {
       const resp = await CreateInitialVideoRecord({
