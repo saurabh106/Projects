@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import RemotionPlayer from "../_components/RemotionPlayer";
@@ -32,7 +32,7 @@ function PlayVideo() {
       </div>
       <div>
         {/* Video Information */}
-        <VideoInfo />
+        <VideoInfo videoData={videoData} />
       </div>
     </div>
   );

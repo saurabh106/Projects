@@ -11,20 +11,22 @@ function RemotionPlayer({ videoData }) {
 
   return (
     <div>
-      {" "}
+    
       <Player
         component={RemotionComposition}
         durationInFrames={Number(durationInFrames.toFixed(0)) + 100}
         compositionWidth={720}
         compositionHeight={1280}
         fps={30}
-        style={{width:"25vw",height:"70vh"}}
+        style={{width:"25vw",height:"80vh"}}
         controls
         inputProps={{
           videoData: videoData,
           setDurationInFrame:(frameValue)=>setDurationInFrame(frameValue)
         }}
       />
+
+      
     </div>
   );
 }
