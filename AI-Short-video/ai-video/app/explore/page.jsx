@@ -63,7 +63,7 @@ function explore() {
 
   return (
     <div className="flex flex-col items-center gap-10 mt-19">
-      <div className="flex gap-4 flex flex-col justify-center pr-360">
+      <div className="flex gap-4 flex flex-col justify-center pr-260">
       <Link href="/">
           <Button
         // onClick={handleClick}
