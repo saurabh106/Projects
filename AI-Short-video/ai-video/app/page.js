@@ -17,10 +17,3 @@ export default function Home() {
     </div>
   );
 }
-
-
-/*localhost 8288
-3000
-convex
-npx inngest-cli@latest dev
-*/

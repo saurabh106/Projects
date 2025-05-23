@@ -41,21 +41,13 @@ const { user } = useAuthContext(); // Ensure this provides _id and email
       !formData?.caption ||
       !formData?.voice
     ) {
-      console.error("❌ Error: Missing required fields in formData.");
+  
       toast.error("Please select all the fields");
       return;
     }
   
     setLoading(true);
-    // console.log("✅ Required fields are present.");
-    
-    // console.log("📄 formData values:");
-    // console.log("Title:", formData.title);
-    // console.log("Topic:", formData.topic);
-    // console.log("Script:", formData.script);
-    // console.log("Video Style:", formData.videoStyle);
-    // console.log("Caption:", formData.caption);
-    // console.log("Voice:", formData.voice);
+  
   
     try {
       const resp = await CreateInitialVideoRecord({
@@ -69,7 +61,6 @@ const { user } = useAuthContext(); // Ensure this provides _id and email
         createdBy: user?.email,
         credits:user?.credits
       });
-      // console.log("✅ Initial video record response:", resp);
   
       const result = await axios.post('/api/generate-video-data', {
         ...formData,
@@ -77,19 +68,21 @@ const { user } = useAuthContext(); // Ensure this provides _id and email
    
       });
 
-      // console.log("✅ /api/generate-video-data response:", result);
+   
     } catch (error) {
-      console.error("🚨 Error in GenerateVideo:", error);
+      toast.error("🚨 Error in GenerateVideo:", error);
     } finally {
       setLoading(false);
-      // console.log("✅ Loading set to false.");
+    
     }
   };
-  
-  
+
   useEffect(() => {
-    console.log("Updated formData:", formData);
-  }, [formData]);
+    toast("Please create only 5 videos because this is a free version.", { 
+      icon: '⚠️',
+      duration: 6000
+    });
+  }, []);
 
   return (
     <div>

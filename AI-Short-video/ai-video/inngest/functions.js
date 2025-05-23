@@ -78,7 +78,7 @@ export const GenerateVideoData = inngest.createFunction(
         const FINAL_PROMPT = ImagePromptScript.replace(
           /{style}/g,
           `The ${videoStyle} style`
-        ) // Insert the style directly
+        ) 
           .replace("{script}", script);
 
         // console.log("Final Prompt with Replacements:", FINAL_PROMPT);

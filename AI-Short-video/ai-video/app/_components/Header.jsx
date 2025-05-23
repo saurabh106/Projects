@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import useGoogleSignIn from "./useGoogleSignIn.js";
 import { useAuthContext } from "../provider.js";
 import Link from "next/link.js";
+import toast from "react-hot-toast";
 
 
 function Header() {
@@ -20,6 +21,7 @@ function Header() {
     try {
       await googleSignIn();
     } catch (error) {
+      toast.error("Google Sign-In Error: , Try again");
       console.error("Google Sign-In Error:", error);
     } finally {
       setLoading(false); 

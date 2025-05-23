@@ -65,7 +65,7 @@ const Topic = ({ onHandleInputChange }) => {
     } catch (error) {
       toast.dismiss();
       toast.error("Failed to generate script. Please try again.");
-      console.error(error.message);
+
     }
 
     setLoading(false);

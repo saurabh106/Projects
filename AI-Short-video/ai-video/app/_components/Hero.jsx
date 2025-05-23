@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import useGoogleSignIn from "./useGoogleSignIn.js";
 import Link from "next/link.js";
 import { useAuthContext } from "../provider.js";
+import toast from "react-hot-toast";
 
 function Hero() {
   const googleSignIn = useGoogleSignIn();
@@ -22,6 +23,7 @@ function Hero() {
 
    
     googleSignIn().catch((error) => {
+      toast.error("Google Sign-In Error: , Try again");
       console.error("Google Sign-In Error:", error);
       setLoading(false); // Just in case of failure
     });

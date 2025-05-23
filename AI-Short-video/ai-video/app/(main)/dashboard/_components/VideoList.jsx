@@ -39,10 +39,10 @@ const VideoList = () => {
 
       if (result?.status == "completed") {
         clearInterval(intervalId);
-        console.log("video process comp0leted");
+        // console.log("video process comp0leted");
         GetUserVideoList();
       }
-      console.log("still pending ");
+      // console.log("still pending ");
     }, 5000);
   };
 
