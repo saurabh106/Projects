@@ -55,14 +55,14 @@ function Hero() {
         <div className="mt-15 font-bold transform transition-transform duration-300 hover:rotate-x-10 hover:rotate-y-10 hover:shadow-xl flex">
         <Link href="/explore" passHref>
         <Button
-                className={`px-4 py-4 text-lg hover:cursor-pointer hover:bg-gray-400${
-                  loading ? "bg-gray-300 cursor-not-allowed opacity-70" : ""
-                }`}
-                onClick={handleDashboardClick}
-                disabled={Dloading}
-              >
-                {Dloading ? "Loading..." : "Explore"}
-              </Button>
+        
+          disabled={loading}
+          className={`mr-14 gap-18 px-8 py-4 text-lg hover:cursor-pointer hover:bg-gray-400${loading ? "bg-gray-300 cursor-not-allowed opacity-70" : ""}`}
+          variant="secondary"
+          size="lg"
+        >
+          {loading ? "Loading..." : "Explore"}
+        </Button>
   </Link>
         </div>
         <div className="mt-15  transform transition-transform duration-300 hover:rotate-x-10 hover:rotate-y-10 hover:shadow-xl flex">
@@ -89,15 +89,7 @@ function Hero() {
                 {Dloading ? "Loading..." : "Dashboard"}
               </Button>
             </Link>
-            {/* {user?.pictureURL && (
-              <Image
-                src={user.pictureURL}
-                alt="User"
-                width={40}
-                height={40}
-                className="rounded-full"
-              />
-            )} */}
+          
           </div>
         )}
         </div>

@@ -3,6 +3,17 @@ import "./globals.css";
 import ConvexClientProvider from "./ConvexClientProvider";
 import { Toaster } from "react-hot-toast";
 
+
+
+export const metadata = {
+  title: "Ai-Video-Generator", // You can customize this
+  description: "Generate video using multiple images",
+  icons: {
+    icon: "/logo.svg", // Make sure favicon.ico is in /public
+  },
+};
+
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

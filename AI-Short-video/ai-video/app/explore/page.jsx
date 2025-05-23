@@ -66,18 +66,14 @@ function explore() {
       <div className="flex gap-4 flex flex-col justify-center pr-360">
       <Link href="/">
           <Button
-        onClick={handleClick}
+        // onClick={handleClick}
             className="bg-white-600 color-black hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded cursor-pointer flex items-center gap-2"
-            disabled={loading}
+            // disabled={loading}
           >
-            {loading ? (
-              <>
-                <Loader className="animate-spin" size={20} />
-                Loading...
-              </>
-            ) : (
-              "Back to Dashboard"
-            )}
+           
+                Back to Dashboard
+          
+            
           </Button>
         </Link>
         
