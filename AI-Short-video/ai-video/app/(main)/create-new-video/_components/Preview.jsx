@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { Loader } from "lucide-react"; // Lucide loading icon
+import { Loader } from "lucide-react"; 
 import { options } from "./VideoStyle";
 
 function Preview({ formData }) {

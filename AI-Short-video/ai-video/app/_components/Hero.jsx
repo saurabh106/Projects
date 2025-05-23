@@ -12,6 +12,7 @@ function Hero() {
   const [loading, setLoading] = useState(false);
   const [Dloading, setDLoading] = useState(false);
   const { user } = useAuthContext();
+   const [loadingExplore, setLoadingExplore] = useState(false);
 
   const handleGoogleSignIn = () => {
     setLoading(true);
@@ -33,9 +34,10 @@ function Hero() {
     setDLoading(true);
     setTimeout(() => {
       setDLoading(false);
-    }, 2000);
+    }, 5000);
   };
 
+  
 
   return (
     <div className="md:px-20 lg:px-36 xl:px-48 p-15 flex flex-col items-center justify-center mt-24">
@@ -51,13 +53,17 @@ function Hero() {
 
       <div className=" font-bold flex">
         <div className="mt-15 font-bold transform transition-transform duration-300 hover:rotate-x-10 hover:rotate-y-10 hover:shadow-xl flex">
-          <Button
-            className="mr-14 gap-18 px-8 py-4 text-lg hover:cursor-pointer hover:bg-gray-400 "
-            variant="secondary"
-            size="lg"
-          >
-            Explore
-          </Button>
+        <Link href="/explore" passHref>
+        <Button
+                className={`px-4 py-4 text-lg hover:cursor-pointer hover:bg-gray-400${
+                  loading ? "bg-gray-300 cursor-not-allowed opacity-70" : ""
+                }`}
+                onClick={handleDashboardClick}
+                disabled={Dloading}
+              >
+                {Dloading ? "Loading..." : "Explore"}
+              </Button>
+  </Link>
         </div>
         <div className="mt-15  transform transition-transform duration-300 hover:rotate-x-10 hover:rotate-y-10 hover:shadow-xl flex">
         {!user ? (
