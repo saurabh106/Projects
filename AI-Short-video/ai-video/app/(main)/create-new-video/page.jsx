@@ -6,19 +6,21 @@ import VideoStyle from "./_components/VideoStyle";
 import Voice from "./_components/Voice";
 import Captions from "./_components/Captions";
 import { Button } from "@/components/ui/button";
-import { WandSparkles,Loader2Icon } from "lucide-react";
+import { WandSparkles, Loader2Icon } from "lucide-react";
 import Preview from "./_components/Preview";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useAuthContext } from "@/app/provider";
-import axios from 'axios'
+import axios from "axios";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const CreateNewVideo = () => {
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
   const CreateInitialVideoRecord = useMutation(api.videoData.CreateVideoData);
-const { user } = useAuthContext(); // Ensure this provides _id and email
+  const { user } = useAuthContext(); // Ensure this provides _id and email
+  const router = useRouter();
 
   const onHandleInputChange = (fieldName, fieldValue) => {
     setFormData((prev) => ({
@@ -32,7 +34,7 @@ const { user } = useAuthContext(); // Ensure this provides _id and email
     //   toast('Please add more credits!')
     //   return;
     // }
-  
+
     if (
       !formData?.title ||
       !formData?.topic ||
@@ -41,14 +43,12 @@ const { user } = useAuthContext(); // Ensure this provides _id and email
       !formData?.caption ||
       !formData?.voice
     ) {
-  
       toast.error("Please select all the fields");
       return;
     }
-  
+
     setLoading(true);
-  
-  
+
     try {
       const resp = await CreateInitialVideoRecord({
         title: formData.title,
@@ -59,28 +59,26 @@ const { user } = useAuthContext(); // Ensure this provides _id and email
         voice: formData.voice,
         uid: user?._id,
         createdBy: user?.email,
-        credits:user?.credits
-      });
-  
-      const result = await axios.post('/api/generate-video-data', {
-        ...formData,
-        recordId: resp,
-   
+        credits: user?.credits,
       });
 
-   
+      const result = await axios.post("/api/generate-video-data", {
+        ...formData,
+        recordId: resp,
+      });
+      toast.success("Video generated successfully!");
+      router.push("/dashboard");
     } catch (error) {
-      toast.error("🚨 Error in GenerateVideo:", error);
+      toast.error("🚨 Error in GenerateVideo. Please try again later");
     } finally {
       setLoading(false);
-    
     }
   };
 
   useEffect(() => {
-    toast("Please create only 5 videos because this is a free version.", { 
-      icon: '⚠️',
-      duration: 6000
+    toast("Please create only 5 videos because this is a free version.", {
+      icon: "⚠️",
+      duration: 6000,
     });
   }, []);
 
@@ -97,11 +95,14 @@ const { user } = useAuthContext(); // Ensure this provides _id and email
           <Button
             className="w-full mt-5"
             onClick={GenerateVideo}
-          disabled={loading}
+            disabled={loading}
           >
-          {loading?<Loader2Icon className='animate-spin'/>:
-            <WandSparkles />}
-       Generate Video
+            {loading ? (
+              <Loader2Icon className="animate-spin mr-2" />
+            ) : (
+              <WandSparkles className="mr-2" />
+            )}
+            Generate Video
           </Button>
         </div>
         <div>

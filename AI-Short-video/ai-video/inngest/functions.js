@@ -81,8 +81,7 @@ export const GenerateVideoData = inngest.createFunction(
         ) 
           .replace("{script}", script);
 
-        // console.log("Final Prompt with Replacements:", FINAL_PROMPT);
-        // console.log("🔍 videoStyle:", videoStyle);
+      
 
         const result = await generateImageScript(FINAL_PROMPT);
 

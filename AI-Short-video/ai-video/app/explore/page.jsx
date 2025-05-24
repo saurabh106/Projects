@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Footer from "../_components/Footer";
-import { Loader } from "lucide-react"; 
+import { Loader } from "lucide-react";
 
 const cardVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -40,17 +40,6 @@ function explore() {
       .map(() => Math.floor(Math.random() * imageOptions.length))
   );
 
-  const [loading, setLoading] = useState(true);
-
-  const handleClick = () => {
-    setLoading(true);
-
-    // Simulate some async operation (e.g., compiling/generating)
-    setTimeout(() => {
-      setLoading(false);
-      // You can do more stuff here like navigation or showing a message
-    }, 5000); // 3 seconds simulation
-  };
   useEffect(() => {
     const interval = setInterval(() => {
       setImageIndexes((prev) =>
@@ -63,20 +52,12 @@ function explore() {
 
   return (
     <div className="flex flex-col items-center gap-10 mt-19">
-      <div className="flex gap-4 flex flex-col justify-center pr-260">
-      <Link href="/">
-          <Button
-        // onClick={handleClick}
-            className="bg-white-600 color-black hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded cursor-pointer flex items-center gap-2"
-            // disabled={loading}
-          >
-           
-                Back to Dashboard
-          
-            
+      <div className="flex flex-col md:flex-row gap-4 justify-center px-4 md:px-8">
+        <Link href="/">
+          <Button className="bg-white text-black hover:bg-blue-700 hover:text-white font-semibold py-2 px-6 rounded cursor-pointer flex items-center gap-2">
+            Back to Dashboard
           </Button>
         </Link>
-        
       </div>
 
       <div className="flex flex-wrap gap-10 justify-center">
@@ -88,9 +69,9 @@ function explore() {
             animate="visible"
             variants={cardVariants}
           >
-            <Card className="w-[800px] h-[150px] overflow-hidden relative">
-              <CardContent className="p-6 w-full h-full flex items-center justify-center">
-                <p className="text-lg text-center text-white-800">
+            <Card className="w-full max-w-[800px] h-auto overflow-hidden relative">
+              <CardContent className="p-4 sm:p-6 w-full h-full flex items-center justify-center">
+                <p className="text-base sm:text-lg text-center text-white-800">
                   An AI-powered short video generator that transforms scripts
                   into engaging videos by creating a sequence of AI-generated
                   images and stitching them into a dynamic visual story.

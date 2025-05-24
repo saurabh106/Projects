@@ -3,6 +3,7 @@
 
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../configs/firebaseConfig";
+import toast from "react-hot-toast";
 
 export default function useGoogleSignIn() {
   const provider = new GoogleAuthProvider();
@@ -25,9 +26,11 @@ export default function useGoogleSignIn() {
     } catch (error) {
       // Handle different Firebase auth errors
       if (error.code === "auth/popup-closed-by-user") {
-        console.warn("User closed the popup before completing the sign-in.");
+        toast.warn("You closed the popup before finishing sign-in.");
+
       } else {
-        console.error("Sign-in error:", error.message);  // Log other errors
+        toast.warn("Sign-in failed due to a temporary issue. Please try again later.");
+  console.error("Sign-in error:", error.message);  // Log other errors
       }
       
       return null;  // Return null in case of any error

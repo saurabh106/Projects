@@ -22,7 +22,7 @@ function Header() {
       await googleSignIn();
     } catch (error) {
       toast.error("Google Sign-In Error: , Try again");
-      console.error("Google Sign-In Error:", error);
+   
     } finally {
       setLoading(false); 
     }

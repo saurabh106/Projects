@@ -25,8 +25,8 @@ function Hero() {
    
     googleSignIn().catch((error) => {
       toast.error("Google Sign-In Error: , Try again");
-      console.error("Google Sign-In Error:", error);
-      setLoading(false); // Just in case of failure
+   
+      setLoading(false); 
     });
   };
 

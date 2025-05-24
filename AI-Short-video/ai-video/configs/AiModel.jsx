@@ -118,7 +118,7 @@ Constraints:
   }
 
   const cleanedText = text.replace(/```json|```/g, '').trim();
-  console.log("🧹 Cleaned Response from Gemini:", cleanedText);
+  
 
   try {
     const json = JSON.parse(cleanedText);
@@ -128,7 +128,7 @@ Constraints:
 
     return json;
   } catch (err) {
-    console.error("Error parsing Gemini response as JSON:", err);
+   
     throw new Error("Failed to parse Gemini JSON response.");
   }
 }

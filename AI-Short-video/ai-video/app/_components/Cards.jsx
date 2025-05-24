@@ -76,15 +76,16 @@ export function Cards() {
                 </CardContent>
               </Card>
             ) : (
-              <Card className="w-[700px] h-[150px] overflow-hidden relative">
-                <CardContent className="p-6 w-full h-full flex items-center justify-center">
-                  <p className="text-lg text-center text-white-800">
-                    An AI-powered short video generator that transforms scripts
-                    into engaging videos by creating a sequence of AI-generated
-                    images and stitching them into a dynamic visual story.
-                  </p>
-                </CardContent>
-              </Card>
+              <Card className="w-full max-w-[700px] h-auto overflow-hidden relative">
+  <CardContent className="p-6 w-full h-full flex items-center justify-center">
+    <p className="text-base sm:text-lg text-center text-white-800">
+      An AI-powered short video generator that transforms scripts into engaging
+      videos by creating a sequence of AI-generated images and stitching them
+      into a dynamic visual story.
+    </p>
+  </CardContent>
+</Card>
+
             )}
           </motion.div>
         ))}
