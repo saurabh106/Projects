@@ -1,0 +1,37 @@
+{
+  "name": "multimorph",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@clerk/nextjs": "^6.20.0",
+    "@radix-ui/react-dialog": "^1.1.14",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@tailwindcss/postcss": "^4.1.7",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.511.0",
+    "next": "15.1.7",
+    "react": "19.0.0",
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^3.3.0",
+    "tailwindcss": "^4.1.7",
+    "use-sync-external-store": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.1",
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^8.44.0",
+    "eslint-config-next": "14.2.25",
+    "postcss": "^8.5.3",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.1.6"
+  }
+}
