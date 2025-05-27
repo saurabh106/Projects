@@ -1,5 +1,6 @@
 "use client";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
@@ -65,9 +66,9 @@ const Sidebar = () => {
                     );
                   })}
 
-                  <li className="flex-center cursor-pointer gap-2 p-4">
+                  {/* <li className="flex-center cursor-pointer gap-2 p-4">
                     <UserButton showName />
-                  </li>
+                  </li> */}
                 </ul>
               );
             })()}
