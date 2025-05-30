@@ -9,14 +9,12 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const eslintConfig = [
-  {
-    files: ["**/*.{js,jsx,ts,tsx}"], // explicitly include all JavaScript and TypeScript files
-    ignores: ["node_modules/**", "dist/**", "build/**"], // optional: ignore generated or build folders
-    ...compat.config({
-      extends: ["next/core-web-vitals", "next/typescript"],
-    }),
-  },
-];
+const eslintConfig = {
+  files: ["**/*.{js,jsx,ts,tsx}"], 
+  ignores: ["node_modules/**", "dist/**", "build/**"], 
+  ...compat.config({
+    extends: ["next/core-web-vitals", "next/typescript"],
+  }),
+};
 
 export default eslintConfig;
