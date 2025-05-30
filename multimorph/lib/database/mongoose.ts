@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 import mongoose, { Mongoose } from "mongoose";
 
 const MONGODB_URL = process.env.MONGODB_URL;
@@ -12,11 +12,10 @@ interface MongooseConnection {
 // So you need to prevent reconnecting every time, which can lead to performance issues or errors.
 // For this reason we need to use the connection caching pattern
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 let cached: MongooseConnection = (global as any).mongoose;
 
 if (!cached) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   cached = (global as any).mongoose = {
     conn: null,
     promise: null,
