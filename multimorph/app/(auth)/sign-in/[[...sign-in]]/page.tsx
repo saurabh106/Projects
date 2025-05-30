@@ -6,8 +6,8 @@ const SignInPage = () => (
       path="/sign-in"
       routing="path"
       signUpUrl="/sign-up"
-      afterSignInUrl="/dashboard" // Your protected page
-      afterSignUpUrl="/dashboard" // Same or different as needed
+      afterSignInUrl="/" // Your protected page
+      afterSignUpUrl="/" // Same or different as needed
     />
   </div>
 );

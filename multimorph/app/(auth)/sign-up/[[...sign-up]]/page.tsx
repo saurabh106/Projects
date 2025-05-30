@@ -6,8 +6,8 @@ const SignUpPage = () => (
       path="/sign-up"
       routing="path"
       signInUrl="/sign-in"
-      afterSignUpUrl="/dashboard" // Should match your middleware
-      afterSignInUrl="/dashboard" // Should match sign-in page
+      afterSignUpUrl="/" // Should match your middleware
+      afterSignInUrl="/" // Should match sign-in page
     />
   </div>
 );
