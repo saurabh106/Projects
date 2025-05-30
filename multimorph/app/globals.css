@@ -23,3 +23,6 @@
   .sidebar-link {
     @apply p-16-semibold flex size-full gap-4 p-4;
   } */
+
+  /* flex min-h-screen w-full flex-col bg-white lg:flex-row */
+  /* mt-16 flex-1 overflow-auto py-8 lg:mt-0 lg:max-h-screen lg:py-10 */
