@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
 
-// ====== USER PARAMS
 declare type CreateUserParams = {
   clerkId: string;
   email: string;
@@ -18,7 +17,6 @@ declare type UpdateUserParams = {
   photo: string;
 };
 
-// ====== IMAGE PARAMS
 declare type AddImageParams = {
   image: {
     title: string;
