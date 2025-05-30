@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-   "lint": "eslint ."
+    "lint": "eslint ."
   },
   "dependencies": {
     "@clerk/nextjs": "^6.20.0",
@@ -31,7 +31,7 @@
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.21",
-    "eslint": "^8.44.0",
+    "eslint": "^9.27.0",
     "eslint-config-next": "14.2.25",
     "postcss": "^8.5.3",
     "tailwindcss-animate": "^1.0.7",
