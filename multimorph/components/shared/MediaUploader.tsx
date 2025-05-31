@@ -1,10 +1,11 @@
 "use client";
 
 import { toast } from "sonner";
-import {CldImage,CldUploadWidget } from "next-cloudinary";
+import { CldImage, CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import { dataUrl, getImageSize } from "@/lib/utils";
 import { PlaceholderValue } from "next/dist/shared/lib/get-img-props";
+import { toastStyles } from "./toastStyles";
 
 type MediaUploaderProps = {
   onValueChange: (value: string) => void;
@@ -34,7 +35,8 @@ const MediaUploader = ({
     toast.success("Image Uploaded Successfully", {
       description: "1 credit was deducted from your account",
       duration: 5000,
-      className: "success-toast",
+      className: toastStyles.success.className,
+      style: toastStyles.success.style,
     });
   };
 
@@ -42,7 +44,8 @@ const MediaUploader = ({
     toast.error("Something went wrong while uploading", {
       description: "Please try again",
       duration: 5000,
-      // className: 'error-toast' // Only if you've configured custom classes
+      className: toastStyles.error.className,
+      style: toastStyles.error.style,
     });
   };
 
