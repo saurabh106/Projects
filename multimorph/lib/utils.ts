@@ -94,18 +94,20 @@ export const debounce = (func: (...args: any[]) => void, delay: number) => {
 
 // GE IMAGE SIZE
 export type AspectRatioKey = keyof typeof aspectRatioOptions;
+
 export const getImageSize = (
   type: string,
   image: any,
-  dimension: "width" | "height"
+  dimension: "width" | "height",
+  scale: number = 1 // Default to original size
 ): number => {
+  let size;
   if (type === "fill") {
-    return (
-      aspectRatioOptions[image.aspectRatio as AspectRatioKey]?.[dimension] ||
-      1000
-    );
+    size = aspectRatioOptions[image.aspectRatio as AspectRatioKey]?.[dimension] || 1000;
+  } else {
+    size = image?.[dimension] || 1000;
   }
-  return image?.[dimension] || 1000;
+  return Math.round(size * scale);
 };
 
 // DOWNLOAD IMAGE

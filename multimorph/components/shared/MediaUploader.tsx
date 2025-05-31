@@ -55,7 +55,6 @@ const MediaUploader = ({
       options={{
         multiple: false,
         resourceType: "image",
-        sources: ["local", "camera"],
         maxFiles: 1,
       }}
       onSuccess={onUploadSuccessHandler}
@@ -63,11 +62,11 @@ const MediaUploader = ({
     >
       {({ open }) => (
         <div className="flex flex-col gap-4">
-          <h3 className="h3-bold text-dark-600">Original</h3>
+          <h3 className="font-bold text-2xl text-dark-600">Original</h3>
 
           {publicId ? (
             <>
-              <div className="cursor-pointer overflow-hidden rounded-[10px]">
+              <div className="cursor-pointer overflow-hidden rounded-[10px] w-full max-w-[500px]">
                 <CldImage
                   width={getImageSize(type, image, "width")}
                   height={getImageSize(type, image, "height")}
