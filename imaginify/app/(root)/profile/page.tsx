@@ -21,7 +21,7 @@ const Profile = async ({ searchParams }: SearchParamProps) => {
       <Header title="Profile" />
 
       <section className="profile">
-        <div className="profile-balance">
+        {/* <div className="profile-balance">
           <p className="p-14-medium md:p-16-medium">CREDITS AVAILABLE</p>
           <div className="mt-4 flex items-center gap-4">
             <Image
@@ -33,7 +33,7 @@ const Profile = async ({ searchParams }: SearchParamProps) => {
             />
             <h2 className="h2-bold text-dark-600">{user.creditBalance}</h2>
           </div>
-        </div>
+        </div> */}
 
         <div className="profile-image-manipulation">
           <p className="p-14-medium md:p-16-medium">IMAGE MANIPULATION DONE</p>
