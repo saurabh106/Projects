@@ -16,7 +16,7 @@
 //   } catch (err) {
 //     return NextResponse.json({ message: "Webhook error", error: err });
 //   }
-
+export {}
 //   // Get the ID and type
 //   const eventType = event.type;
 

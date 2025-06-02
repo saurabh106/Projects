@@ -16,7 +16,7 @@
 //       "Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local"
 //     );
 //   }
-
+export {}
 //   // Get the headers
 //   const headerPayload = headers();
 //   const svix_id = headerPayload.get("svix-id");
