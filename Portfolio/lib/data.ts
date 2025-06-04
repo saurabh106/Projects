@@ -109,7 +109,7 @@ export const skills: Skill[] = [
   { name: "Kubernetes", level: 80, category: "devops" },
   { name: "AWS", level: 80, category: "devops" },
   { name: "CI/CD", level: 85, category: "devops" },
-  { name: "Terraform", level: 75, category: "devops" },
+  // { name: "Terraform", level: 75, category: "devops" },
   { name: "Linux", level: 85, category: "devops" },
   { name: "Monitoring & Logging", level: 80, category: "devops" },
 
