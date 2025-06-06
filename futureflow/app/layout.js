@@ -12,6 +12,9 @@ const inter = Inter({
 export const metadata = {
   title: "FutureFlow – AI planning guide",
   description: "",
+   icons: {
+    icon: '/favicon.png', 
+  },
 };
 
 export default function RootLayout({ children }) {

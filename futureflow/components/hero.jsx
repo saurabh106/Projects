@@ -1,9 +1,32 @@
+"use client";
+
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
 
 const HeroSection = () => {
+  const imageRef = useRef(null);
+
+  useEffect(() => {
+    const imageElement = imageRef.current;
+
+    const habdelScroll = () => {
+      const scrollPosition = window.scrollY;
+      const scrollThreshold = 100;
+
+      if (scrollPosition > scrollThreshold) {
+        imageElement.classList.add("scrolled");
+      } else {
+        imageElement.classList.remove("scrolled");
+      }
+    };
+    window.addEventListener("scroll", habdelScroll);
+    return () => {
+      window.removeEventListener("scroll", habdelScroll);
+    };
+  }, []);
+
   return (
     <section className="w-full pt-36 md:pt-48 pb-10">
       <div className="space-y-6 text-center">
@@ -19,16 +42,22 @@ const HeroSection = () => {
           </p>
         </div>
 
-        <div className="pb-10"> {/* Added padding-bottom here */}
+        <div className="pb-10 flex justify-center space-x-4 ">
           <Link href="/dashboard">
-            <Button size="lg" className="px-8">
+            <Button size="lg" className="px-8 cursor-pointer">
               Get Started
+            </Button>
+          </Link>
+          <Link href="/see-new">
+            <Button size="lg" variant="outline" className="px-8 cursor-pointer">
+              See What's New
             </Button>
           </Link>
         </div>
       </div>
-      <div>
-        <div>
+
+      <div className="hero-image-wrapper mt-5 md:mt-0 hero-image">
+        <div ref={imageRef} className="hero-image">
           <Image
             src={"/banner.jpeg"}
             width={1280}
