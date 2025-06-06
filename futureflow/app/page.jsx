@@ -2,13 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  ArrowRight,
-  Trophy,
-  Target,
-  Sparkles,
-  CheckCircle2,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import HeroSection from "@/components/hero";
 import {
   Accordion,
@@ -211,11 +205,15 @@ const Home = () => {
             <Link href="/dashboard" passHref>
               <Button
                 size="lg"
-                className="group h-12 px-8 mt-6 bg-gradient-to-r from-emerald-600 to-purple-600 text-white hover:from-emerald-500 hover:to-purple-500 hover:scale-[1.02] transition-all duration-300 font-semibold shadow-lg hover:shadow-xl border border-gray-700/50"
+                className="group h-12 px-8 mt-6 bg-gradient-to-r from-purple-600 to-slate-400 text-white hover:from-purple-500 hover:to-slate-500 hover:scale-[1.02] transition-all duration-300 
+  font-semibold shadow-lg hover:shadow-xl border border-gray-700/50 relative overflow-hidden"
               >
-                <span className="flex items-center">
+                <span className="relative z-10 flex items-center">
                   Start Your Journey Today
                   <ArrowRight className="ml-3 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
+                <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-white/10 via-white/30 to-white/10 animate-shine"></span>
                 </span>
               </Button>
             </Link>
