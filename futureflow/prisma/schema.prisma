@@ -30,6 +30,11 @@ model User {
   coverLetter CoverLetter[]
 }
 
+
+// userId in the Assessment model
+//This is a special ID that links an assessment to a user.
+
+// It stores the id of the user who took the assessment.
 model Assessment {
   id             String   @id @default(cuid())
   userId         String
