@@ -21,12 +21,14 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { checkUser } from "@/lib/checkUser";
 
-const Header = () => {
+const Header =  async() => {
+  await checkUser();
+
+
   return (
     <header className="fixed top-0 w-full border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-background/95 backdrop-blur-md z-50 shadow-sm">
       <nav className="container mx-auto flex items-center justify-between px-4 h-16">
