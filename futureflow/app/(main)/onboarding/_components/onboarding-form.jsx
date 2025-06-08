@@ -3,7 +3,7 @@
 import { set, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { onboardingSchema } from "@/app/lib/schema";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Card,
@@ -23,10 +23,23 @@ import {
   SelectLabel,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import useFetch from "@/hooks/use-fetch";
+import { updatedUser } from "@/actions/user";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const OnboardingForm = ({ industries }) => {
   const [selectedIndustry, setSelectedIndustry] = useState(null);
   const router = useRouter();
+
+  const {
+    loading: updateLoading,
+    fn: updateUserFn,
+    data: updateResult,
+  } = useFetch(updatedUser);
 
   const {
     register,
@@ -38,7 +51,35 @@ const OnboardingForm = ({ industries }) => {
     resolver: zodResolver(onboardingSchema),
   });
 
-  const onSubmit = async (values) => {};
+  const onSubmit = async (values) => {
+    try {
+      const formattedIndustry = `${values.industry}-${values.subIndustry
+        .toLowerCase()
+        .replace(/ /g, "-")}`;
+
+      await updateUserFn({
+        ...values,
+        industry: formattedIndustry,
+      });
+    } catch (error) {
+      console.error("Error updating user:", error);
+      return;
+    }
+  };
+
+
+  useEffect(() => {
+    if (updateResult?.success && !updateLoading) {
+      toast.success(
+        "Profile updated successfully! Redirecting to dashboard..."
+      );
+      setTimeout(() => {
+        router.push("/dashboard");
+        router.refresh();
+      }, 2000);
+    }
+  }, [updateResult, updateLoading]);
+
 
   const watchIndustry = watch("industry");
 
@@ -114,15 +155,72 @@ const OnboardingForm = ({ industries }) => {
                 )}
               </div>
             )}
-            {/* <div className="space-y-2">
-                <Label htmlFor="subIndustry">Specialization</Label>
-                
-                {subIndustry.industry && (
-                  <p className="text-red-500 text-sm">
-                    {errors.subIndustry.message}
-                  </p>
-                )}
-              </div> */}
+
+            <div className="space-y-2">
+              <Label htmlFor="experience">Years of Experience</Label>
+              <Input
+                id="experience"
+                type="number"
+                min="0"
+                max="50"
+                placeholder="Enter years of experience"
+                {...register("experience")}
+              />
+
+              {errors.experience && (
+                <p className="text-red-500 text-sm">
+                  {errors.experience.message}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="skills">Skills</Label>
+              <Input
+                id="skills"
+                placeholder="e.g JavaScript, React, Product Management"
+                {...register("skills")}
+              />
+
+              <p className="text-sm text-muted-foreground">
+                Seperate multiple skills with commas. For example: JavaScript,
+                React, Node.js.
+              </p>
+
+              {errors.skills && (
+                <p className="text-red-500 text-sm">{errors.skills.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="bio">Professional Bio</Label>
+              <Textarea
+                id="bio"
+                placeholder="Tell us about yourself"
+                className="h-22"
+                {...register("bio")}
+              />
+              {errors.bio && (
+                <p className="text-red-500 text-sm">{errors.bio.message}</p>
+              )}
+            </div>
+
+            <Button
+              className="w-full bg-white hover:bg-white/90 dark:bg-gray-900 dark:hover:bg-gray-900/90 cursor-pointer"
+              type="submit"
+              disabled={updateLoading}
+            >
+              {updateLoading ? (
+                <>
+                  <Loader2 className="mr-2 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <span className="bg-gradient-to-r from-blue-300 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+                  Complete Profile
+                </span>
+              )}
+            </Button>
           </form>
         </CardContent>
       </Card>
