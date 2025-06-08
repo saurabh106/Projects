@@ -67,7 +67,6 @@ const OnboardingForm = ({ industries }) => {
     }
   };
 
-
   useEffect(() => {
     if (updateResult?.success && !updateLoading) {
       toast.success(
@@ -79,7 +78,6 @@ const OnboardingForm = ({ industries }) => {
       }, 2000);
     }
   }, [updateResult, updateLoading]);
-
 
   const watchIndustry = watch("industry");
 
@@ -206,19 +204,17 @@ const OnboardingForm = ({ industries }) => {
             </div>
 
             <Button
-              className="w-full bg-white hover:bg-white/90 dark:bg-gray-900 dark:hover:bg-gray-900/90 cursor-pointer"
+              className="w-full bg-white hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md transition-colors duration-200 py-2 px-4 font-medium text-gray-900 dark:text-white"
               type="submit"
               disabled={updateLoading}
             >
               {updateLoading ? (
-                <>
-                  <Loader2 className="mr-2 animate-spin" />
-                  Saving...
-                </>
+                <div className="flex items-center justify-center">
+                  <Loader2 className="h-5 w-5 animate-spin text-gray-600 dark:text-gray-400" />
+                  <span className="ml-2">Saving...</span>
+                </div>
               ) : (
-                <span className="bg-gradient-to-r from-blue-300 via-purple-500 to-pink-500 text-transparent bg-clip-text">
-                  Complete Profile
-                </span>
+                "Complete Profile"
               )}
             </Button>
           </form>

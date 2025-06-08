@@ -23,7 +23,7 @@
 # misc
 .DS_Store
 *.pem
-.README2.md
+
 
 # debug
 npm-debug.log*

@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 const OnboardingPage = async () => {
   //Get onboarding status using fetch data
   const { isOnboarded } = await getUserOnboardingStatus();
+  // const 
 
   if (isOnboarded) {
     redirect("/dashboard");

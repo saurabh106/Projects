@@ -2,6 +2,7 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
+import { genereateAIInsight } from "./dashboard";
 
 export async function updatedUser(data) {
   const { userId } = await auth();
@@ -30,16 +31,12 @@ export async function updatedUser(data) {
         });
         // If industry doesn't exits, create it with default values - will replace with ai
         if (!industryInsight) {
-          industryInsight = await tx.industryInsight.create({
+          const insights = await genereateAIInsight(data.industry);
+
+          industryInsight = await db.industryInsight.create({
             data: {
               industry: data.industry,
-              salaryRanges: [],
-              growthRate: 0,
-              demandLevel: "MEDIUM",
-              topSkills: [],
-              marketOutlook: "NEUTRAL",
-              keyTrends: [],
-              recommendedSkills: [],
+              ...insights,
               nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
             },
           });
@@ -64,10 +61,10 @@ export async function updatedUser(data) {
         timeout: 10000, // 10 seconds
       }
     );
-    return {success:true,...result};
+    return { success: true, ...result };
   } catch (error) {
     console.error("Error updating user and industry:", error.message);
-    throw new Error("Failed to update user"+ error.message);
+    throw new Error("Failed to update user" + error.message);
   }
 }
 
@@ -87,20 +84,19 @@ export async function getUserOnboardingStatus() {
 
   try {
     const user = await db.user.findUnique({
-        where: {
-          clerkUserId: userId,
-        },
-        select: {
-          industry: true,
-        },
-    })
+      where: {
+        clerkUserId: userId,
+      },
+      select: {
+        industry: true,
+      },
+    });
 
     return {
-        isOnboarded: !!user?.industry, 
-    }
+      isOnboarded: !!user?.industry,
+    };
   } catch (error) {
     console.error("Error fetching user onboarding status:", error.message);
     throw new Error("Failed to fetch user onboarding status");
-    
   }
 }
