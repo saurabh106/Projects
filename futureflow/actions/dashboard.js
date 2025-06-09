@@ -44,30 +44,31 @@ export const genereateAIInsight = async (industry) => {
 //After Generating the AI insights, we will fetch the industry insights from the database using this function
 export async function getIndustryInsights() {
   const { userId } = await auth();
-  if (!userId) {
-    throw new Error("User not authenticated");
-  }
+  if (!userId) throw new Error("Unauthorized");
+
   const user = await db.user.findUnique({
-    where: {
-      clerkUserId: userId,
+    where: { clerkUserId: userId },
+    include: {
+      industryInsight: true,
     },
   });
-  if (!user) {
-    throw new Error("User not found");
-  }
 
-  //If the user.industryInsight does not exist then we need to create this using Ai
+  if (!user) throw new Error("User not found");
+
+  // If no insights exist, generate them
   if (!user.industryInsight) {
-    const insights = await genereateAIInsight(user.industry);
+    const insights = await generateAIInsights(user.industry);
 
     const industryInsight = await db.industryInsight.create({
       data: {
         industry: user.industry,
         ...insights,
-        nextUpdate: new Date(Date, now() + 7 * 24 * 60 * 60 * 1000),
+        nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       },
     });
+
     return industryInsight;
   }
+
   return user.industryInsight;
 }
