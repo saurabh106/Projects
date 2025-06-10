@@ -75,3 +75,15 @@ You can think of it like a property you can use in your code to get the full use
 For that we are creating a hooks in that use-fetch.js in that we fetch data and run the updateuser function and that use in the onboarding-form
 
 So we need to understand this that we create a hook that use to fetch and run data by using action/user.js we need to run the updatedUser so for that we create this hook and now we are using useFetch in the client component 
+
+
+
+# So basically i create a inngest function in that every sunday they updated that function and fetch the data by given prompt using Gemini ai fetch the latest industryinsight by using ai function name is generateIndustryInsights
+
+
+generateQuiz – generates technical multiple-choice quiz questions using AI.
+
+saveQuizResult – saves quiz results to the database and optionally generates improvement tips.
+
+getAssessments – retrieves saved assessments from the database.
+
