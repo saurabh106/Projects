@@ -1,76 +1,90 @@
 // lib/checkUser.js
-import { currentUser } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { db } from "./prisma";
+
+const CLOCK_SKEW_BUFFER = 60; // seconds
+const MAX_RETRIES = 3;
+
+async function withClockRetry(fn) {
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (error.message.includes('token-not-active-yet')) {
+        const delay = attempt * CLOCK_SKEW_BUFFER * 1000;
+        console.warn(`Clock skew detected (attempt ${attempt}), waiting ${delay}ms`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        continue;
+      }
+      throw error;
+    }
+  }
+  throw new Error(`Failed after ${MAX_RETRIES} retries`);
+}
 
 export const checkUser = async () => {
   try {
+    // Handle authentication with clock skew retries
+    const { userId } = await withClockRetry(async () => {
+      const authResult = await auth();
+      if (!authResult.userId) throw new Error("No authenticated user");
+      return authResult;
+    });
+
+    // Get user details
     const user = await currentUser();
-
     if (!user) {
-      console.warn("No Clerk user found");
+      console.warn("Clerk user details not available");
       return null;
     }
 
-    // Safely get user details with fallbacks
-    const name = [user.firstName, user.lastName].filter(Boolean).join(" ") || "Unknown";
-    const email = user.emailAddresses[0]?.emailAddress;
+    // Process user data
+    const name = [user.firstName, user.lastName].filter(Boolean).join(" ") || "Anonymous";
+    const primaryEmail = user.emailAddresses[0]?.emailAddress;
     
-    if (!email) {
-      console.warn("No email found for Clerk user");
+    if (!primaryEmail) {
+      console.warn("No valid email found for Clerk user");
       return null;
     }
 
-    // First try to find user by clerkUserId
-    const existingUserByClerkId = await db.user.findUnique({
-      where: { clerkUserId: user.id },
-    });
-
-    if (existingUserByClerkId) {
-      return existingUserByClerkId;
-    }
-
-    // Check if email exists with different clerkUserId
-    const existingUserByEmail = await db.user.findUnique({
-      where: { email },
-    });
-
-    if (existingUserByEmail) {
-      // Case 1: Email exists but with different clerkUserId - merge accounts
-      if (existingUserByEmail.clerkUserId && existingUserByEmail.clerkUserId !== user.id) {
-        console.warn(`Email ${email} already associated with different Clerk account`);
-        // Option 1: Update existing record (recommended)
-        const updatedUser = await db.user.update({
-          where: { email },
-          data: { clerkUserId: user.id },
-        });
-        return updatedUser;
-        
-    
-      }
-      return await db.user.update({
-        where: { email },
-        data: { clerkUserId: user.id },
-      });
-    }
-
-    // Create new user if no existing records found
-    return await db.user.create({
-      data: {
+    // Database operation
+    return await db.user.upsert({
+      where: { email: primaryEmail },
+      update: {
         clerkUserId: user.id,
         name,
-        email,
         imageUrl: user.imageUrl,
+        updatedAt: new Date()
       },
+      create: {
+        clerkUserId: user.id,
+        name,
+        email: primaryEmail,
+        imageUrl: user.imageUrl,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
     });
 
   } catch (error) {
-    console.error("Error in checkUser:", error);
-    
-    // Handle specific Prisma errors
-    if (error.code === "P2002") {
-      console.error("Unique constraint violation:", error.meta?.target);
+    console.error("Authentication error:", {
+      message: error.message,
+      stack: error.stack,
+      timeDifference: Math.floor((new Date() - error.time) / 1000)
+    });
+
+    if (error.message.includes('infinite redirect loop')) {
+      console.error("CRITICAL: Clerk keys mismatch - verify environment variables");
     }
-    
+ if (error.code) {
+      switch (error.code) {
+        case "P2021": // Prisma table does not exist
+        case "P2023": // Invalid ID
+        case "P2025": // Record not found
+          console.error("Database error:", error.code, error.meta);
+          break;
+      }
+    }
     return null;
   }
 };
