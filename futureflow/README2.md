@@ -62,24 +62,21 @@ You can think of it like a property you can use in your code to get the full use
 
 # It links this field to the form's validation and state handling.
 
-
 # Destructured values from useForm:
+
       register: Used to register input fields and link them to the form state/validation.
       handleSubmit: Used to handle form submission (onSubmit), triggering validation.
       formState.errors: Contains validation error messages for each field.
       setValue: Allows you to programmatically set the value of a form field.
       watch: Allows you to watch the value of one or more fields in real-time.
 
-
 # So we need to called the update user after submit the form for that we already created that but we can't called it directly because they are not a server component
+
 For that we are creating a hooks in that use-fetch.js in that we fetch data and run the updateuser function and that use in the onboarding-form
 
-So we need to understand this that we create a hook that use to fetch and run data by using action/user.js we need to run the updatedUser so for that we create this hook and now we are using useFetch in the client component 
-
-
+So we need to understand this that we create a hook that use to fetch and run data by using action/user.js we need to run the updatedUser so for that we create this hook and now we are using useFetch in the client component
 
 # So basically i create a inngest function in that every sunday they updated that function and fetch the data by given prompt using Gemini ai fetch the latest industryinsight by using ai function name is generateIndustryInsights
-
 
 generateQuiz – generates technical multiple-choice quiz questions using AI.
 
@@ -87,5 +84,31 @@ saveQuizResult – saves quiz results to the database and optionally generates i
 
 getAssessments – retrieves saved assessments from the database.
 
+# Why we use use-fetch :
 
-//3.15.59
+Why do we use this code?
+Reusable Data Fetching Logic
+Instead of writing similar code over and over in multiple components (like managing loading, error, and data state), this hook lets you encapsulate that logic once and reuse it everywhere.
+
+Simplifies Async Calls
+The fn function inside the hook wraps your asynchronous callback cb and handles setting the loading, error, and data states automatically when you call it. This reduces boilerplate.
+
+Automatic Loading and Error Handling
+When you call the fn function, the hook automatically:
+
+Shows a loading state (loading becomes true)
+
+Clears any previous errors
+
+Tries to fetch the data
+
+If an error occurs, it:
+
+Saves the error state
+
+Displays a toast notification to the user with a friendly error message (using sonner library)
+
+Resets the loading state after the fetch attempt completes
+
+Cleaner Components
+Components using this hook don’t have to manage complex fetch logic or error handling directly. They just call fn and react to the state (loading, error, data), making UI code cleaner and easier to read.

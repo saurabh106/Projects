@@ -31,6 +31,7 @@ const useFetch = (cb) => {
     loading,
     error,
     fn,
+    setData
   };
 };
 
