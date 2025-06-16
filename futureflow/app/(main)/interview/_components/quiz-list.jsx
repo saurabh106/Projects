@@ -77,15 +77,21 @@ export default function QuizList({ assessments }) {
       </Card>
 
       <Dialog open={!!selectedQuiz} onOpenChange={() => setSelectedQuiz(null)}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle></DialogTitle>
-          </DialogHeader>
-          <QuizResult
-            result={selectedQuiz}
-            hideStartNew
-            onStartNew={() => router.push("/interview/mock")}
-          />
+        <DialogContent className="w-[95vw] max-w-[1600px] max-h-[90vh] overflow-y-auto rounded-lg p-0">
+          {/* <DialogHeader className="px-8 pt-6 pb-4 border-b"> */}
+          {/* <DialogTitle className="text-2xl font-semibold">
+              Quiz Results
+            </DialogTitle> */}
+          {/* </DialogHeader> */}
+
+          {/* Full-width QuizResult (centered content but uses full width) */}
+          <div className="p-6">
+            <QuizResult
+              result={selectedQuiz}
+              hideStartNew
+              onStartNew={() => router.push("/interview/mock")}
+            />
+          </div>
         </DialogContent>
       </Dialog>
     </>

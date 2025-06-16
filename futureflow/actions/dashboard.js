@@ -11,7 +11,7 @@ const model = genAI.getGenerativeModel({
 });
 
 //Generate AI insights for the industry using Google Generative AI
-export const genereateAIInsight = async (industry) => {
+export const generateAIInsight = async (industry) => {
   // Placeholder for AI generation logic
   const prompt = `
           Analyze the current state of the ${industry} industry and provide insights in ONLY the following JSON format without any additional notes or explanations:

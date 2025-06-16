@@ -2,7 +2,7 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
-import { genereateAIInsight } from "./dashboard";
+import { generateAIInsight } from "./dashboard";
 
 export async function updatedUser(data) {
   const { userId } = await auth();
@@ -31,7 +31,7 @@ export async function updatedUser(data) {
         });
         // If industry doesn't exits, create it with default values - will replace with ai
         if (!industryInsight) {
-          const insights = await genereateAIInsight(data.industry);
+          const insights = await generateAIInsight(data.industry);
 
           industryInsight = await db.industryInsight.create({
             data: {
