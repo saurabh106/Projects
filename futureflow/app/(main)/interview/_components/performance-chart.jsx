@@ -28,6 +28,7 @@ export default function PerformanceChart({ assessments }) {
         date: format(new Date(assessment.createdAt), "MMM dd"),
         score: assessment.quizScore,
       }));
+      console.log("Chart data:", formattedData); // Add this
       setChartData(formattedData);
     }
   }, [assessments]);
@@ -67,8 +68,11 @@ export default function PerformanceChart({ assessments }) {
               <Line
                 type="monotone"
                 dataKey="score"
-                stroke="hsl(var(--primary))"
-                strokeWidth={2}
+                stroke="#FFF" // Test with a solid blue
+                strokeWidth={3} // Thicker line (original: 2)
+                strokeLinecap="round" // Smoother line edges
+                strokeOpacity={0.9} // Slightly more opaque
+                connectNulls={true} // Connects gaps if data is missing
               />
             </LineChart>
           </ResponsiveContainer>

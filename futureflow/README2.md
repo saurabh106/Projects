@@ -112,3 +112,6 @@ Resets the loading state after the fetch attempt completes
 
 Cleaner Components
 Components using this hook don’t have to manage complex fetch logic or error handling directly. They just call fn and react to the state (loading, error, data), making UI code cleaner and easier to read.
+
+
+# In action folder all are the server acions that perform on the server 

@@ -13,9 +13,7 @@ import {
 } from "@/components/ui/card";
 import {
   Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
+  DialogContent
 } from "@/components/ui/dialog";
 import QuizResult from "./quiz-result";
 
@@ -78,13 +76,7 @@ export default function QuizList({ assessments }) {
 
       <Dialog open={!!selectedQuiz} onOpenChange={() => setSelectedQuiz(null)}>
         <DialogContent className="w-[95vw] max-w-[1600px] max-h-[90vh] overflow-y-auto rounded-lg p-0">
-          {/* <DialogHeader className="px-8 pt-6 pb-4 border-b"> */}
-          {/* <DialogTitle className="text-2xl font-semibold">
-              Quiz Results
-            </DialogTitle> */}
-          {/* </DialogHeader> */}
-
-          {/* Full-width QuizResult (centered content but uses full width) */}
+       
           <div className="p-6">
             <QuizResult
               result={selectedQuiz}
