@@ -20,7 +20,7 @@ const MockInterviewPage = () => {
         </div>
 
         <div className="mb-10 space-y-4">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 animate-gradient-shift">
+          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 animate-gradient-shift">
             Mock Interview
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl">
