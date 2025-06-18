@@ -1,90 +1,90 @@
-// lib/checkUser.js
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 import { db } from "./prisma";
 
-const CLOCK_SKEW_BUFFER = 60; // seconds
-const MAX_RETRIES = 3;
-
-async function withClockRetry(fn) {
-  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
-    try {
-      return await fn();
-    } catch (error) {
-      if (error.message.includes('token-not-active-yet')) {
-        const delay = attempt * CLOCK_SKEW_BUFFER * 1000;
-        console.warn(`Clock skew detected (attempt ${attempt}), waiting ${delay}ms`);
-        await new Promise(resolve => setTimeout(resolve, delay));
-        continue;
-      }
-      throw error;
-    }
-  }
-  throw new Error(`Failed after ${MAX_RETRIES} retries`);
-}
-
 export const checkUser = async () => {
+  // Get the current user from Clerk
+  const user = await currentUser();
+  console.debug("[checkUser] Clerk user:", user?.id);
+
+  if (!user) {
+    console.debug("[checkUser] No user found in Clerk");
+    return null;
+  }
+
   try {
-    // Handle authentication with clock skew retries
-    const { userId } = await withClockRetry(async () => {
-      const authResult = await auth();
-      if (!authResult.userId) throw new Error("No authenticated user");
-      return authResult;
+    // Check if user already exists in our database
+    const loggedInUser = await db.user.findUnique({
+      where: {
+        clerkUserId: user.id,
+      },
     });
 
-    // Get user details
-    const user = await currentUser();
-    if (!user) {
-      console.warn("Clerk user details not available");
-      return null;
+    if (loggedInUser) {
+      console.debug("[checkUser] Existing user found:", loggedInUser.id);
+      return loggedInUser;
     }
 
-    // Process user data
-    const name = [user.firstName, user.lastName].filter(Boolean).join(" ") || "Anonymous";
-    const primaryEmail = user.emailAddresses[0]?.emailAddress;
+    // Prepare user data for creation
+    const name = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+    const email = user.emailAddresses[0]?.emailAddress;
     
-    if (!primaryEmail) {
-      console.warn("No valid email found for Clerk user");
-      return null;
+    if (!email) {
+      console.error("[checkUser] No email address found for user");
+      throw new Error("User email address not found");
     }
 
-    // Database operation
-    return await db.user.upsert({
-      where: { email: primaryEmail },
+    console.debug("[checkUser] Creating new user with email:", email);
+
+    // Try to create new user with upsert to handle potential race conditions
+    const newUser = await db.user.upsert({
+      where: { email },
       update: {
+        // Update these fields if user exists with same email but different Clerk ID
         clerkUserId: user.id,
         name,
         imageUrl: user.imageUrl,
-        updatedAt: new Date()
       },
       create: {
         clerkUserId: user.id,
         name,
-        email: primaryEmail,
         imageUrl: user.imageUrl,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
+        email,
+      },
     });
+
+    console.debug("[checkUser] New user created:", newUser.id);
+    return newUser;
 
   } catch (error) {
-    console.error("Authentication error:", {
-      message: error.message,
-      stack: error.stack,
-      timeDifference: Math.floor((new Date() - error.time) / 1000)
-    });
-
-    if (error.message.includes('infinite redirect loop')) {
-      console.error("CRITICAL: Clerk keys mismatch - verify environment variables");
-    }
- if (error.code) {
-      switch (error.code) {
-        case "P2021": // Prisma table does not exist
-        case "P2023": // Invalid ID
-        case "P2025": // Record not found
-          console.error("Database error:", error.code, error.meta);
-          break;
+    console.error("[checkUser] Error:", error);
+    
+    // Additional error handling for Prisma errors
+    if (error.code === 'P2002') {
+      console.error("[checkUser] Unique constraint violation:", error.meta?.target);
+      
+      // Try to find the conflicting user
+      const conflictingUser = await db.user.findFirst({
+        where: {
+          OR: [
+            { clerkUserId: user.id },
+            { email: user.emailAddresses[0]?.emailAddress }
+          ]
+        }
+      });
+      
+      console.debug("[checkUser] Conflicting user found:", conflictingUser?.id);
+      
+      // If we found a user with the same email but different Clerk ID
+      if (conflictingUser && conflictingUser.clerkUserId !== user.id) {
+        throw new Error("This email is already associated with another account");
+      }
+      
+      // If we found a user with the same Clerk ID (shouldn't happen due to earlier check)
+      if (conflictingUser?.clerkUserId === user.id) {
+        return conflictingUser;
       }
     }
-    return null;
+    
+    throw error; // Re-throw other errors
   }
 };
