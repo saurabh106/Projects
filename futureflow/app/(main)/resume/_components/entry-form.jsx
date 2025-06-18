@@ -226,6 +226,7 @@ export function EntryForm({ type, entries, onChange }) {
               size="sm"
               onClick={handleImproveDescription}
               disabled={isImproving || !watch("description")}
+              className="hover:cursor-pointer"
             >
               {isImproving ? (
                 <>
@@ -248,11 +249,12 @@ export function EntryForm({ type, entries, onChange }) {
                 reset();
                 setIsAdding(false);
               }}
+               className="hover:cursor-pointer"
             >
               Cancel
             </Button>
-            <Button type="button" onClick={handleAdd}>
-              <PlusCircle className="h-4 w-4 mr-2" />
+            <Button type="button" onClick={handleAdd}  className="hover:cursor-pointer">
+              <PlusCircle className="h-4 w-4 mr-1" />
               Add Entry
             </Button>
           </CardFooter>
@@ -261,7 +263,7 @@ export function EntryForm({ type, entries, onChange }) {
 
       {!isAdding && (
         <Button
-          className="w-full"
+          className="w-full hover:cursor-pointer"
           variant="outline"
           onClick={() => setIsAdding(true)}
         >
