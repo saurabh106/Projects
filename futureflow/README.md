@@ -4,68 +4,60 @@ Futureflow is an AI-powered career development platform designed to help profess
 
 # ✨ Features
 
-AI Resume Builder
+• AI Resume Builder
 Generate tailored resumes that align with your industry and experience level.
 
-Cover Letter Generator
+• Cover Letter Generator
 Create compelling, customized cover letters with just a few inputs.
 
-Interview Preparation System
+• Interview Preparation System
 Practice mock interviews and receive personalized feedback based on AI analysis.
 
-Industry Insights
+• Industry Insights
 Stay informed with weekly updates on market trends, salary benchmarks, and in-demand skills.
 
-Progress Tracking
+• Progress Tracking
 Monitor your interview prep progress over time with performance analytics and improvement suggestions.
 
-Editable Content
+• Editable Content
 Customize all AI-generated content using a built-in markdown editor.
 
-🔐 Data Privacy & Security
+# 🔐 Data Privacy & Security
 All user data is encrypted and securely stored.
-
 Authentication is managed using Clerk.
-
 No personal data is shared with third parties.
+
 
 # 🚀 Getting Started
 
 Clone the repository:
 
-1.git clone https://github.com/your-username/futureflow.git
-cd futureflow
+1. git clone https://github.com/your-username/futureflow.git
+    cd futureflow
 
-2.Install dependencies:
+2. Install dependencies:
 
 npm install
-
 # or
-
 yarn install
 
-3.Run the development server:
+3. Run the development server:
 
 npm run dev
-
 # or
-
 yarn dev
+
 Open http://localhost:3000 to view it in the browser.
 
-✅ Technologies Used
+
+# ✅ Technologies Used
 React / Next.js
-
-TypeScript (optional, if used)
-
 Clerk (Authentication)
-
 Markdown Editor
-
 CSS Modules / TailwindCSS (depending on your stack)
 
-📄 License
+# 📄 License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-🙋 FAQ
+# 🙋 FAQ
 Check out the /data/faqs.js file for a structured list of commonly asked questions, which can be dynamically rendered in your UI.
