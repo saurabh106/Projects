@@ -50,10 +50,10 @@ yarn dev
 Open http://localhost:3000 to view it in the browser.
 
 
-# ✅ Technologies Used
-React / Next.js
-Clerk (Authentication)
-Markdown Editor
+# ✅ Technologies Used :
+React / Next.js,
+Clerk (Authentication),
+Markdown Editor,
 CSS Modules / TailwindCSS (depending on your stack)
 
 # 📄 License
