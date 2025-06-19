@@ -1,37 +1,34 @@
 "use server";
 
-import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
-import { generateAIInsight } from "./dashboard";
+import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
+import { generateAIInsights } from "./dashboard";
 
 export async function updatedUser(data) {
   const { userId } = await auth();
-  if (!userId) {
-    throw new Error("User not authenticated");
-  }
+  if (!userId) throw new Error("Unauthorized");
 
   const user = await db.user.findUnique({
-    where: {
-      clerkUserId: userId,
-    },
+    where: { clerkUserId: userId },
   });
-  if (!user) {
-    throw new Error("User not found");
-  }
+
+  if (!user) throw new Error("User not found");
 
   try {
-    //Transaction means that in callback check everything is done check all the mention function or if not then show error
+    // Start a transaction to handle both operations
     const result = await db.$transaction(
       async (tx) => {
-        //find if the industry exists
+        // First check if industry exists
         let industryInsight = await tx.industryInsight.findUnique({
           where: {
             industry: data.industry,
           },
         });
-        // If industry doesn't exits, create it with default values - will replace with ai
+
+        // If industry doesn't exist, create it with default values
         if (!industryInsight) {
-          const insights = await generateAIInsight(data.industry);
+          const insights = await generateAIInsights(data.industry);
 
           industryInsight = await db.industryInsight.create({
             data: {
@@ -42,7 +39,7 @@ export async function updatedUser(data) {
           });
         }
 
-        //update the user
+        // Now update the user
         const updatedUser = await tx.user.update({
           where: {
             id: user.id,
@@ -58,29 +55,27 @@ export async function updatedUser(data) {
         return { updatedUser, industryInsight };
       },
       {
-        timeout: 10000, // 10 seconds
+        timeout: 10000, // default: 5000
       }
     );
-    return { success: true, ...result };
+
+    revalidatePath("/");
+    return result.user;
   } catch (error) {
     console.error("Error updating user and industry:", error.message);
-    throw new Error("Failed to update user" + error.message);
+    throw new Error("Failed to update profile");
   }
 }
 
 export async function getUserOnboardingStatus() {
   const { userId } = await auth();
-  if (!userId) {
-    throw new Error("User not authenticated");
-  }
+  if (!userId) throw new Error("Unauthorized");
+
   const user = await db.user.findUnique({
-    where: {
-      clerkUserId: userId,
-    },
+    where: { clerkUserId: userId },
   });
-  if (!user) {
-    throw new Error("User not found");
-  }
+
+  if (!user) throw new Error("User not found");
 
   try {
     const user = await db.user.findUnique({
@@ -96,7 +91,7 @@ export async function getUserOnboardingStatus() {
       isOnboarded: !!user?.industry,
     };
   } catch (error) {
-    console.error("Error fetching user onboarding status:", error.message);
-    throw new Error("Failed to fetch user onboarding status");
+    console.error("Error checking onboarding status:", error);
+    throw new Error("Failed to check onboarding status");
   }
 }
