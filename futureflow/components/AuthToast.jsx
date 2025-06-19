@@ -35,7 +35,7 @@ export const AuthToast = () => {
             "Check out Industry Insights tailored to your skills and bio!",
             { 
               duration: 7000,
-              className: 'text-lg p-6',
+              className: 'text-md p-6',
               style: {
                 fontSize: '1.125rem',
                 lineHeight: '1.75rem',
@@ -51,10 +51,10 @@ export const AuthToast = () => {
 
   return (
     <Toaster 
-      position="bottom-right" 
+      position="top-right" 
       richColors 
       toastOptions={{
-        className: 'text-lg',
+        className: 'text-md',
         style: {
           fontSize: '1.125rem',
           lineHeight: '1.75rem',
