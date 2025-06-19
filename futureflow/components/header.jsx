@@ -24,10 +24,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { checkUser } from "@/lib/checkUser";
+import { AuthToast } from "./AuthToast";
 
-const Header =  async() => {
+const Header = async () => {
   await checkUser();
-
 
   return (
     <header className="fixed top-0 w-full border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-background/95 backdrop-blur-md z-50 shadow-sm">
@@ -47,16 +47,16 @@ const Header =  async() => {
             <Link href={"/dashboard"}>
               <Button
                 variant="outline"
-                className="h-9 gap-2 px-3 hover:bg-gray-100 dark:hover:bg-gray-800"
+                className="h-9 gap-2 px-3 hover:bg-gray-100 dark:hover:bg-gray-800 hover:cursor-pointer"
               >
                 <LayoutDashboard className="h-4 w-4" />
                 <span className="hidden md:block">Industry Insights</span>
               </Button>
             </Link>
-
+            <AuthToast />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="h-9 gap-2 px-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white">
+                <Button className="h-9 gap-2 px-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white hover:cursor-pointer">
                   <StarIcon className="h-4 w-4" />
                   <span className="hidden md:block">Growth Tools</span>
                   <ChevronDown className="h-4 w-4" />
@@ -97,16 +97,20 @@ const Header =  async() => {
           <SignedOut>
             <div className="flex items-center gap-2">
               <SignInButton>
-                <Button variant="outline" className="h-9 px-4">
+                <Button
+                  variant="outline"
+                  className="h-9 px-4 hover:cursor-pointer"
+                >
                   Sign In
                 </Button>
               </SignInButton>
               <SignUpButton>
-                <Button className="h-9 px-4 bg-blue-600 hover:bg-blue-700">
+                <Button className="h-9 px-4 bg-blue-600 hover:bg-blue-700 hover:cursor-pointer">
                   Sign Up
                 </Button>
               </SignUpButton>
             </div>
+           
           </SignedOut>
           <SignedIn>
             <UserButton

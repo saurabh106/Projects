@@ -68,6 +68,13 @@ const OnboardingForm = ({ industries }) => {
   };
 
   useEffect(() => {
+    toast.success("Completed your profile !", {
+      duration: 3000,
+      position: "top-right",
+    });
+  }, []);
+
+  useEffect(() => {
     if (updateResult?.success && !updateLoading) {
       toast.success(
         "Profile updated successfully! Redirecting to dashboard..."
