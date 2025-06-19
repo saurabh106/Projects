@@ -36,7 +36,18 @@ export default function RootLayout({ children }) {
             <Header />
             <main className="min-h-screen">{children}</main>
             <Toaster richColors />
-            
+            <footer className="bg-muted/50 py-6">
+              <div className="container mx-auto px-4">
+                <div className="text-center text-gray-400 text-sm">
+                  <p className="inline-flex items-center gap-1.5">
+                    <span>Made with</span>
+                    <span className="text-red-400">...</span>
+                    <span>by a secret admirer</span>
+                    <span className="opacity-70">🤫✨</span>
+                  </p>
+                </div>
+              </div>
+            </footer>
           </ThemeProvider>
         </body>
       </html>
