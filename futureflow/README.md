@@ -61,3 +61,19 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 # 🙋 FAQ
 Check out the /data/faqs.js file for a structured list of commonly asked questions, which can be dynamically rendered in your UI.
+
+
+# .env file 
+
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/onboarding
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/onboarding
+
+DATABASE_URL=
+
+
+GEMINI_API_KEY=

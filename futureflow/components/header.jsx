@@ -24,7 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { checkUser } from "@/lib/checkUser";
-import { AuthToast } from "./AuthToast";
+// import { AuthToast } from "./";
 
 const Header = async () => {
   await checkUser();
@@ -53,7 +53,7 @@ const Header = async () => {
                 <span className="hidden md:block">Industry Insights</span>
               </Button>
             </Link>
-            <AuthToast />
+            {/* <AuthToast /> */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button className="h-9 gap-2 px-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white hover:cursor-pointer">
