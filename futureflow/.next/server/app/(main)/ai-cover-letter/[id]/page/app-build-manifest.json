@@ -1,0 +1,33 @@
+{
+  "pages": {
+    "/(main)/ai-cover-letter/[id]/page": [
+      "static/chunks/[root-of-the-server]__a917f39f._.css",
+      "static/chunks/node_modules_@clerk_nextjs_dist_esm_app-router_ddd0ddd5._.js",
+      "static/chunks/node_modules_next_3202f4bb._.js",
+      "static/chunks/node_modules_@clerk_shared_dist_a79f3352._.js",
+      "static/chunks/node_modules_swr_dist_d3931529._.js",
+      "static/chunks/node_modules_@clerk_clerk-react_dist_b9b86609._.js",
+      "static/chunks/node_modules_tailwind-merge_dist_bundle-mjs_mjs_b854acb4._.js",
+      "static/chunks/node_modules_751725c3._.js",
+      "static/chunks/_d63f5e1a._.js",
+      "static/chunks/app_layout_c0237562.js",
+      "static/chunks/node_modules_refractor_lang_b98ac696._.js",
+      "static/chunks/node_modules_refractor_lib_3179224d._.js",
+      "static/chunks/node_modules_17e71297._.js",
+      "static/chunks/node_modules_micromark-core-commonmark_dev_lib_36a4b45d._.js",
+      "static/chunks/node_modules_parse5_dist_afbcc6e3._.js",
+      "static/chunks/node_modules_@uiw_react-md-editor_esm_a4c4df2b._.js",
+      "static/chunks/node_modules_d1949157._.js",
+      "static/chunks/app_(main)_ai-cover-letter__components_cover-letter-preview_jsx_a47c0b41._.js",
+      "static/chunks/node_modules_@uiw_e694d1d1._.css",
+      "static/chunks/app_(main)_ai-cover-letter_[id]_page_jsx_1f9a9495._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_fd44f5a4._.js",
+      "static/chunks/node_modules_next_dist_compiled_2ce9398a._.js",
+      "static/chunks/node_modules_next_dist_client_8f19e6fb._.js",
+      "static/chunks/node_modules_next_dist_2ecbf5fa._.js",
+      "static/chunks/node_modules_@swc_helpers_cjs_00636ac3._.js",
+      "static/chunks/_e69f0d32._.js",
+      "static/chunks/_93808211._.js"
+    ]
+  }
+}

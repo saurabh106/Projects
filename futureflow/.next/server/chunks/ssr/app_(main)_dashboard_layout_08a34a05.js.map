@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///A:/Projects/futureflow/app/%28main%29/dashboard/layout.js"],"sourcesContent":["import React, { Suspense } from \"react\";\r\n\r\nconst Layout = ({ children }) => {\r\n  return (\r\n    <div>\r\n      <div className=\"flex items-center justify-between mb-5\">\r\n        <h1 className=\"text-6xl font-bold tracking-tight bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text pb-4 leading-snug\">\r\n          Industry Insights\r\n        </h1>\r\n      </div>\r\n      <Suspense fallback={<BarLoader/>}>{children}</Suspense>\r\n      \r\n    </div>\r\n  );\r\n};\r\n\r\nexport default Layout;\r\n"],"names":[],"mappings":";;;;AAAA;;;AAEA,MAAM,SAAS,CAAC,EAAE,QAAQ,EAAE;IAC1B,qBACE,8OAAC;;0BACC,8OAAC;gBAAI,WAAU;0BACb,cAAA,8OAAC;oBAAG,WAAU;8BAA8I;;;;;;;;;;;0BAI9J,8OAAC,qMAAA,CAAA,WAAQ;gBAAC,wBAAU,8OAAC;;;;;0BAAc;;;;;;;;;;;;AAIzC;uCAEe","debugId":null}}]
+}

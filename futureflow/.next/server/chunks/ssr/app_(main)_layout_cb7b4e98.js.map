@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///A:/Projects/futureflow/app/%28main%29/layout.js"],"sourcesContent":["import React from 'react'\r\n\r\nconst MainLayout = ({children}) => {\r\n    \r\n  return (\r\n    <div className='container mx-auto mt-24 mb-20'>{children}</div>\r\n  )\r\n}\r\n\r\nexport default MainLayout"],"names":[],"mappings":";;;;AAAA;;;AAEA,MAAM,aAAa,CAAC,EAAC,QAAQ,EAAC;IAE5B,qBACE,8OAAC;QAAI,WAAU;kBAAiC;;;;;;AAEpD;uCAEe","debugId":null}}]
+}

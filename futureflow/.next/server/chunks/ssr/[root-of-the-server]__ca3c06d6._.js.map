@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 85, "column": 0}, "map": {"version":3,"sources":["file:///A:/Projects/futureflow/app/%28main%29/ai-cover-letter/_components/cover-letter-preview.jsx"],"sourcesContent":["\"use client\";\r\n\r\nimport React from \"react\";\r\nimport MDEditor from \"@uiw/react-md-editor\";\r\n\r\nconst CoverLetterPreview = ({ content }) => {\r\n  return (\r\n    <div className=\"py-4\">\r\n      <MDEditor value={content} preview=\"preview\" height={700} />\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default CoverLetterPreview;"],"names":[],"mappings":";;;;AAEA;AACA;AAAA;AAHA;;;;AAKA,MAAM,qBAAqB,CAAC,EAAE,OAAO,EAAE;IACrC,qBACE,8OAAC;QAAI,WAAU;kBACb,cAAA,8OAAC,8KAAA,CAAA,UAAQ;YAAC,OAAO;YAAS,SAAQ;YAAU,QAAQ;;;;;;;;;;;AAG1D;uCAEe","debugId":null}}]
+}

@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///A:/Projects/futureflow/app/%28main%29/onboarding/_components/onboarding-form.jsx"],"sourcesContent":["\"use client\"\r\n\r\nimport { useForm } from \"react-hook-form\"\r\nimport { zodResolver } from \"@hookform/resolvers/zod\"\r\n\r\nconst OnboardingForm = ({industries}) => {\r\n\r\n  useForm({\r\n    resolver:zodResolver(on)\r\n  })\r\n\r\n  return (\r\n    <div>OnboardingForm</div>\r\n  )\r\n}\r\n\r\nexport default OnboardingForm"],"names":[],"mappings":";;;;AAEA;AACA;;;AAHA;;;AAKA,MAAM,iBAAiB,CAAC,EAAC,UAAU,EAAC;;IAElC,CAAA,GAAA,iKAAA,CAAA,UAAO,AAAD,EAAE;QACN,UAAS,CAAA,GAAA,iKAAA,CAAA,cAAW,AAAD,EAAE;IACvB;IAEA,qBACE,6LAAC;kBAAI;;;;;;AAET;GATM;;QAEJ,iKAAA,CAAA,UAAO;;;KAFH;uCAWS","debugId":null}}]
+}

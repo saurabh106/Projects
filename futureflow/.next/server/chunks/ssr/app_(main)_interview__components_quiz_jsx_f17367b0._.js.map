@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///A:/Projects/futureflow/app/%28main%29/interview/_components/quiz.jsx"],"sourcesContent":["\"use client\";\r\nimport React, { useState } from \"react\";\r\n\r\nconst Quiz = () => {\r\n  const [currentQuestion, setCurrentQuestion] = useState(0);\r\n  const [answers, setAnswers] = useState([]);\r\n  const [showExplanation, setShowExplanation] = useState(false);\r\n\r\n  const {\r\n\r\n  } = useFe\r\n\r\n  return <div></div>;\r\n};\r\n\r\nexport default Quiz;\r\n"],"names":[],"mappings":";;;;AACA;AADA;;;AAGA,MAAM,OAAO;IACX,MAAM,CAAC,iBAAiB,mBAAmB,GAAG,CAAA,GAAA,qMAAA,CAAA,WAAQ,AAAD,EAAE;IACvD,MAAM,CAAC,SAAS,WAAW,GAAG,CAAA,GAAA,qMAAA,CAAA,WAAQ,AAAD,EAAE,EAAE;IACzC,MAAM,CAAC,iBAAiB,mBAAmB,GAAG,CAAA,GAAA,qMAAA,CAAA,WAAQ,AAAD,EAAE;IAEvD,MAAM,EAEL,GAAG;IAEJ,qBAAO,8OAAC;;;;;AACV;uCAEe","debugId":null}}]
+}

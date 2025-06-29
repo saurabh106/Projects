@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///A:/Projects/futureflow/app/%28auth%29/layout.js"],"sourcesContent":["import React from 'react'\r\n\r\nconst AuthLayout = ({children}) => {\r\n  return (\r\n    <div className='flex justify-center pt-40'>{children}</div>\r\n  )\r\n}\r\n\r\nexport default AuthLayout"],"names":[],"mappings":";;;;AAAA;;;AAEA,MAAM,aAAa,CAAC,EAAC,QAAQ,EAAC;IAC5B,qBACE,8OAAC;QAAI,WAAU;kBAA6B;;;;;;AAEhD;uCAEe","debugId":null}}]
+}
