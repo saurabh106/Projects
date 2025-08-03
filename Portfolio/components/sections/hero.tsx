@@ -108,38 +108,46 @@ export function HeroSection() {
       </div>
 
       {/* Add these to your global CSS or Tailwind config */}
-      <style jsx global>{`
-        @keyframes gradient-shift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        @keyframes float-1 {
-          0%, 100% { transform: translateY(0) translateX(0); }
-          50% { transform: translateY(-20px) translateX(10px); }
-        }
-        @keyframes float-2 {
-          0%, 100% { transform: translateY(0) translateX(0); }
-          50% { transform: translateY(20px) translateX(-15px); }
-        }
-        @keyframes float-3 {
-          0%, 100% { transform: translateY(0) translateX(0); }
-          50% { transform: translateY(-15px) translateX(-10px); }
-        }
-        .animate-gradient-shift {
-          background-size: 200% 200%;
-          animation: gradient-shift 15s ease infinite;
-        }
-        .animate-float-1 {
-          animation: float-1 8s ease-in-out infinite;
-        }
-        .animate-float-2 {
-          animation: float-2 10s ease-in-out infinite;
-        }
-        .animate-float-3 {
-          animation: float-3 12s ease-in-out infinite;
-        }
-      `}</style>
+ <style jsx global>{`
+  /* Base Gradient Animation (Optimized for Mobile) */
+  @keyframes gradient-shift-mobile {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Subtle Pulse (Reduced for Performance) */
+  @keyframes gradient-pulse-mobile {
+    0%, 100% { background-size: 200% 200%; }
+    50% { background-size: 210% 210%; }
+  }
+
+  /* Smoother Floating (Less Aggressive) */
+  @keyframes float-mobile {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(0, -8px, 0) scale(1.02); }
+  }
+
+  /* Apply to Elements */
+  .animate-gradient-mobile {
+    background-size: 200% 200%;
+    animation: 
+      gradient-shift-mobile 15s ease infinite,
+      gradient-pulse-mobile 20s ease infinite alternate;
+  }
+
+  .animate-float-mobile {
+    animation: float-mobile 6s ease-in-out infinite both;
+    will-change: transform; /* Optimizes for mobile rendering */
+  }
+
+  /* Touch Feedback (Optional) */
+  .touch-feedback:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+    transition: all 0.2s ease;
+  }
+`}</style>
     </section>
   );
 }

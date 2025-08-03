@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
-import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
@@ -42,7 +41,7 @@ export function Navbar() {
 
   if (!mounted) {
     return (
-      <header className="fixed top-0 z-50 w-full bg-transparent">
+      <header className="fixed top-0  w-full bg-transparent">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <Link href="/" className="text-xl font-bold tracking-tighter">
@@ -95,7 +94,7 @@ export function Navbar() {
             </button>
           </nav>
 
-          {/* Mobile navigation */}
+          {/* Mobile navigation - Both buttons in the same div */}
           <div className="flex md:hidden items-center gap-2">
             <button 
               onClick={toggleTheme} 
@@ -110,33 +109,13 @@ export function Navbar() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="h-10 w-10"
             >
-              {mobileMenuOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
+          
               <span className="sr-only">Toggle menu</span>
             </Button>
           </div>
         </div>
 
-        {/* Mobile menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden pb-4">
-            <div className="flex flex-col space-y-2">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="px-3 py-2 text-sm font-medium hover:bg-accent rounded-md transition-colors"
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
+      
       </div>
     </header>
   );
