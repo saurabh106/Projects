@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: 'Developer Portfolio | Web, Mobile & DevOps',
   description: 'Professional portfolio showcasing skills and experience in web development, mobile development, and DevOps.',
   icons: {
-    icon: '/Profile.jpg',
+    icon: '/favicon.png',
   },
 };
 

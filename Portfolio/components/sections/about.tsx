@@ -70,7 +70,7 @@ export function AboutSection() {
               )}
             >
               <Image
-                src="/Profile.jpg"
+                src="/profile.png"
                 alt="Profile"
                 fill
                 className="object-cover"
