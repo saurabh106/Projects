@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -17,19 +18,42 @@ const navItems = [
 ];
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const toggleTheme = () => {
+    if (!mounted) return;
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
-
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  if (!mounted) {
+    return (
+      <header className="fixed top-0 z-50 w-full bg-transparent">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between">
+            <Link href="/" className="text-xl font-bold tracking-tighter">
+              Portfolio
+            </Link>
+            <div className="h-10 w-10" />
+          </div>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header
@@ -52,29 +76,41 @@ export function Navbar() {
           </div>
 
           {/* Desktop navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-6">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-sm font-medium hover:text-primary transition-colors"
+                className="text-sm font-medium hover:text-primary transition-colors px-3 py-2"
               >
                 {item.name}
               </Link>
             ))}
-            <ThemeToggle />
+            <button 
+              onClick={toggleTheme} 
+              aria-label="Toggle theme"
+              className="h-10 w-10 flex items-center justify-center focus:outline-none"
+            >
+              <ThemeToggle />
+            </button>
           </nav>
 
-          {/* Mobile navigation button */}
-          <div className="flex md:hidden">
-            <ThemeToggle />
+          {/* Mobile navigation */}
+          <div className="flex md:hidden items-center gap-2">
+            <button 
+              onClick={toggleTheme} 
+              aria-label="Toggle theme"
+              className="h-10 w-10 flex items-center justify-center focus:outline-none"
+            >
+              <ThemeToggle />
+            </button>
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setIsOpen(!isOpen)}
-              className="ml-2"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="h-10 w-10"
             >
-              {isOpen ? (
+              {mobileMenuOpen ? (
                 <X className="h-5 w-5" />
               ) : (
                 <Menu className="h-5 w-5" />
@@ -83,25 +119,25 @@ export function Navbar() {
             </Button>
           </div>
         </div>
-      </div>
 
-      {/* Mobile navigation menu */}
-      {isOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 border-t bg-background">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className="block px-3 py-2 rounded-md text-base font-medium hover:bg-muted transition-colors"
-              >
-                {item.name}
-              </Link>
-            ))}
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden pb-4">
+            <div className="flex flex-col space-y-2">
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-3 py-2 text-sm font-medium hover:bg-accent rounded-md transition-colors"
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </header>
   );
 }

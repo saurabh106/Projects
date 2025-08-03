@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { projects } from "@/lib/data";
-import { cn } from "@/lib/utils";
+
 
 type FilterType = "all" | "web" | "mobile" | "devops";
 
