@@ -87,7 +87,7 @@ export function ContactSection() {
                 <span className="sr-only">LinkedIn</span>
               </a>
               <a 
-                href="mailto:saurabhphadtare901@gmail.com"
+                href="mailto:saurabhphadtare901@gmail.com?subject=Hello%20Saurabh&body=I%20wanted%20to%20reach%20out%20to%20you."
                 className="bg-card hover:bg-muted p-3 rounded-full transition-colors border flex items-center justify-center w-12 h-12"
               >
                 <Mail className="h-5 w-5" />
