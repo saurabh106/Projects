@@ -1,3 +1,4 @@
+//It checks if a Clerk-authenticated user is saved in your DB
 import { currentUser } from "@clerk/nextjs/server";
 import { db } from "./prisma";
 
