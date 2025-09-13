@@ -78,3 +78,25 @@ export async function setSessionCookie(idToken: string) {
 
   return sessionCookie;
 }
+
+export async function getCurrentUser(): Promise<User | null> {
+  const cookieStore = cookies();
+  const sessionCookie = (await cookieStore).get("session")?.value;
+
+  if (!sessionCookie) return null;
+
+  try {
+    const decodedClaims = await auth.verifySessionCookie(sessionCookie, true);
+    const userDoc = await db.collection("users").doc(decodedClaims.uid).get();
+
+    if (!userDoc.exists) return null;
+
+    return {
+      ...userDoc.data(),
+      id: userDoc.id,
+    } as User;
+  } catch (e) {
+    console.error("Error fetching user data", e);
+    return null;
+  }
+}

@@ -80,7 +80,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
           toast.error("Sign in Failed. Please try again.");
           return;
         }
-
+ 
         await signIn({
           email,
           idToken,
