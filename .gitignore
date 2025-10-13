@@ -33,3 +33,5 @@ build/
 # System files
 *.swp
 *~.nib
+
+/generated/prisma

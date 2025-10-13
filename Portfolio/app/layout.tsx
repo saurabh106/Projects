@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: 'Developer Portfolio | Web, Mobile & DevOps',
   description: 'Professional portfolio showcasing skills and experience in web development, mobile development, and DevOps.',
   icons: {
-    icon: '/Profile1.png',
+    icon: '/favicon.png',
   },
 };
 
@@ -23,9 +23,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <Navbar />
-          <main className="min-h-screen">{children}</main>
+          <main className="min-h-screen bg-background text-foreground">
+            {children}
+          </main>
           <Footer />
         </ThemeProvider>
       </body>

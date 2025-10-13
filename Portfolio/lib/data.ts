@@ -28,62 +28,70 @@ export type Experience = {
 export const projects: Project[] = [
   {
     id: "project-1",
-    title: "E-Commerce Platform",
+    title: "Futureflow",
     description:
-      "A full-featured e-commerce platform built with Next.js, featuring product catalog, shopping cart, user authentication, and payment processing.",
-    image: "https://images.pexels.com/photos/34577/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["web"],
-    demoUrl: "https://example.com",
-    githubUrl: "https://github.com",
+      "An AI-powered career development platform that helps professionals advance their careers using intelligent tools, automation, and industry-specific insights. Includes features like AI resume builder, cover letter generator, mock interviews, real-time industry insights, and performance tracking.",
+    image:
+      "https://res.cloudinary.com/dvokkd6iy/image/upload/v1751203467/futureflow_v4rkgm.png",
+    tags: [ "web"],
+    demoUrl: "https://futureflow-six.vercel.app/", 
+    githubUrl: "https://github.com/saurabh106/Projects/tree/main/futureflow",
   },
-  {
+   {
     id: "project-2",
-    title: "Fitness Tracking App",
-    description:
-      "A cross-platform mobile application built with React Native that allows users to track workouts, set goals, and monitor progress over time.",
-    image: "https://images.pexels.com/photos/4386467/pexels-photo-4386467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["mobile"],
-    demoUrl: "https://example.com",
-    githubUrl: "https://github.com",
-  },
-  {
-    id: "project-3",
-    title: "Cloud Infrastructure Automation",
-    description:
-      "A DevOps project using Terraform and Kubernetes to automate infrastructure provisioning and deployment for scalable microservices.",
-    image: "https://images.pexels.com/photos/1181676/pexels-photo-1181676.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["devops"],
-    githubUrl: "https://github.com",
-  },
-  {
-    id: "project-4",
     title: "Real-time Chat Application",
     description:
-      "A real-time chat application built with React, Node.js, and Socket.io featuring private messaging, group chats, and file sharing.",
-    image: "https://images.pexels.com/photos/4126743/pexels-photo-4126743.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "A real-time chat application developed using the MERN stack (MongoDB, Express.js, React, Node.js), supporting user authentication, private messaging, and socket-based communication.",
+    image:
+      "https://res.cloudinary.com/dvokkd6iy/image/upload/v1751203691/chat_sulbiw.png",
     tags: ["web"],
-    demoUrl: "https://example.com",
-    githubUrl: "https://github.com",
+    demoUrl: "https://chat-app-xs8y.onrender.com", 
+    githubUrl: "https://github.com/saurabh106/Projects/tree/main/Chat-App", 
+  },
+ {
+    id: "project-3",
+    title: "Imaginify",
+    description:
+      "A web application for image manipulation including resizing and background removal, powered by Cloudinary API integration. Users can upload images, adjust dimensions, and remove backgrounds with a simple UI.",
+    image:
+      "https://res.cloudinary.com/dvokkd6iy/image/upload/v1751204087/imaginify_geri4v.png",
+    tags: ["web"],
+    demoUrl: "https://imaginify-rho-ruddy.vercel.app/", 
+    githubUrl: "https://github.com/saurabh106/Projects/tree/main/imaginify", 
+  },
+    {
+    id: "project-4",
+    title: "AI Video Generator",
+    description:
+      "An AI-powered tool that generates a video based on user input. It uses AI to create a sequence of images from a prompt and compiles them into a smooth video, perfect for content creators and storytelling.",
+    image:
+      "https://res.cloudinary.com/dvokkd6iy/image/upload/v1751205671/ai_o3lf2s.png",
+    tags: [ "web"],
+    demoUrl: "https://aigenerateshortvideos.vercel.app/", 
+    githubUrl: "https://github.com/saurabh106/Projects/tree/main/AI-Short-video/ai-video", 
   },
   {
     id: "project-5",
-    title: "Inventory Management System",
+    title: "Bharat Socials (Team Project)",
     description:
-      "A comprehensive inventory management system with barcode scanning capabilities, built with Flutter for cross-platform deployment.",
-    image: "https://images.pexels.com/photos/6169659/pexels-photo-6169659.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "Bharat Socials is a mobile application built to solve real-world . A platform for Universities ,NSS and NGOs",
+    image:
+      "https://res.cloudinary.com/dvokkd6iy/image/upload/v1751204912/bs_kwhd5t.png",
     tags: ["mobile"],
-    demoUrl: "https://example.com",
-    githubUrl: "https://github.com",
+    // demoUrl: "https://example.com", // Replace with actual URL
+    githubUrl: "https://play.google.com/store/apps/details?id=com.bharatsocials.app", 
   },
-  {
-    id: "project-6",
-    title: "CI/CD Pipeline Framework",
-    description:
-      "A customizable CI/CD pipeline framework using GitHub Actions, Docker, and AWS to automate testing and deployment workflows.",
-    image: "https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    tags: ["devops"],
-    githubUrl: "https://github.com",
-  },
+{
+  id: "project-6",
+  title: "CI/CD Pipeline Framework",
+  description:
+    "A customizable CI/CD pipeline framework using GitHub Actions, Docker, and AWS to automate testing and deployment workflows. Supports monorepo deployment to virtual machines using Docker for streamlined production delivery.",
+  image:
+    "https://res.cloudinary.com/dvokkd6iy/image/upload/v1751205448/devops_image_ccokti.png",
+  tags: ["devops"],
+  githubUrl: "https://github.com/saurabh106/Monorepo-deploy-docker-VM", 
+},
+
 ];
 
 export const skills: Skill[] = [
@@ -97,8 +105,8 @@ export const skills: Skill[] = [
   { name: "Tailwind CSS", level: 90, category: "web" },
   
   // Mobile Development Skills
-  { name: "React Native", level: 80, category: "mobile" },
-  { name: "Flutter", level: 70, category: "mobile" },
+  { name: "React Native", level: 70, category: "mobile" },
+  { name: "Flutter", level: 60, category: "mobile" },
   // { name: "iOS Development", level: 65, category: "mobile" },
   // { name: "Android Development", level: 65, category: "mobile" },
   // { name: "Mobile UI/UX", level: 80, category: "mobile" },
@@ -116,50 +124,50 @@ export const skills: Skill[] = [
 ];
 
 export const experiences: Experience[] = [
-  {
-    id: "exp-1",
-    title: "Senior Full Stack Developer",
-    company: "Tech Innovations Inc.",
-    location: "San Francisco, CA",
-    startDate: "Jan 2022",
-    endDate: "Present",
-    description: [
-      "Lead developer for the company's flagship SaaS product, resulting in a 35% increase in user engagement",
-      "Architected and implemented microservices infrastructure using Node.js and Docker",
-      "Mentored junior developers and conducted code reviews to ensure code quality and best practices",
-      "Implemented CI/CD pipelines that reduced deployment time by 60%"
-    ],
-    tags: ["React", "Node.js", "AWS", "Docker", "TypeScript"]
-  },
-  {
-    id: "exp-2",
-    title: "Mobile Application Developer",
-    company: "AppWorks Studio",
-    location: "Austin, TX",
-    startDate: "Mar 2020",
-    endDate: "Dec 2021",
-    description: [
-      "Developed and published 5 cross-platform mobile applications using React Native",
-      "Integrated RESTful APIs and implemented offline-first data synchronization",
-      "Optimized application performance, reducing load time by 40%",
-      "Collaborated with UI/UX designers to implement pixel-perfect interfaces"
-    ],
-    tags: ["React Native", "JavaScript", "iOS", "Android", "Redux"]
-  },
-  {
-    id: "exp-3",
-    title: "Mobile Application Developer",
-    company: "AppWorks Studio",
-    location: "Austin, TX",
-    startDate: "Mar 2020",
-    endDate: "Dec 2021",
-    description: [
-      "Developed and published 5 cross-platform mobile applications using React Native",
-      "Integrated RESTful APIs and implemented offline-first data synchronization",
-      "Optimized application performance, reducing load time by 40%",
-      "Collaborated with UI/UX designers to implement pixel-perfect interfaces"
-    ],
-    tags: ["React Native", "JavaScript", "iOS", "Android", "Redux"]
-  },
+{
+  id: "exp-1",
+  title: "Web Development Intern",
+  company: "Zoblik International",
+  location: "", // You can add a location if desired
+  startDate: "Dec 2024",
+  endDate: "June 2025",
+  description: [
+    "Created responsive web pages using HTML5, CSS3, JavaScript, and React.js",
+    "Integrated RESTful APIs; handled async data with Axios and Fetch API",
+    "Oversaw full SDLC from requirement gathering to deployment"
+  ],
+  tags: ["HTML5", "CSS3", "JavaScript", "React.js", "REST API"]
+}
+,
+{
+  id: "exp-3",
+  title: "Freelance Full Stack Developer",
+  company: "Self-employed",
+  location: "", // Optional: add location if relevant
+  startDate: "Jun 2025",
+  endDate: "Present",
+  description: [
+    "Building a full-stack project independently to deepen practical development skills",
+    "Learning and applying DevOps practices including CI/CD, containerization, and infrastructure as code",
+    "Working with cloud services and deployment pipelines to enhance system scalability and reliability"
+  ],
+  tags: ["Full Stack", "DevOps", "CI/CD", "Docker", "AWS", "React", "Node.js"]
+}
+,
+  // {
+  //   id: "exp-3",
+  //   title: "Mobile Application Developer",
+  //   company: "AppWorks Studio",
+  //   location: "Austin, TX",
+  //   startDate: "Mar 2020",
+  //   endDate: "Dec 2021",
+  //   description: [
+  //     "Developed and published 5 cross-platform mobile applications using React Native",
+  //     "Integrated RESTful APIs and implemented offline-first data synchronization",
+  //     "Optimized application performance, reducing load time by 40%",
+  //     "Collaborated with UI/UX designers to implement pixel-perfect interfaces"
+  //   ],
+  //   tags: ["React Native", "JavaScript", "iOS", "Android", "Redux"]
+  // },
  
 ];

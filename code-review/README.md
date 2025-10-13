@@ -1,0 +1,3 @@
+# ENV 
+
+GOOGLE_GEMINI_KEY=
