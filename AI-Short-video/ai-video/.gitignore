@@ -24,7 +24,6 @@
 .DS_Store
 *.pem
 FORmy.md
-README.md
 
 # debug
 npm-debug.log*
