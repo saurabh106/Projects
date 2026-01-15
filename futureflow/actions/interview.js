@@ -2,10 +2,33 @@
 
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const GEMINI_URL =
+  "https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent";
+
+
+async function generateContent(prompt) {
+  const res = await fetch(
+    `${GEMINI_URL}?key=${process.env.GEMINI_API_KEY}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+      }),
+    }
+  );
+
+  if (!res.ok) {
+    const err = await res.text();
+    console.error("Gemini raw error:", err);
+    throw new Error("Gemini API failed");
+  }
+
+  const data = await res.json();
+  return data.candidates[0].content.parts[0].text;
+}
+
 
 export async function generateQuiz() {
   const { userId } = await auth();
@@ -44,9 +67,8 @@ export async function generateQuiz() {
   `;
 
   try {
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
+  const text = await generateContent(prompt);
+
     const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
     const quiz = JSON.parse(cleanedText);
 
@@ -100,9 +122,8 @@ export async function saveQuizResult(questions, answers, score) {
     `;
 
     try {
-      const tipResult = await model.generateContent(improvementPrompt);
+      improvementTip = (await generateContent(improvementPrompt)).trim();
 
-      improvementTip = tipResult.response.text().trim();
       console.log(improvementTip);
     } catch (error) {
       console.error("Error generating improvement tip:", error);
