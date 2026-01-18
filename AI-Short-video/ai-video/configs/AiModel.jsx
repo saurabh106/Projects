@@ -5,7 +5,7 @@ export async function generateScript() {
     apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY,
   });
 
-  const model = 'models/gemini-2.5-flash-preview-04-17';
+  const model = 'models/gemini-2.5-flash';
 
   const generationConfig = {
     responseMimeType: 'application/json',
@@ -71,7 +71,7 @@ export async function generateImageScript(videoStyle, script) {
     apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY,
   });
 
-  const model = 'models/gemini-2.5-flash-preview-04-17';
+  const model = 'models/gemini-2.5-flash';
   const generationConfig = {
     responseMimeType: 'application/json',
   };
