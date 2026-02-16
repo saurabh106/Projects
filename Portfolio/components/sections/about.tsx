@@ -49,7 +49,7 @@ export function AboutSection() {
                 <p className="text-muted-foreground">Open to opportunities</p>
               </div>
             </div>
-
+{/* 
             <a
               href="https://docs.google.com/document/d/1pUVdYArN3z78Gh_FmFqdXvzLsy1ZFa2vv8i1sq-KWGM/edit?usp=sharing"
               target="_blank"
@@ -59,7 +59,7 @@ export function AboutSection() {
                 <FileText className="mr-2 h-4 w-4" />
                 Download Resume
               </Button>
-            </a>
+            </a> */}
           </div>
 
           <div className="order-1 lg:order-2 flex justify-center">

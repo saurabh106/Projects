@@ -124,50 +124,46 @@ export const skills: Skill[] = [
 ];
 
 export const experiences: Experience[] = [
-{
-  id: "exp-1",
-  title: "Web Development Intern",
-  company: "Zoblik International",
-  location: "", // You can add a location if desired
-  startDate: "Dec 2024",
-  endDate: "June 2025",
-  description: [
-    "Created responsive web pages using HTML5, CSS3, JavaScript, and React.js",
-    "Integrated RESTful APIs; handled async data with Axios and Fetch API",
-    "Oversaw full SDLC from requirement gathering to deployment"
-  ],
-  tags: ["HTML5", "CSS3", "JavaScript", "React.js", "REST API"]
-}
-,
-{
-  id: "exp-3",
-  title: "Freelance Full Stack Developer",
-  company: "Self-employed",
-  location: "", // Optional: add location if relevant
-  startDate: "Jun 2025",
-  endDate: "Present",
-  description: [
-    "Building a full-stack project independently to deepen practical development skills",
-    "Learning and applying DevOps practices including CI/CD, containerization, and infrastructure as code",
-    "Working with cloud services and deployment pipelines to enhance system scalability and reliability"
-  ],
-  tags: ["Full Stack", "DevOps", "CI/CD", "Docker", "AWS", "React", "Node.js"]
-}
-,
-  // {
-  //   id: "exp-3",
-  //   title: "Mobile Application Developer",
-  //   company: "AppWorks Studio",
-  //   location: "Austin, TX",
-  //   startDate: "Mar 2020",
-  //   endDate: "Dec 2021",
-  //   description: [
-  //     "Developed and published 5 cross-platform mobile applications using React Native",
-  //     "Integrated RESTful APIs and implemented offline-first data synchronization",
-  //     "Optimized application performance, reducing load time by 40%",
-  //     "Collaborated with UI/UX designers to implement pixel-perfect interfaces"
-  //   ],
-  //   tags: ["React Native", "JavaScript", "iOS", "Android", "Redux"]
-  // },
- 
+  {
+    id: "exp-1",
+    title: "Web Developer",
+    company: "Self-employed",
+    location: "",
+    startDate: "Jan 2025",
+    endDate: "Present",
+    description: [
+      "Working independently as a freelance web developer building full-stack applications",
+      "Developing scalable backend systems and responsive frontends using modern JavaScript frameworks",
+      "Deploying projects on cloud platforms and implementing DevOps practices"
+    ],
+    tags: ["AWS", "Back-End Development", "React", "Node.js", "Full Stack"]
+  },
+  {
+    id: "exp-2",
+    title: "Application Developer",
+    company: "Devloopers",
+    location: "Remote",
+    startDate: "Jan 2024",
+    endDate: "Present",
+    description: [
+      "Developing full-stack web applications with focus on backend architecture",
+      "Integrating cloud services and REST APIs for scalable systems",
+      "Collaborating in a remote team environment using modern development workflows"
+    ],
+    tags: ["AWS", "Back-End Development", "Django APIs", "Cloud", "JavaScript"]
+  },
+  {
+    id: "exp-3",
+    title: "Java Software Developer",
+    company: "SDAC Infotech",
+    location: "",
+    startDate: "Sep 2025",
+    endDate: "Dec 2025",
+    description: [
+      "Worked part-time developing Java-based applications and backend modules",
+      "Handled business logic implementation and database interactions",
+      "Gained exposure to enterprise systems and ERP workflows"
+    ],
+    tags: ["Java", "Enterprise Development", "ERP", "Backend"]
+  }
 ];
