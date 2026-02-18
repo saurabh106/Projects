@@ -6,7 +6,6 @@ import { db } from "@/lib/prisma";
 import { generateWithGemini } from "@/app/lib/gemini";
 
 
-//Generate AI insights for the industry using Google Generative AI
 export const generateAIInsights = async (industry) => {
   // Placeholder for AI generation logic
   const prompt = `
