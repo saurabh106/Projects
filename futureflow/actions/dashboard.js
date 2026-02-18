@@ -3,7 +3,7 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
-import { generateWithGemini } from "@/lib/gemini";
+import { generateWithGemini } from "@/app/lib/gemini";
 
 
 //Generate AI insights for the industry using Google Generative AI

@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-import { generateWithGemini } from "@/lib/gemini";
+import { generateWithGemini } from "@/app/lib/gemini";
 import { revalidatePath } from "next/cache";
 
 
