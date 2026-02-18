@@ -16,6 +16,8 @@ import {
   LayoutDashboard,
   PenBox,
   StarIcon,
+  Users,
+  Target,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -88,6 +90,24 @@ const Header = async () => {
                   >
                     <GraduationCap className="h-4 w-4 text-green-500" />
                     <span>Interview Prep</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <Link
+                    href={"/networking"}
+                    className="flex items-center gap-3 w-full"
+                  >
+                    <Users className="h-4 w-4 text-pink-500" />
+                    <span>Networking</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <Link
+                    href={"/skills"}
+                    className="flex items-center gap-3 w-full"
+                  >
+                    <Target className="h-4 w-4 text-orange-500" />
+                    <span>Skill Gap</span>
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>

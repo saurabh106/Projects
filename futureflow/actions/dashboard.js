@@ -3,12 +3,8 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { generateWithGemini } from "@/lib/gemini";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
-});
 
 //Generate AI insights for the industry using Google Generative AI
 export const generateAIInsights = async (industry) => {
@@ -33,12 +29,33 @@ export const generateAIInsights = async (industry) => {
           Include at least 5 skills and trends.
         `;
 
-  const result = await model.generateContent(prompt);
-  const response = result.response;
-  const text = response.text();
-  const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
+ try {
+  const text = await generateWithGemini(prompt);
 
-  return JSON.parse(cleanedText);
+  const cleaned = text
+    .replace(/```json/g, "")
+    .replace(/```/g, "")
+    .trim();
+
+  const start = cleaned.indexOf("{");
+  const end = cleaned.lastIndexOf("}") + 1;
+
+  return JSON.parse(cleaned.slice(start, end));
+} catch (error) {
+  console.error("AI insights generation failed:", error);
+
+  // fallback safe structure
+  return {
+    salaryRanges: [],
+    growthRate: 0,
+    demandLevel: "MEDIUM",
+    topSkills: [],
+    marketOutlook: "NEUTRAL",
+    keyTrends: [],
+    recommendedSkills: [],
+  };
+}
+
 };
 
 //After Generating the AI insights, we will fetch the industry insights from the database using this function
@@ -57,7 +74,8 @@ export async function getIndustryInsights() {
 
   // If no insights exist, generate them
   if (!user.industryInsight) {
-    const insights = await generateAIInsightss(user.industry);
+    const insights = await generateAIInsights(user.industry);
+
 
     const industryInsight = await db.industryInsight.create({
       data: {

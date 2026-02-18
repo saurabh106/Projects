@@ -28,6 +28,8 @@ model User {
   assessments Assessment[]
   resume      Resume?
   coverLetter CoverLetter[]
+  networkingMessages NetworkingMessage[]
+  skillGapAnalyses   SkillGapAnalysis[]
 }
 
 
@@ -115,4 +117,31 @@ enum MarketOutlook {
   POSITIVE
   NEUTRAL
   NEGATIVE
+}
+
+model NetworkingMessage {
+  id               String   @id @default(cuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+  recipientName    String?
+  recipientRole    String?
+  recipientCompany String?
+  purpose          String // "Referral", "Informational Interview", "Pitch"
+  generatedContent String   @db.Text
+  createdAt        DateTime @default(now())
+
+  @@index([userId])
+}
+
+model SkillGapAnalysis {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  targetRole    String // e.g. "Senior Frontend Developer"
+  currentSkills String[] // Snapshot of user skills at time of analysis
+  missingSkills String[] // Identified Gaps
+  actionPlan    Json // Array of steps: { title, resource, timeframe }
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
 }
