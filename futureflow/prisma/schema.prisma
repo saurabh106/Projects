@@ -30,6 +30,12 @@ model User {
   coverLetter CoverLetter[]
   networkingMessages NetworkingMessage[]
   skillGapAnalyses   SkillGapAnalysis[]
+  jobMatches         JobMatch[]
+  contacts           Contact[]
+  documents          Document[]
+  
+  // Job Search Preferences (for the AI Agent)
+  jobPreferences     Json? // { targetRole: "React Dev", location: "Remote", minSalary: "100k" }
 }
 
 
@@ -142,6 +148,73 @@ model SkillGapAnalysis {
   missingSkills String[] // Identified Gaps
   actionPlan    Json // Array of steps: { title, resource, timeframe }
   createdAt     DateTime @default(now())
+
+  @@index([userId])
+}
+
+model JobMatch {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  jobTitle    String
+  company     String
+  location    String?
+  salary      String?
+  jobUrl      String?
+  description String   @db.Text
+  matchScore  Float    // 0-100
+  analysis    Json     // { missingSkills: [], whyMatched: "", tailoredResumeId: "" }
+  status      String   @default("NEW") // NEW, APPLIED, INTERVIEWING, REJECTED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// --- Networking Graph Features ---
+
+model Contact {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  name        String
+  role        String
+  company     String
+  type        String   // "Recruiter", "Peer", "Mentor", "Hiring Manager"
+  status      String   // "Cold", "Warm", "Connected"
+  lastContact DateTime @default(now())
+  
+  interactions Interaction[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Interaction {
+  id        String   @id @default(cuid())
+  contactId String
+  contact   Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  type      String   // "Email", "LinkedIn Message", "Call", "Coffee Chat"
+  notes     String?
+  date      DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  
+  @@index([contactId])
+}
+
+model Document {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  name        String   // e.g. "Resume_V1.pdf"
+  type        String   // "Resume", "Cover Letter", "Certificate", "Other"
+  content     String   @db.Text // Store content directly if text, or Base64/URL if file
+  fileType    String?  // "application/pdf", "text/markdown"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([userId])
 }

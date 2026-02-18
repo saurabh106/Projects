@@ -112,87 +112,93 @@ export default function ResumeBuilder({ initialContent }) {
 
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const generatePDF = async () => {
-    console.log("[1] Starting PDF generation...");
+ const generatePDF = async () => {
+  if (typeof window === "undefined") {
+    toast.error("PDF generation works only in browser");
+    return;
+  }
 
-    if (typeof window === "undefined") {
-      console.error("[Error] Window is undefined - running on server");
-      toast.error("PDF generation only works in the browser.");
-      return;
-    }
+  setIsGenerating(true);
 
-    setIsGenerating(true);
-    console.log("[2] Set generating state to true");
+  try {
+    const html2pdfModule = await import("html2pdf.js");
+    const html2pdf = html2pdfModule.default || html2pdfModule;
 
-    try {
-      console.log("[3] Attempting to import html2pdf.js");
-      const html2pdf = (await import("html2pdf.js")).default;
-      console.log("[4] Successfully imported html2pdf.js");
+    const element = document.getElementById("resume_pdf");
+    if (!element) throw new Error("Resume content element not found");
 
-      const element = document.getElementById("resume_pdf");
-      console.log("[5] Looking for resume_pdf element:", element);
+    // 🔥 FIX LAB COLOR ERROR
+    document.documentElement.classList.add("pdf-safe-mode");
 
-      if (!element) {
-        console.error("[Error] Could not find resume_pdf element");
-        toast.error("Could not find resume content.");
-        return;
-      }
+    await new Promise((r) => setTimeout(r, 350));
 
-      console.log("[6] Cloning the element for PDF generation");
-      const clonedElement = element.cloneNode(true);
-      clonedElement.style.display = "block";
-      clonedElement.style.visibility = "visible";
-      clonedElement.style.position = "absolute";
-      clonedElement.style.left = "0";
-      clonedElement.style.top = "0";
-      document.body.appendChild(clonedElement);
-      console.log("[7] Cloned element added to DOM:", clonedElement);
+    // 🔥 GLOBAL COLOR KILL SWITCH (REAL FIX)
+const originalStyles = {
+  htmlBg: document.documentElement.style.background,
+  bodyBg: document.body.style.background,
+  bodyColor: document.body.style.color,
+};
 
-      console.log("[8] Setting PDF options");
-      const opt = {
-        margin: [15, 15],
-        filename: "resume.pdf",
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: {
-          scale: 2,
-          logging: true,
-          useCORS: true,
-          onclone: (clonedDoc) => {
-            console.log("[html2canvas] Cloned document:", clonedDoc);
-          },
-        },
-        jsPDF: {
-          unit: "mm",
-          format: "a4",
-          orientation: "portrait",
-        },
-      };
+// force safe colors globally
+document.documentElement.style.background = "#ffffff";
+document.body.style.background = "#ffffff";
+document.body.style.color = "#000000";
 
-      console.log("[9] Starting PDF generation process");
-      await html2pdf()
-        .set(opt)
-        .from(clonedElement)
-        .save()
-        .then(() => {
-          console.log("[10] PDF generation completed successfully");
-        });
+// remove Tailwind color variables
+document.documentElement.style.setProperty("--tw-bg-opacity", "1");
+document.documentElement.style.setProperty("--tw-text-opacity", "1");
 
-      console.log("[11] Removing cloned element from DOM");
-      document.body.removeChild(clonedElement);
-    } catch (error) {
-      console.error("[Error] PDF generation failed:", error);
-      if (error instanceof Error) {
-        console.error("Error details:", {
-          message: error.message,
-          stack: error.stack,
-        });
-      }
-      toast.error("Failed to generate PDF. Check console for details.");
-    } finally {
-      console.log("[12] Final cleanup - setting generating state to false");
-      setIsGenerating(false);
-    }
-  };
+
+    const opt = {
+      margin: [8, 8],
+      filename: "resume.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 3, useCORS: true },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    };
+
+    await html2pdf().set(opt).from(element).save();
+
+  // 🔄 Restore original styles
+document.documentElement.style.background = originalStyles.htmlBg;
+document.body.style.background = originalStyles.bodyBg;
+document.body.style.color = originalStyles.bodyColor;
+
+
+    toast.success("PDF Downloaded!");
+ } catch (error) {
+  console.group("❌ PDF GENERATION FAILED");
+
+  console.error("Main error:", error);
+
+  if (error?.stack) {
+    console.error("Stack trace:", error.stack);
+  }
+
+  console.error("User Agent:", navigator.userAgent);
+
+  // Check if pdf-safe-mode applied
+  console.log(
+    "pdf-safe-mode active:",
+    document.documentElement.classList.contains("pdf-safe-mode")
+  );
+
+  // Log computed styles of target
+  const element = document.getElementById("resume_pdf");
+  if (element) {
+    const styles = window.getComputedStyle(element);
+    console.log("Element background:", styles.backgroundColor);
+    console.log("Element color:", styles.color);
+  }
+
+  console.groupEnd();
+
+  toast.error("Failed to generate PDF (see console)");
+}
+ finally {
+    setIsGenerating(false);
+  }
+};
 
   const onSubmit = async (data) => {
     try {
@@ -236,7 +242,7 @@ export default function ResumeBuilder({ initialContent }) {
               </>
             )}
           </Button>
-          <Button onClick={generatePDF} disabled={isGenerating}>
+          {/* <Button onClick={generatePDF} disabled={isGenerating}>
             {isGenerating ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -248,7 +254,7 @@ export default function ResumeBuilder({ initialContent }) {
                 Download PDF
               </>
             )}
-          </Button>
+          </Button> */}
         </div>
       </div>
 
@@ -467,17 +473,57 @@ export default function ResumeBuilder({ initialContent }) {
               preview={resumeMode}
             />
           </div>
-          <div className="hidden">
-            <div id="resume_pdf">
-              <MDEditor.Markdown
-                source={previewContent}
-                style={{
-                  background: "white",
-                  color: "black",
-                }}
-              />
-            </div>
+      <div id="resume_pdf" className="print:block" style={{ position: 'absolute', left: '-9999px', top: 0, width: '210mm', visibility: "hidden", background: 'white' }}>
+          <style>{`
+  /* 🔥 Force safe colors for html2canvas */
+  #resume_pdf,
+  #resume_pdf * {
+    color: #000 !important;
+    background-color: #fff !important;
+    border-color: #000 !important;
+
+    /* kill modern color functions */
+    --tw-bg-opacity: 1 !important;
+    --tw-text-opacity: 1 !important;
+    --tw-border-opacity: 1 !important;
+  }
+
+  /* remove gradients */
+  #resume_pdf [class*="gradient"] {
+    background: #fff !important;
+  }
+
+  /* remove fancy shadows */
+  #resume_pdf * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* markdown fixes */
+  #resume_pdf pre, 
+  #resume_pdf code {
+    background: #f3f4f6 !important;
+    color: #111 !important;
+  }
+`}</style>
+
+            <div
+    style={{
+      padding: "24px",
+      width: "100%",
+      fontFamily: "Arial, sans-serif",
+    }}
+  >
+               <MDEditor.Markdown
+      source={previewContent}
+      style={{
+        background: "white",
+        color: "black",
+        whiteSpace: "pre-wrap",
+      }}
+    />
           </div>
+      </div>
         </TabsContent>
       </Tabs>
     </div>

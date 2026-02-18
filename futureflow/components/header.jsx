@@ -18,6 +18,9 @@ import {
   StarIcon,
   Users,
   Target,
+  Briefcase,
+  Map,
+  Folder,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -108,6 +111,33 @@ const Header = async () => {
                   >
                     <Target className="h-4 w-4 text-orange-500" />
                     <span>Skill Gap</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <Link
+                    href={"/jobs"}
+                    className="flex items-center gap-3 w-full"
+                  >
+                    <Briefcase className="h-4 w-4 text-violet-500" />
+                    <span>Career Agent</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <Link
+                    href={"/nodes"}
+                    className="flex items-center gap-3 w-full"
+                  >
+                    <Map className="h-4 w-4 text-cyan-500" />
+                    <span>My Nodes</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <Link
+                    href={"/documents"}
+                    className="flex items-center gap-3 w-full"
+                  >
+                    <Folder className="h-4 w-4 text-amber-500" />
+                    <span>Doc Vault</span>
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
